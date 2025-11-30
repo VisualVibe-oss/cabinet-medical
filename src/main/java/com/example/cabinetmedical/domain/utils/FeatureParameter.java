@@ -4,7 +4,7 @@ public class FeatureParameter<T> {
     Featurekey key ; 
     T payload ; 
 
-    FeatureParameter(Featurekey key , T payload){
+    public FeatureParameter(Featurekey key , T payload){
         this.key = key;
         this.payload = payload;
     }
