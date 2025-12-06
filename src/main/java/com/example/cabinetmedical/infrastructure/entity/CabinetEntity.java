@@ -25,7 +25,7 @@ public class CabinetEntity {
 
     private String telephone;
 
-     @Temporal(TemporalType.TIMESTAMP)
+     
      private Date dateFinOffre;
 
 
@@ -73,6 +73,31 @@ public class CabinetEntity {
         return idCabinet;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getDateFinOffre() {
+        return dateFinOffre;
+    }       
+    public void setDateFinOffre() {
+        if(this.offre == null){
+            this.dateFinOffre = null;
+            return;
+        }
+        this.dateFinOffre  =  new Date(System.currentTimeMillis() + (long)this.offre.getOffreDurationInDays() * 24 * 60 * 60 * 1000);
+    }
+
+
+    public void setOffre(OffreEntity offre) {
+        this.offre = offre;
+        setDateFinOffre();
+    }
+
+
+    
+
+
+    public OffreEntity getOffre() {
+        return offre;
+    }
     public void setIdCabinet(int idCabinet) {
         this.idCabinet = idCabinet;
     }
@@ -116,10 +141,6 @@ public class CabinetEntity {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-    public Date getDateFinOffre() {
-        return dateFinOffre;
-    }       
-    public void setDateFinOffre(Date dateFinOffre) {
-        this.dateFinOffre = dateFinOffre;
-    }
+
+    
 }
