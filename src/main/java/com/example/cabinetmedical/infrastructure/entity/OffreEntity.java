@@ -2,7 +2,11 @@ package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.time.Period;
 import java.util.List;
+
+import com.example.cabinetmedical.domain.utils.PackKey;
 
 @Entity
 @Table(name = "offre")
@@ -10,6 +14,9 @@ public class OffreEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int idOffre;
+
+     @Column(nullable = false)
+    private PackKey key;
 
     @Column(nullable = false)
     private String type;
@@ -23,19 +30,19 @@ public class OffreEntity {
     @OneToMany(mappedBy = "offre")
     private List<CabinetEntity> cabinet;
 
-    @ManyToMany
-    @JoinTable(name = "offre_functionalite",
-    joinColumns =@JoinColumn(name = "idOffre"),
-    inverseJoinColumns = @JoinColumn(name = "IdFunctionalite"))
-    private List<FunctionaliteEntity> functionalite;
+    @Column(nullable = false)
+    private int offreDurationInDays;
 
-    public OffreEntity(int idOffre, String type, float prix, String description, List<CabinetEntity> cabinet, List<FunctionaliteEntity> functionalite) {
+    
+
+    public OffreEntity(int idOffre, int offreDurationInDays, PackKey key, String type, float prix, String description, List<CabinetEntity> cabinet) {
         this.idOffre = idOffre;
+        this.key = key;
         this.type = type;
         this.prix = prix;
         this.description = description;
         this.cabinet = cabinet;
-        this.functionalite = functionalite;
+        this.offreDurationInDays = offreDurationInDays;
     }
     public OffreEntity(){}
 
@@ -53,6 +60,14 @@ public class OffreEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getOffreDurationInDays() {
+        return offreDurationInDays;
+    }
+
+    public void setOffreDurationInDays(int offreDurationInDays) {
+        this.offreDurationInDays = offreDurationInDays;
     }
 
     public float getPrix() {
@@ -78,12 +93,11 @@ public class OffreEntity {
     public void setCabinet(List<CabinetEntity> cabinet) {
         this.cabinet = cabinet;
     }
-
-    public List<FunctionaliteEntity> getFunctionalite() {
-        return functionalite;
+    public PackKey getKey() {
+        return key;
     }
 
-    public void setFunctionalite(List<FunctionaliteEntity> functionalite) {
-        this.functionalite = functionalite;
+    public void setKey(PackKey key) {
+        this.key = key;
     }
 }
