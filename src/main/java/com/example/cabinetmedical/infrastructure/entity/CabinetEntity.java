@@ -110,4 +110,68 @@ public class CabinetEntity {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
+    public MedecinEntity getMedecin() {
+        return medecin;
+    }
+
+    public void setMedecin(MedecinEntity medecin) {
+        this.medecin = medecin;
+    }
+
+    public List<SecretaireEntity> getSecretaire() {
+        return secretaire;
+    }
+
+    public void setSecretaire(List<SecretaireEntity> secretaire) {
+        this.secretaire = secretaire;
+    }
+
+    public List<DepenceEntity> getDepence() {
+        return depence;
+    }
+
+    public void setDepence(List<DepenceEntity> depence) {
+        this.depence = depence;
+    }
+
+    public List<FactureEntity> getFacture() {
+        return facture;
+    }
+
+    public void setFacture(List<FactureEntity> facture) {
+        this.facture = facture;
+    }
+
+    public List<RendezVousEntity> getRendezVous() {
+        return rendezVous;
+    }
+
+    public void setRendezVous(List<RendezVousEntity> rendezVous) {
+        this.rendezVous = rendezVous;
+    }
+
+    public List<PatientEntity> getPatient() {
+        return patient;
+    }
+
+    public void setPatient(List<PatientEntity> patient) {
+        this.patient = patient;
+    }
+
+    public OffreEntity getOffre() {
+        return offre;
+    }
+
+    public void setOffre(OffreEntity offre) {
+        this.offre = offre;
+    }
+
+    public List<ActionEntity> getAction() {
+        return action;
+    }
+
+    public void setAction(List<ActionEntity> action) {
+        this.action = action;
+    }
 }
