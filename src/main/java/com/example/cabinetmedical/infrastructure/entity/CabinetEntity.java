@@ -13,7 +13,7 @@ public class CabinetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCabinet;
 
-    private String logo;
+  
 
     @Column(nullable = false)
     private String nom;
@@ -56,9 +56,9 @@ public class CabinetEntity {
     private List<ActionEntity> action;
 
 
-    public CabinetEntity(int idCabinet, String logo,Date dateFinOffre,String nom, String specialite, String adresse, String telephone) {
+    public CabinetEntity(int idCabinet,Date dateFinOffre,String nom, String specialite, String adresse, String telephone) {
         this.idCabinet = idCabinet;
-        this.logo = logo;
+        
         this.dateFinOffre = dateFinOffre;
         this.nom = nom;
         this.specialite = specialite;
@@ -86,30 +86,17 @@ public class CabinetEntity {
     }
 
 
-    public void setOffre(OffreEntity offre) {
-        this.offre = offre;
-        setDateFinOffre();
-    }
-
+   
 
     
 
 
-    public OffreEntity getOffre() {
-        return offre;
-    }
+    
     public void setIdCabinet(int idCabinet) {
         this.idCabinet = idCabinet;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
+   
     public String getNom() {
         return nom;
     }
