@@ -1,15 +1,16 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
-import com.example.cabinetmedical.application.RendezVousDTO.RendezVousDTO;
-import com.example.cabinetmedical.domain.model.rendezvous.RendezVous;
+import com.example.cabinetmedical.application.DTO.RendezVousDTO;
+import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
+import org.springframework.stereotype.Component;
 
 //TEMPORARY
-
+@Component
 public class RendezVousMapper {
 
-    PatientMapper pm = new PatientMapper();
-    CabinetMapper cm = new CabinetMapper();
+    private PatientMapper pm;
+    private CabinetMapper cm;
 
     public RendezVousEntity toEntity(RendezVous rv){
 

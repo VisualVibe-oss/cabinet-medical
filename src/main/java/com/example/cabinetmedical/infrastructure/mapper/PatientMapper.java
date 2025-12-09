@@ -1,16 +1,17 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 import com.example.cabinetmedical.domain.model.patient.Patient;
-import com.example.cabinetmedical.domain.model.rendezvous.RendezVous;
+import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 //TEMPORARY
-
+@Component
 public class PatientMapper {
     RendezVousMapper rvm = new RendezVousMapper();
     CabinetMapper cm = new CabinetMapper();
