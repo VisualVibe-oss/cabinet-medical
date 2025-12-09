@@ -2,8 +2,6 @@ package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.time.Period;
 import java.util.List;
 
 import com.example.cabinetmedical.domain.utils.PackKey;
@@ -35,8 +33,7 @@ public class OffreEntity {
 
     
 
-    public OffreEntity(int idOffre, int offreDurationInDays, PackKey key, String type, float prix, String description, List<CabinetEntity> cabinet) {
-        this.idOffre = idOffre;
+    public OffreEntity( int offreDurationInDays, PackKey key, String type, float prix, String description, List<CabinetEntity> cabinet) {
         this.key = key;
         this.type = type;
         this.prix = prix;
@@ -100,4 +97,7 @@ public class OffreEntity {
     public void setKey(PackKey key) {
         this.key = key;
     }
+
+
+
 }
