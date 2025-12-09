@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.domain.model.Person;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
-import com.example.cabinetmedical.domain.model.rendezvous.RendezVous;
+import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 
 import java.util.Date;
 import java.util.List;
