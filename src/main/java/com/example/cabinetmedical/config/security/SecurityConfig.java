@@ -19,6 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Optional;
 
@@ -36,11 +39,9 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth ->auth
-                        .requestMatchers("/api/connexion").permitAll()
-                        .requestMatchers("/api/inscription/medecin").permitAll()
-
-                        .requestMatchers("/api/inscription/secretaire").hasRole("MEDECIN")
-                        .requestMatchers("/api/deconnexion").authenticated()
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/signup").permitAll()
+                        .requestMatchers("/api/logout").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
@@ -94,4 +95,22 @@ public class SecurityConfig {
             throw new UsernameNotFoundException("Utilisateur non trouvé : " + email);
         };
     }
+
+
+
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.addAllowedOriginPattern("*"); // ou ton domaine : "http://localhost:3000"
+        config.addAllowedMethod("*"); // GET, POST, PUT, DELETE...
+        config.addAllowedHeader("*"); // tous les headers
+        config.setAllowCredentials(true); // autorise cookies / tokens dans les requêtes
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 }
