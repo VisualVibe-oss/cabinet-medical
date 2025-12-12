@@ -13,8 +13,6 @@ public class CabinetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCabinet;
 
-  
-
     @Column(nullable = false)
     private String nom;
 

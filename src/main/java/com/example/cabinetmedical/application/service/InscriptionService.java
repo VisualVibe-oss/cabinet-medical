@@ -25,7 +25,6 @@ public class InscriptionService {
     public final SecretaireRepository secretaireRepository;
     public final PasswordEncoder passwordEncoder;
     public final JwtTokenProvider jwtTokenProvider;
-    private final CabinetRepository cabinetRepository;
 
     @Transactional
     public AuthResponse inscrireMedecin(MedecinInscriptionRequest req){
@@ -38,7 +37,7 @@ public class InscriptionService {
         cabinet.setSpecialite(req.getSpecialite());
         cabinet.setAdresse(req.getAdresseCabinet());
         cabinet.setTelephone(req.getTelCabinet());
-        cabinet.setLogo(req.getLogoCabinet());
+        // cabinet.setLogo(req.getLogoCabinet());
 
         String passewordHash=passwordEncoder.encode(req.getPassword());
         MedecinEntity medecin=new MedecinEntity();
