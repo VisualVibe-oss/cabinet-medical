@@ -25,6 +25,11 @@ public class MedicamentEntity {
 
     public MedicamentEntity() {}
 
+    public MedicamentEntity(int idMedicament, String nom) {
+        this.idMedicament = idMedicament;
+        this.nom = nom;
+    }
+
     public int getIdMedicament() {
         return idMedicament;
     }
