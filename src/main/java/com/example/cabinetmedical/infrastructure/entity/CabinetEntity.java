@@ -21,10 +21,14 @@ public class CabinetEntity {
 
     private String adresse;
 
+    private String pays;
+
+    private String signatureBase64;
+    
     private String telephone;
 
      
-     private Date dateFinOffre;
+    private Date dateFinOffre;
 
 
     @OneToOne()

@@ -21,8 +21,6 @@ public class MedecinEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String signature;
 
     private String telephone;
 
@@ -38,7 +36,6 @@ public class MedecinEntity {
         this.prenom = prenom;
         this.email = email;
         this.password = password;
-        this.signature = signature;
         this.telephone = telephone;
         this.cabinet = cabinet;
     }
@@ -82,14 +79,6 @@ public class MedecinEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
     }
 
     public String getTelephone() {
