@@ -24,7 +24,7 @@ public class CabinetEntity {
     private String pays;
 
     private String signatureBase64;
-    
+
     private String telephone;
 
      
@@ -73,6 +73,20 @@ public class CabinetEntity {
 
     public int getIdCabinet() {
         return idCabinet;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+    public void setPays(String pays) {
+        this.pays = pays;
+    }   
+
+    public String getSignatureBase64() {
+        return signatureBase64;
+    }
+    public void setSignatureBase64(String signatureBase64) {
+        this.signatureBase64 = signatureBase64;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
