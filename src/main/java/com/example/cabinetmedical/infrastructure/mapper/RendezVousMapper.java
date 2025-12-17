@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
-import com.example.cabinetmedical.application.DTO.RendezVousDTO;
+import com.example.cabinetmedical.application.dto.RendezVousDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import org.springframework.stereotype.Component;
