@@ -8,10 +8,14 @@ import com.example.cabinetmedical.application.dto.CabinetDTO;
 import com.example.cabinetmedical.application.dto.MedecinDTO;
 
 
+import org.springframework.stereotype.Component;
+
+
 /**
  * Mapper utility pour créer un CabinetEntity à partir de MedecinDTO et CabinetDTO.
  * Adaptez les noms de getters/setters si vos classes ont des noms différents.
  */
+@Component
 public final class CabinetMapper {
 
     private CabinetMapper() {}
@@ -50,5 +54,14 @@ public final class CabinetMapper {
             return false;
         }
     }
+  
+  public Cabinet toDomain(CabinetEntity cabinetEntity) {
+        Cabinet cabinet = new Cabinet();
+        return cabinet;
+    }
 }
+
+
+
+
 

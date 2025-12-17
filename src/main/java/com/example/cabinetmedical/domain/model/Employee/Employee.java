@@ -1,36 +1,37 @@
-package com.example.cabinetmedical.domain.model.proprietaire;
-
+package com.example.cabinetmedical.domain.model.Employee;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 
-public abstract class Propietaire {
-    private int idMedecin;
+public abstract class Employee {
+    private int idSecretaire;
     private String nom;
     private String prenom;
     private String email;
     private String password;
-    private String signature;
+    private Float salaire;
     private String telephone;
     private Cabinet cabinet;
 
-    public Propietaire(int idMedecin, String nom, String prenom, String email, String password, String signature, String telephone, Cabinet cabinet) {
-        this.idMedecin = idMedecin;
+    public Employee(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, Cabinet cabinet) {
+        this.idSecretaire = idSecretaire;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.password = password;
-        this.signature = signature;
+        this.salaire = salaire;
         this.telephone = telephone;
         this.cabinet = cabinet;
     }
-    public Propietaire() {}
 
-    public int getIdMedecin() {
-        return idMedecin;
+    protected Employee() {
     }
 
-    public void setIdMedecin(int idMedecin) {
-        this.idMedecin = idMedecin;
+    public int getIdSecretaire() {
+        return idSecretaire;
+    }
+
+    public void setIdSecretaire(int idSecretaire) {
+        this.idSecretaire = idSecretaire;
     }
 
     public String getNom() {
@@ -65,12 +66,12 @@ public abstract class Propietaire {
         this.password = password;
     }
 
-    public String getSignature() {
-        return signature;
+    public Float getSalaire() {
+        return salaire;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setSalaire(Float salaire) {
+        this.salaire = salaire;
     }
 
     public String getTelephone() {
