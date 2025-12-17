@@ -1,7 +1,6 @@
 package com.example.cabinetmedical.application.service;
 
-import com.example.cabinetmedical.application.DTO.RendezVousDTO;
-import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
+import com.example.cabinetmedical.application.dto.RendezVousDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
