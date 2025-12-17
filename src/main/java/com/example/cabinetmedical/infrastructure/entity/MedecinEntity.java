@@ -1,5 +1,7 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,15 +17,13 @@ public class MedecinEntity {
     @Column(nullable = false)
     private String prenom;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String signature;
-
+    @Column(nullable = false , unique = true)
     private String telephone;
 
     @OneToOne(mappedBy = "medecin",cascade = CascadeType.ALL)
@@ -38,7 +38,6 @@ public class MedecinEntity {
         this.prenom = prenom;
         this.email = email;
         this.password = password;
-        this.signature = signature;
         this.telephone = telephone;
         this.cabinet = cabinet;
     }
@@ -82,14 +81,6 @@ public class MedecinEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
     }
 
     public String getTelephone() {

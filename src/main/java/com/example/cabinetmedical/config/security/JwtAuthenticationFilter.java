@@ -2,6 +2,7 @@ package com.example.cabinetmedical.config.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +25,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         try{
-            String jwt=getJwtFromRequest(req);
+            String jwt=getTokenFromCookies(req);
 
             if(!StringUtils.hasText(jwt)) {
                 chain.doFilter(req, res);
                 return;
             }
-
-
+            
             if(jwtTokenProvider.validateToken(jwt)) {
                 String email=jwtTokenProvider.getEmailFromToken(jwt);
                 String role=jwtTokenProvider.getRoleFromToken(jwt);
-
 
                 SimpleGrantedAuthority authority=new SimpleGrantedAuthority("ROLE_"+role);
                 UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(email,null,Collections.singletonList(authority));
@@ -44,18 +43,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception e) {;
+        } catch (Exception e) {
+            
         }
 
         chain.doFilter(req, res);
     }
 
-    private String getJwtFromRequest(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
 
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+
+    
+
+   private String getTokenFromCookies(HttpServletRequest request) {
+    if (request.getCookies() == null) return null;
+
+    for (Cookie cookie : request.getCookies()) {
+        if ("accessToken".equals(cookie.getName())) {
+            return cookie.getValue();
         }
-        return null;
     }
+    return null;
+}
 }

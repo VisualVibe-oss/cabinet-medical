@@ -3,6 +3,7 @@ package com.example.cabinetmedical.domain.model.Offre;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.cabinetmedical.domain.utils.Featurekey;
+import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.domain.utils.OfferType;
 
 //! A verifier le nom si il doit etre offre ou abonement
@@ -13,22 +14,19 @@ public class Offre {
     private OfferType type;
 
     // Constructeur sans-argument
-    public Offre() {
-        this.featurekeys = new ArrayList<>();
+    public Offre(PackKey packKey) {
+       this.packKey = packKey ;
     }
 
-    // Constructeur avec liste de Featurekey
-    public Offre(List<Featurekey> featurekeys) {
-        this.featurekeys = featurekeys == null ? new ArrayList<>() : featurekeys;
-    }
+    
 
     // Getter
-    public List<Featurekey> getFeaturekeys() {
-        return featurekeys;
+    public PackKey getPackkey() {
+        return packKey;
     }
 
     // Setter
-    public void setFeaturekeys(List<Featurekey> featurekeys) {
-        this.featurekeys = featurekeys == null ? new ArrayList<>() : featurekeys;
+    public void setPackkey(PackKey packKey) {
+        this.packKey = packKey ;
     }
 }

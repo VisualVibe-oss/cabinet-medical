@@ -3,7 +3,9 @@ package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name="cabinet")
@@ -11,8 +13,6 @@ public class CabinetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCabinet;
-
-    private String logo;
 
     @Column(nullable = false)
     private String nom;
@@ -22,10 +22,17 @@ public class CabinetEntity {
 
     private String adresse;
 
-    private String telephone;
+    private String pays;
 
-    @OneToOne()
-    @JoinColumn(name="idMedecin")
+    @Column(nullable = false , columnDefinition = "TEXT")
+    private String signatureBase64;
+
+     
+    private Date dateFinOffre;
+
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="idMedecin" , unique = true )
     private MedecinEntity medecin;
 
     @OneToMany(mappedBy = "cabinet")
@@ -51,13 +58,14 @@ public class CabinetEntity {
     private List<ActionEntity> action;
 
 
-    public CabinetEntity(int idCabinet, String logo, String nom, String specialite, String adresse, String telephone) {
+    public CabinetEntity(int idCabinet,Date dateFinOffre,String nom,String pays, String specialite, String adresse, String telephone) {
         this.idCabinet = idCabinet;
-        this.logo = logo;
+        
+        this.dateFinOffre = dateFinOffre;
         this.nom = nom;
+        this.pays = pays;
         this.specialite = specialite;
         this.adresse = adresse;
-        this.telephone = telephone;
     }
 
     public CabinetEntity() {
@@ -67,18 +75,44 @@ public class CabinetEntity {
         return idCabinet;
     }
 
+    public String getPays() {
+        return pays;
+    }
+    public void setPays(String pays) {
+        this.pays = pays;
+    }   
+
+    public String getSignatureBase64() {
+        return signatureBase64;
+    }
+    public void setSignatureBase64(String signatureBase64) {
+        this.signatureBase64 = signatureBase64;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getDateFinOffre() {
+        return dateFinOffre;
+    }       
+    public void setDateFinOffre() {
+        if(this.offre == null){
+            this.dateFinOffre = null;
+            return;
+        }
+        this.dateFinOffre  =  new Date(System.currentTimeMillis() + (long)this.offre.getOffreDurationInDays() * 24 * 60 * 60 * 1000);
+    }
+
+
+   
+
+    
+
+
+    
     public void setIdCabinet(int idCabinet) {
         this.idCabinet = idCabinet;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
+   
     public String getNom() {
         return nom;
     }
@@ -103,13 +137,7 @@ public class CabinetEntity {
         this.adresse = adresse;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+    
     public MedecinEntity getMedecin() {
         return medecin;
     }
@@ -173,4 +201,6 @@ public class CabinetEntity {
     public void setAction(List<ActionEntity> action) {
         this.action = action;
     }
+
+    
 }
