@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.DTO;
+package com.example.cabinetmedical.application.dto;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
