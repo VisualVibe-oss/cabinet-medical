@@ -4,4 +4,5 @@ public enum Featurekey {
     CREE_RENDEZ_VOUS,
     TEST,
     ADD_SECRETAIRE
+    TEST
 }

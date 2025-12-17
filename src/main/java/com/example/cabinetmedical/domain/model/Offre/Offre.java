@@ -31,6 +31,4 @@ public class Offre {
     public void setFeaturekeys(List<Featurekey> featurekeys) {
         this.featurekeys = featurekeys == null ? new ArrayList<>() : featurekeys;
     }
-
-    public OfferType getType() {return this.type;}
 }
