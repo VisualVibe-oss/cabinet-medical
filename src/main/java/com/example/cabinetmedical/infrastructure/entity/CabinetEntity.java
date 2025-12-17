@@ -110,7 +110,6 @@ public class CabinetEntity {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-
     public MedecinEntity getMedecin() {
         return medecin;
     }
