@@ -1,5 +1,7 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,13 +17,13 @@ public class MedecinEntity {
     @Column(nullable = false)
     private String prenom;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-
+    @Column(nullable = false , unique = true)
     private String telephone;
 
     @OneToOne(mappedBy = "medecin",cascade = CascadeType.ALL)

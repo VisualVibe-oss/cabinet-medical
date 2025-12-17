@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
+
 @Entity
 @Table(name="cabinet")
 public class CabinetEntity {
@@ -23,16 +24,15 @@ public class CabinetEntity {
 
     private String pays;
 
+    @Column(nullable = false , columnDefinition = "TEXT")
     private String signatureBase64;
-
-    private String telephone;
 
      
     private Date dateFinOffre;
 
 
-    @OneToOne()
-    @JoinColumn(name="idMedecin")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="idMedecin" , unique = true )
     private MedecinEntity medecin;
 
     @OneToMany(mappedBy = "cabinet")
@@ -58,14 +58,14 @@ public class CabinetEntity {
     private List<ActionEntity> action;
 
 
-    public CabinetEntity(int idCabinet,Date dateFinOffre,String nom, String specialite, String adresse, String telephone) {
+    public CabinetEntity(int idCabinet,Date dateFinOffre,String nom,String pays, String specialite, String adresse, String telephone) {
         this.idCabinet = idCabinet;
         
         this.dateFinOffre = dateFinOffre;
         this.nom = nom;
+        this.pays = pays;
         this.specialite = specialite;
         this.adresse = adresse;
-        this.telephone = telephone;
     }
 
     public CabinetEntity() {
@@ -137,13 +137,7 @@ public class CabinetEntity {
         this.adresse = adresse;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+    
     public MedecinEntity getMedecin() {
         return medecin;
     }
