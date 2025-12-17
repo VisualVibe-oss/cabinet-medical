@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.domain.model.rendezvous;
+package com.example.cabinetmedical.domain.model.RendezVous;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
