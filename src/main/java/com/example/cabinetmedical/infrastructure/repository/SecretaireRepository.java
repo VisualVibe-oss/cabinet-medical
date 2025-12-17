@@ -9,4 +9,6 @@ public interface SecretaireRepository extends JpaRepository<SecretaireEntity,Int
     Optional<SecretaireEntity> findByEmail(String email);
 
     boolean existsByEmail(String email);
+    boolean existsByEmailAndPassword(String email , String password) ;
+    
 }
