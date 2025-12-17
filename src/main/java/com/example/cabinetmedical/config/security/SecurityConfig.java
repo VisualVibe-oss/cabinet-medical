@@ -37,11 +37,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth ->auth
-                        .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/signup").permitAll()
+                        .requestMatchers("/api/login" ,"/api/signup" ,"/api/refresh"  ).permitAll()
                         .requestMatchers("/api/logout").authenticated()
+                        .requestMatchers("/api/medecin/**").hasRole("MEDECIN")
+                        .requestMatchers("/api/secretaire/**").hasRole("SECRETAIRE")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+    
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
