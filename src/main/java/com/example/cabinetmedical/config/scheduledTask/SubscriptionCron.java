@@ -13,8 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
-
-import com.example.cabinetmedical.infrastructure.repositry.CabinetRepository;
+import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 
 
 
