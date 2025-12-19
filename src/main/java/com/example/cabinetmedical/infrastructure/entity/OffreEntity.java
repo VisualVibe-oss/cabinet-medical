@@ -97,4 +97,7 @@ public class OffreEntity {
     public void setKey(PackKey key) {
         this.key = key;
     }
+
+
+
 }

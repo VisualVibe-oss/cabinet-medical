@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.infrastructure.entity.OffreEntity;
-import com.example.cabinetmedical.infrastructure.repositry.OffreRepository;
-import com.example.cabinetmedical.infrastructure.repositry.CabinetRepository;
+import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
+import com.example.cabinetmedical.infrastructure.repository.OffreRepository;
 
 @Component
 public class SynchronizeOffre implements ApplicationRunner {
