@@ -1,10 +1,10 @@
 package com.example.cabinetmedical.application.controller;
 
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.LoginDTO;
-import com.example.cabinetmedical.application.dto.MedecinDTO;
-import com.example.cabinetmedical.application.dto.SignupDataDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.LoginDTO;
+import com.example.cabinetmedical.application.DTO.MedecinDTO;
+import com.example.cabinetmedical.application.DTO.SignupDataDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
@@ -43,7 +42,7 @@ public class AuthController {
                 .sameSite("Strict")
                 .build();
 
-        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)    
+        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
                 .path("/api/auth/refresh")
@@ -57,7 +56,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody Map<String,Object > object, HttpServletResponse response) {
-        
+
         ObjectMapper mapper = new ObjectMapper();
        SignupDataDTO signupData = mapper.convertValue(object, SignupDataDTO.class);
        System.out.println("Ce sont les donne -----<<<>>>>>"+signupData.getMedecin().getNom());
@@ -99,7 +98,7 @@ public class AuthController {
                 .build();
 
         return ResponseEntity.ok(apiResponse);
-    
+
     }
 
     private String getRefreshTokenFromCookies(HttpServletRequest request) {
@@ -113,11 +112,11 @@ public class AuthController {
         }
         return null;
     }
-  
+
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<String>> refreshToken(@RequestBody HttpServletRequest request , HttpServletResponse response) {
 
-        String token = getRefreshTokenFromCookies(request) ; 
+        String token = getRefreshTokenFromCookies(request) ;
         String accesToken = jwtService.refreshToken(token);
         setHeaders(accesToken, token, response);
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
@@ -128,9 +127,9 @@ public class AuthController {
 
         return ResponseEntity.ok(apiResponse) ;
     }
-    
 
-  
+
+
 
 
 

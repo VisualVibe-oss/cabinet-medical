@@ -5,9 +5,8 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.infrastructure.entity.RefreshTokenEntity;
 import com.example.cabinetmedical.infrastructure.repository.RefreshTokenRepository;
 

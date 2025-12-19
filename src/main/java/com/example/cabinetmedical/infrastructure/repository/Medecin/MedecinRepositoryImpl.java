@@ -6,6 +6,8 @@ import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class MedecinRepositoryImpl implements MedecinRepository {
     private SpringMedecinRepository springMedecinRepository ;
@@ -18,4 +20,5 @@ public class MedecinRepositoryImpl implements MedecinRepository {
     public MedecinEntity find(int id) {
        return springMedecinRepository.findById(id).orElse(null);
     }
+    public List<MedecinEntity> findAll() {return springMedecinRepository.findAll();}
 }

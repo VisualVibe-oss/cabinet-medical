@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.application.controller;
 
-import com.example.cabinetmedical.application.dto.RendezVousDTO;
+import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.service.SecretaireAppService;
 import org.springframework.web.bind.annotation.*;
 

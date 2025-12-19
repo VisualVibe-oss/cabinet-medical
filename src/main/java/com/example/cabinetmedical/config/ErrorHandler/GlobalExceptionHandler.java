@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.UserDTO;
 import com.example.cabinetmedical.exception.CredentialNotValidError;
 import com.example.cabinetmedical.exception.EmailAlreadyExistError;
 import com.example.cabinetmedical.exception.PhoneNumbreAlreadyExistError;

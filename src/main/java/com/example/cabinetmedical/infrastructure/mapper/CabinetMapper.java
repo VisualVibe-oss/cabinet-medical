@@ -2,10 +2,8 @@ package com.example.cabinetmedical.infrastructure.mapper;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
-import jakarta.validation.constraints.Null;
-
-import com.example.cabinetmedical.application.dto.CabinetDTO;
-import com.example.cabinetmedical.application.dto.MedecinDTO;
+import com.example.cabinetmedical.application.DTO.CabinetDTO;
+import com.example.cabinetmedical.application.DTO.MedecinDTO;
 
 
 import org.springframework.stereotype.Component;
