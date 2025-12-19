@@ -1,6 +1,5 @@
 package com.example.cabinetmedical.application.dto;
 
-
 public class MedecinDTO extends UserDTO {
     private String nom;
     private String prenom;

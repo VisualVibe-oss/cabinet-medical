@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.application.service;
 
-import com.example.cabinetmedical.application.DTO.RendezVousDTO;
-import com.example.cabinetmedical.application.DTO.SecretaireDTO;
+import com.example.cabinetmedical.application.dto.RendezVousDTO;
+import com.example.cabinetmedical.application.dto.SecretaireDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;

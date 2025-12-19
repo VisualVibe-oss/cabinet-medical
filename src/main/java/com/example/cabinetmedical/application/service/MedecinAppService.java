@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.application.service;
 
-import com.example.cabinetmedical.application.DTO.SecretaireDTO;
+import com.example.cabinetmedical.application.dto.SecretaireDTO;
 import com.example.cabinetmedical.domain.Repository.MedecinRepository;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.functionnalities.payload.AddSecretairePayload;
