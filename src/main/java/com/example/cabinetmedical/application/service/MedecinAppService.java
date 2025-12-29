@@ -10,6 +10,8 @@ import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.model.Facture.Facture;
 import com.example.cabinetmedical.domain.model.Medecin.*;
+import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
+import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
 import com.example.cabinetmedical.domain.model.Offre.Offre;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.Stats.StatsFunctionality;

@@ -85,7 +85,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody LoginDTO loginData, HttpServletResponse res ) {
 
-        System.out.println("----->>>>>>>>>>" + loginData.getEmail());
         UserDTO user = authService.login(loginData) ;
 
         String accessToken = jwtService.generateAccesToken(user);

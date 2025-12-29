@@ -5,7 +5,7 @@ import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
 import com.example.cabinetmedical.application.DTO.CabinetDTO;
 import com.example.cabinetmedical.application.DTO.MedecinDTO;
-
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 
 import org.springframework.stereotype.Component;
 
@@ -54,9 +54,14 @@ public final class CabinetMapper {
         }
     }
   
-    public Cabinet toDomain(CabinetEntity ce) {
+  public static  Cabinet toDomain(CabinetEntity cabinetEntity) {
         Cabinet cabinet = new Cabinet();
         return cabinet;
+    }
+
+    public static CabinetEntity toEntity(Cabinet cabinet) {
+        CabinetEntity cabinetEntity = new CabinetEntity();
+        return cabinetEntity;
     }
     public CabinetEntity toEntity(Cabinet cabinet){
         CabinetEntity cabinetEntity = new CabinetEntity();

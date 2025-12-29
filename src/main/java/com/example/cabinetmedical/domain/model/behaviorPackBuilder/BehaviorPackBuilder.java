@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class BehaviorPackBuilder {
     
     //* registry contient les associations entre les Featurekey et les fournisseurs de Functionnalitie correspondants */
-   private static Map<Featurekey, Supplier<Functionnalitie>> registry = Map.of(
+   private static Map<Featurekey, Supplier<Functionnalitie>> featureRegistry = Map.of(
         Featurekey.TEST, FunctionnalitieTest::new,
             Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
             Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,

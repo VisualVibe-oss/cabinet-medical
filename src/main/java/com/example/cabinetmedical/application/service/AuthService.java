@@ -88,6 +88,7 @@ public class AuthService {
     secretaireRepository.findByEmail(email).ifPresent(secretaire -> {
         if (passwordEncoder.matches(loginData.getPassword(), secretaire.getPassword())) {
             user.setRole(secretaireRole);
+            
         } else {
             throw new CredentialNotValidError("Email ou mot de passe incorrect");
         }

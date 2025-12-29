@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.domain.model.DossierMedical;
 
-import com.example.cabinetmedical.domain.model.Consultation.Consultation;
+import com.example.cabinetmedical.domain.model.consultation.Consultation;
 import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.infrastructure.entity.ConsultationEntity;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;

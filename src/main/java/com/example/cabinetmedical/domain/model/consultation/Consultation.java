@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.domain.model.Consultation;
+package com.example.cabinetmedical.domain.model.consultation;
 
 public class Consultation {
 }

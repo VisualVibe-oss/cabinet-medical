@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class PatientMapper {
-
-    private final CabinetMapper cm;
+    RendezVousMapper rvm = new RendezVousMapper();
+    
 
     public PatientMapper(CabinetMapper cm) {
         this.cm = cm;
@@ -31,10 +31,8 @@ public class PatientMapper {
         pe.setSexe(p.getSexe());
         pe.setDateNaissance(p.getDateNaissance());
         pe.setTypeMutuelle(p.getTypeMutuelle());
-        pe.setCabinet(cm.toEntity(p.getCabinet()));
-
-        // 🚫 DO NOT map rendezvous here
-        pe.setRendezVous(null);
+        pe.setCabinet(CabinetMapper .toEntity(p.getCabinet()));
+        pe.setRendezVous(rendezVousEntities);
 
         return pe;
     }
@@ -51,10 +49,8 @@ public class PatientMapper {
         p.setSexe(pe.getSexe());
         p.setDateNaissance(pe.getDateNaissance());
         p.setTypeMutuelle(pe.getTypeMutuelle());
-        p.setCabinet(cm.toDomain(pe.getCabinet()));
-
-        // 🚫 DO NOT map rendezvous here
-        p.setRendezVous(null);
+        p.setCabinet(CabinetMapper .toDomain(pe.getCabinet()));
+        p.setRendezVous(rendezVousDomains);
 
         return p;
     }

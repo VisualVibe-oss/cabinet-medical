@@ -7,4 +7,6 @@ public class Medecin extends Propietaire {
     public Medecin(int idMedecin, String nom, String prenom, String email, String password, String telephone, Cabinet cabinet) {
         super(idMedecin,nom, prenom, email, password, telephone, cabinet);
     }
+
+    
 }

@@ -1,7 +1,6 @@
 package com.example.cabinetmedical.domain.model.functionnalities;
 
-import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
-import com.example.cabinetmedical.domain.model.patient.Patient;
+
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;

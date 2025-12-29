@@ -2,6 +2,8 @@ package com.example.cabinetmedical.domain.model.functionnalities;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Employee.Employee;
+import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
+import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
 import com.example.cabinetmedical.domain.model.functionnalities.payload.AddSecretairePayload;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
@@ -28,9 +30,7 @@ public class AddSecretaire implements Functionnalitie{
         if (cabinet==null){
             throw new IllegalArgumentException("the office is null");
         }
-        if (!(cabinet.getOffre().getFeaturekeys().contains(param.getKey()))){
-            return new FeatureResponce(param.getKey(), "the current subscription tier does not allow for this functionality");
-        }
+       
         List<Secretaire> secretaires = cabinet.getSecretaire();
         int currentTotal = (secretaires ==null) ? 0 : secretaires.size();
         if (currentTotal > payload.getMaxEmployees()){

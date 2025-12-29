@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class SecretaireMapper {
 
-    CabinetMapper cm = new CabinetMapper();
+
 
     public SecretaireEntity toEntity(Secretaire s){
 
@@ -33,7 +33,7 @@ public class SecretaireMapper {
     }
     public Secretaire toDomain(SecretaireEntity se){
 
-        Secretaire s = new Secretaire(se.getIdSecretaire(), se.getNom(), se.getPrenom(), se.getEmail(), se.getPassword(), se.getSalaire(), se.getTelephone(),cm.toDomain(se.getCabinet()), se.getPermissionKeys());
+        Secretaire s = new Secretaire(se.getIdSecretaire(), se.getNom(), se.getPrenom(), se.getEmail(), se.getPassword(), se.getSalaire(), se.getTelephone(),CabinetMapper .toDomain(se.getCabinet()), se.getPermissionKeys());
         return s;
     }
     public Secretaire toDomain(SecretaireDTO sdto) {
