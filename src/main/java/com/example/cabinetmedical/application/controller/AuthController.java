@@ -59,7 +59,6 @@ public class AuthController {
 
         ObjectMapper mapper = new ObjectMapper();
        SignupDataDTO signupData = mapper.convertValue(object, SignupDataDTO.class);
-       System.out.println("Ce sont les donne -----<<<>>>>>"+signupData.getMedecin().getNom());
         authService.signup(signupData);
 
         MedecinDTO medecin = signupData.getMedecin();
