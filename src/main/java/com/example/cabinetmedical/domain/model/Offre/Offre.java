@@ -1,56 +1,34 @@
 package com.example.cabinetmedical.domain.model.Offre;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.domain.utils.PackKey;
-
-import lombok.Data;
-
 import com.example.cabinetmedical.domain.utils.OfferType;
 
-//! A verifier le nom si il doit etre offre ou abonement
-//* cette classe cet la version domaine du class OffreEntity qui existe en base de données */
-//! A verifier les attributs de la classe 
-
 public class Offre {
+    private PackKey packKey;
     private OfferType type;
-    private PackKey packKey ; 
+    private float prix;
+    private String description;
+    private int offreDurationInDays;
 
-    // Constructeur sans-argument
+    public Offre() {}
+
     public Offre(PackKey packKey) {
-       this.packKey = packKey ;
-    }
-    public Offre() {
-
+        this.packKey = packKey;
     }
 
-    public OfferType getType(){return type;}
-    public void setType(OfferType type){this.type = type ; }
-    // Getter
-    public PackKey getPackkey() {
-        return packKey;
-    }
+    // Getters et Setters
+    public PackKey getPackKey() { return packKey; }
+    public void setPackKey(PackKey packKey) { this.packKey = packKey; }
 
-    // Setter
-    public void setPackkey(PackKey packKey) {
-        this.packKey = packKey ;
-    }
+    public OfferType getType() { return type; }
+    public void setType(OfferType type) { this.type = type; }
 
-    public List<Featurekey> getFeaturekeys() {
-        return featurekeys;
-    }
+    public float getPrix() { return prix; }
+    public void setPrix(float prix) { this.prix = prix; }
 
-    public void setFeaturekeys(List<Featurekey> featurekeys) {
-        this.featurekeys = featurekeys;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public OfferType getType() {
-        return type;
-    }
-
-    public void setType(OfferType type) {
-        this.type = type;
-    }
-
+    public int getOffreDurationInDays() { return offreDurationInDays; }
+    public void setOffreDurationInDays(int offreDurationInDays) { this.offreDurationInDays = offreDurationInDays; }
 }

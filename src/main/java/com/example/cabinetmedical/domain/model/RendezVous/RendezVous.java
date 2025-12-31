@@ -2,6 +2,7 @@ package com.example.cabinetmedical.domain.model.RendezVous;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
+import com.example.cabinetmedical.domain.utils.RendezVousState;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -11,7 +12,7 @@ public class RendezVous {
     private LocalDateTime dateDebutRendezVous;
     private LocalDateTime dateFinRendezVous;
     private String motif;
-    private String statut;
+    private RendezVousState statut;
     private String notes;
     private float prix;
     private Cabinet cabinet;
@@ -46,11 +47,11 @@ public class RendezVous {
         this.motif = motif;
     }
 
-    public String getStatut() {
+    public RendezVousState getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(RendezVousState statut) {
         this.statut = statut;
     }
 

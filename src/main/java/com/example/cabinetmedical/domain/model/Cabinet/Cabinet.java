@@ -12,7 +12,6 @@ import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 
-import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -32,7 +31,8 @@ public class Cabinet {
     private List<Patient> patient;
     private Offre offre;
     private List<Action> action; //?
-      BehaviorPack behaviorPack ;
+
+    BehaviorPack behaviorPack ;
 
     public Cabinet(int idCabinet, String logo, String nom, String specialite, String adresse, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
         this.idCabinet = idCabinet;
