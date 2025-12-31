@@ -7,6 +7,8 @@ import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
 import com.example.cabinetmedical.domain.model.Medecin.AddSecretaire;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
+import com.example.cabinetmedical.domain.model.functionnalities.GetRendezVous;
+import com.example.cabinetmedical.domain.model.functionnalities.SetStateRdvOngoing;
 import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.exception.FeatureKeyHasNoFeactionnalityError;
@@ -30,14 +32,15 @@ public class BehaviorPackBuilder {
 
 
     private static Map<PackKey, List<Featurekey>> packRegistry = Map.of(
-        PackKey.Pack_TEST, List.of(Featurekey.TEST  )
+        PackKey.Pack_TEST, List.of(Featurekey.TEST  ),
+        PackKey.BASIC , List.of(Featurekey.GET_SECRETAIRE  , Featurekey.SET_RDV_ONGOING)
     );
 
 
     public static BehaviorPack build(Offre offre) {
 
         BehaviorPack behaviorPack = new BehaviorPack();
-        PackKey packKey = offre.getPackkey();
+        PackKey packKey = offre.getPackKey();
         List<Featurekey> featureList = packRegistry.get(packKey);
         if (featureList == null) {
             throw new PackNotRegistredError("Cette pack n'a acune feature encore");

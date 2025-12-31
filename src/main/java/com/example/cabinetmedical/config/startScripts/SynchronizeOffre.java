@@ -22,7 +22,8 @@ public class SynchronizeOffre implements ApplicationRunner {
    private CabinetRepository cabinetRepository;
 
    private List <OffreEntity> offreEntities   = List.of(
-        new OffreEntity(30,PackKey.Pack_TEST,"Basic",29.99f,"Offre basique pour les petits cabinets",List.of())
+        new OffreEntity(30,PackKey.Pack_TEST,"test",29.99f,"Offre basique pour les petits cabinets",List.of()) ,
+        new OffreEntity(30,PackKey.BASIC,"Basic",29.99f,"Offre basique pour les petits cabinets",List.of()) 
     );
 
     private void verifyUniquePackKey() {
@@ -39,7 +40,7 @@ public class SynchronizeOffre implements ApplicationRunner {
 
    private void synchronizeOffreWithDatabase() {
     for (OffreEntity offre : offreEntities) {
-        Optional<OffreEntity> existingOffre = offreRepository.findByKey(offre.getKey());
+        Optional<OffreEntity> existingOffre = offreRepository.findByPackKey(offre.getKey());
 
         if (existingOffre.isPresent()) {
             OffreEntity toUpdate = existingOffre.get();

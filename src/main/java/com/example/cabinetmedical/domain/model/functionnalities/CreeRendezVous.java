@@ -5,15 +5,15 @@ import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.utils.Featurekey;
+import com.example.cabinetmedical.domain.utils.RendezVousState;
 
-import java.util.Date;
 
 public class CreeRendezVous implements Functionnalitie<RendezVous, RendezVous>  {
 
     @Override
     public FeatureResponce<RendezVous> performWork(FeatureParameter<RendezVous> param){
         RendezVous rendezVousPayload = (RendezVous) param.getPayload();
-        rendezVousPayload.setStatut("Scheduled");
+        rendezVousPayload.setStatut(RendezVousState.SCHEDULED);
 
         if (rendezVousPayload.getNotes() == null){
             rendezVousPayload.setNotes("");
