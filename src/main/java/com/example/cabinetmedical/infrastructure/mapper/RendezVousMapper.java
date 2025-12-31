@@ -2,6 +2,7 @@ package com.example.cabinetmedical.infrastructure.mapper;
 
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
+import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class RendezVousMapper {
 
     public RendezVousEntity toEntity(RendezVous rv){
 
+    public static RendezVousEntity toEntity(RendezVous rv) {
 
         RendezVousEntity rve = new RendezVousEntity();
 
@@ -30,28 +32,23 @@ public class RendezVousMapper {
         rve.setMotif(rv.getMotif());
         rve.setStatut(rv.getStatut());
         rve.setNotes(rv.getNotes());
-        rve.setPatient(null);
-        rve.setCabinet(this.cm.toEntity(rv.getCabinet()));
+        // Vérification pour le Patient
+        if (rv.getPatient() != null) {
+            rve.setPatient(PatientMapper.toEntity(rv.getPatient()));
+        } else {
+            rve.setPatient(null);
+        }
 
+        // Vérification pour le Cabinet
+        if (rv.getCabinet() != null) {
+            rve.setCabinet(CabinetMapper.toEntity(rv.getCabinet()));
+        } else {
+            rve.setCabinet(null);
+        }
         return rve;
     }
-    public RendezVous toDomain(RendezVousEntity rve){
 
-        RendezVous rv = new RendezVous();
-
-        rv.setIdRendezVous(rve.getIdRendezVous());
-        rv.setDateDebutRendezVous(rve.getDateDebutRendezVous());
-        rv.setDateFinRendezVous(rve.getDateFinRendezVous());
-        rv.setMotif(rve.getMotif());
-        rv.setStatut(rve.getStatut());
-        rv.setNotes(rve.getNotes());
-        rv.setPatient(null);
-        rv.setCabinet(this.cm.toDomain(rve.getCabinet()));
-
-        return rv;
-    }
-
-    public RendezVous toDomain(RendezVousDTO rvDTO){
+    public static RendezVous toDomain(RendezVousDTO rvDTO) {
         RendezVous rv = new RendezVous();
 
         rv.setIdRendezVous(rvDTO.getIdRendezVous());
@@ -64,7 +61,7 @@ public class RendezVousMapper {
         return rv;
     }
 
-    public RendezVousDTO toDTO(RendezVous rv){
+    public static RendezVousDTO toDTO(RendezVous rv) {
         RendezVousDTO rvDTO = new RendezVousDTO();
 
         rvDTO.setIdRendezVous(rv.getIdRendezVous());
@@ -77,7 +74,7 @@ public class RendezVousMapper {
         return rvDTO;
     }
 
-    public RendezVousDTO toDTO(RendezVousEntity rve){
+    public RendezVousDTO toDTO(RendezVousEntity rve) {
 
         RendezVousDTO rvDTO = new RendezVousDTO();
 
@@ -91,11 +88,23 @@ public class RendezVousMapper {
         return rvDTO;
     }
 
-    public List<RendezVousDTO> toDTOList(List<RendezVousEntity> rveList){
-        return rveList.stream().map(this::toDTO).toList();
-    }
+    public static RendezVous toDomain(RendezVousEntity entity) {
+        if (entity == null) {
+            return null;
+        }
 
-    public List<RendezVous> toDomainList(List<RendezVousDTO> rvdtoList){
-        return rvdtoList.stream().map(this::toDomain).toList();
+        RendezVous domain = new RendezVous();
+
+        // Mappage des champs simples
+        domain.setIdRendezVous(entity.getIdRendezVous());
+        domain.setDateRendezVous(entity.getDateRendezVous());
+        domain.setMotif(entity.getMotif());
+        domain.setStatut(entity.getStatut());
+        domain.setNotes(entity.getNotes());
+
+        // Mappage des relations complexes
+        // On vérifie si l'entité n'est pas nulle avant d'appeler les autres mappers
+
+        return domain;
     }
 }

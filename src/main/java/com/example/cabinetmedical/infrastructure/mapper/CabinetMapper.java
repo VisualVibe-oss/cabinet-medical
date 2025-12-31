@@ -7,6 +7,8 @@ import com.example.cabinetmedical.application.DTO.CabinetDTO;
 import com.example.cabinetmedical.application.DTO.MedecinDTO;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 
@@ -54,10 +56,34 @@ public final class CabinetMapper {
         }
     }
   
-  public static  Cabinet toDomain(CabinetEntity cabinetEntity) {
-        Cabinet cabinet = new Cabinet();
-        return cabinet;
+
+
+    public static Cabinet toDomain(CabinetEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        Cabinet domain = new Cabinet();
+        
+        // Mappage des champs simples
+        domain.setIdCabinet(entity.getIdCabinet());
+        domain.setNom(entity.getNom());
+        domain.setSpecialite(entity.getSpecialite());
+        domain.setAdresse(entity.getAdresse());
+        // Note: L'entité n'a pas de champ 'telephone', mais le domaine oui. 
+        // L'entité a 'signatureBase64' qui pourrait correspondre au 'logo'.
+        domain.setLogo(entity.getSignatureBase64()); 
+
+        
+        if (entity.getOffre() != null) {
+            domain.setOffre(OffreMapper.entityToDomain(entity.getOffre()));
+        }
+
+        
+
+        return domain;
     }
+
 
     public static CabinetEntity toEntity(Cabinet cabinet) {
         CabinetEntity cabinetEntity = new CabinetEntity();
