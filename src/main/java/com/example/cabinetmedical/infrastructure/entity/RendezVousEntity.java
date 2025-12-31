@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.example.cabinetmedical.domain.utils.RendezVousState;
+
+
+
 @Entity
 @Table(name = "rendezVous")
 public class RendezVousEntity {
@@ -20,11 +24,10 @@ public class RendezVousEntity {
     @Column(nullable = false)
     private String motif;
 
+    
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String statut;
-
-    @Column(nullable = false)
-    private float prix;
 
     @Column(nullable = false)
     private String notes;
@@ -40,7 +43,7 @@ public class RendezVousEntity {
     @OneToOne(mappedBy = "rendezVous")
     private ConsultationEntity consultation;
 
-    public RendezVousEntity(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
+    public RendezVousEntity(int idRendezVous, Date dateRendezVous, String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
         this.idRendezVous = idRendezVous;
         this.dateDebutRendezVous = dateDebutRendezVous;
         this.dateFinRendezVous = dateFinRendezVous;
@@ -70,11 +73,11 @@ public class RendezVousEntity {
         this.motif = motif;
     }
 
-    public String getStatut() {
+    public RendezVousState  getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(RendezVousState statut) {
         this.statut = statut;
     }
 

@@ -13,8 +13,9 @@ public class OffreEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int idOffre;
 
-     @Column(nullable = false)
-    private PackKey key;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false )
+    private PackKey packKey;
 
     @Column(nullable = false)
     private String type;
@@ -34,7 +35,7 @@ public class OffreEntity {
 
 
     public OffreEntity( int offreDurationInDays, PackKey key, String type, float prix, String description, List<CabinetEntity> cabinet) {
-        this.key = key;
+        this.packKey = key;
         this.type = type;
         this.prix = prix;
         this.description = description;
@@ -91,11 +92,11 @@ public class OffreEntity {
         this.cabinet = cabinet;
     }
     public PackKey getKey() {
-        return key;
+        return packKey;
     }
 
     public void setKey(PackKey key) {
-        this.key = key;
+        this.packKey = key;
     }
 
 
