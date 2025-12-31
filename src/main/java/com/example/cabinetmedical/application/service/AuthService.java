@@ -26,8 +26,8 @@ public class AuthService {
      @Autowired
     SecretaireRepository secretaireRepository ; 
     
-    static final String medecinRole = "MEDECIN" ;
-    static final String secretaireRole = "SECRETAIRE" ;
+    public static final String medecinRole = "MEDECIN" ;
+    public static final String secretaireRole = "SECRETAIRE" ;
 
     
     PasswordEncoder passwordEncoder;
@@ -64,7 +64,6 @@ public class AuthService {
         MedecinDTO medecin = signupData.getMedecin();
         CabinetDTO cabinet = signupData.getCabinet();  
 
-        System.out.println("========>>>>>"+medecin.getMotDePasse());
         medecin.setMotDePasse(passwordEncoder.encode(medecin.getMotDePasse()));
 
         

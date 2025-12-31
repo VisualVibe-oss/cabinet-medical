@@ -2,6 +2,8 @@ package com.example.cabinetmedical.application.DTO;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
+import com.example.cabinetmedical.domain.utils.RendezVousState;
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,7 +15,7 @@ public class RendezVousDTO {
     private LocalDateTime dateDebutRendezVous;
     private LocalDateTime dateFinRendezVous;
     private String motif;
-    private String statut;
+    private RendezVousState statut;
     private String notes;
     private int idCabinet;
     private Patient patient;

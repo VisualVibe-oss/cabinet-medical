@@ -10,7 +10,7 @@ public class UserDTO {
 
 
     public void setId(int id){this.id = id;}
-    public int get(){return id;}
+    public int getId(){return id;}
 
 
 
