@@ -1,9 +1,8 @@
 package com.example.cabinetmedical.infrastructure.repository.Medecin;
 
 import com.example.cabinetmedical.domain.Repository.MedecinRepository;
-import com.example.cabinetmedical.domain.model.Medecin.Medecin;
+import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
-import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +19,12 @@ public class MedecinRepositoryImpl implements MedecinRepository {
     @Override
     public MedecinEntity find(int id) {
        return springMedecinRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public CabinetEntity findCabinetByMedecin(int idMedecin) {
+       
+        throw new UnsupportedOperationException("Unimplemented method 'findCabinetByMedecin'");
     }
     public List<MedecinEntity> findAll() {return springMedecinRepository.findAll();}
     public Optional<MedecinEntity> findByEmail(String email) {return springMedecinRepository.findByEmail(email);}

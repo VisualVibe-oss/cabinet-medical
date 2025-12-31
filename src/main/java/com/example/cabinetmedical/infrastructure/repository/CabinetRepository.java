@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
+import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import jakarta.transaction.Transactional;
 

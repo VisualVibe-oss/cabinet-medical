@@ -8,6 +8,6 @@ import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.infrastructure.entity.OffreEntity;
 
 public interface OffreRepository extends JpaRepository<OffreEntity, Integer> {
-    Optional<OffreEntity> findByKey(PackKey key);
+    Optional<OffreEntity> findByPackKey(PackKey key);
     
 }
