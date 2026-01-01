@@ -34,10 +34,12 @@ public class SecurityConfig {
     private final SecretaireRepository secretaireRepository;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private final CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth ->auth
                         .requestMatchers("/api/login" ,"/api/signup" ,"/api/refresh"  ).permitAll()
                         .requestMatchers("/api/logout").authenticated()
@@ -102,18 +104,6 @@ public class SecurityConfig {
 
 
     
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-
-        config.addAllowedOriginPattern("*"); // ou ton domaine : "http://localhost:3000"
-        config.addAllowedMethod("*"); // GET, POST, PUT, DELETE...
-        config.addAllowedHeader("*"); // tous les headers
-        config.setAllowCredentials(true); // autorise cookies / tokens dans les requêtes
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+    
 
 }
