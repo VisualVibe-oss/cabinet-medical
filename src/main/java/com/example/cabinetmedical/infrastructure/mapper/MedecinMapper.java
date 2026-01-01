@@ -17,11 +17,35 @@ public class MedecinMapper {
         return medecin;
     }
 
-    public Medecin toDomain(MedecinEntity me) {
-        Medecin medecin = new Medecin(me.getIdMedecin(), me.getNom(), me.getPrenom(), me.getEmail(), me.getPassword() , me.getTelephone(), cm.toDomain(me.getCabinet()));
-        return medecin;
+
+
+
+
+
+    public static Medecin toDomain(MedecinEntity me) {
+    if (me == null) {
+        return null;
     }
-    public List<Medecin> toDomainList(List<MedecinEntity> me){
-        return me.stream().map(this::toDomain).toList();
+
+    Medecin medecin = new Medecin();
+    
+    // Utilisation des Setters pour les types simples
+    medecin.setIdMedecin(me.getIdMedecin());
+    medecin.setNom(me.getNom());
+    medecin.setPrenom(me.getPrenom());
+    medecin.setEmail(me.getEmail());
+    medecin.setPassword(me.getPassword());
+    medecin.setTelephone(me.getTelephone());
+
+    // Vérification de nullité pour l'objet complexe Cabinet
+    if (me.getCabinet() != null) {
+        // On suppose que 'cm' est votre CabinetMapper
+        medecin.setCabinet(CabinetMapper.toDomain(me.getCabinet()));
+         
+    } else {
+        medecin.setCabinet(null);
     }
+
+    return medecin;
+}
 }

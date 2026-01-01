@@ -30,6 +30,7 @@ public class RendezVousMapper {
         rve.setDateDebutRendezVous(rv.getDateDebutRendezVous());
         rve.setDateFinRendezVous(rv.getDateFinRendezVous());
         rve.setMotif(rv.getMotif());
+        rve.setConsultationType(rv.getConsultationType());
         rve.setStatut(rv.getStatut());
         rve.setNotes(rv.getNotes());
         // Vérification pour le Patient
@@ -55,6 +56,7 @@ public class RendezVousMapper {
         rv.setDateDebutRendezVous(rvDTO.getDateDebutRendezVous());
         rv.setDateFinRendezVous(rvDTO.getDateFinRendezVous());
         rv.setMotif(rvDTO.getMotif());
+        rv.setConsultationType(rvDTO.getConsultationType());
         rv.setStatut(rvDTO.getStatut());
         rv.setNotes(rvDTO.getNotes());
 
@@ -68,6 +70,7 @@ public class RendezVousMapper {
         rvDTO.setDateDebutRendezVous(rv.getDateDebutRendezVous());
         rvDTO.setDateFinRendezVous(rv.getDateFinRendezVous());
         rvDTO.setMotif(rv.getMotif());
+        rvDTO.setConsultationType(rv.getConsultationType());
         rvDTO.setStatut(rv.getStatut());
         rvDTO.setNotes(rv.getNotes());
 
@@ -82,6 +85,7 @@ public class RendezVousMapper {
         rvDTO.setDateDebutRendezVous(rve.getDateDebutRendezVous());
         rvDTO.setDateFinRendezVous(rve.getDateFinRendezVous());
         rvDTO.setMotif(rve.getMotif());
+        rvDTO.setConsultationType(rve.getConsultationType());
         rvDTO.setStatut(rve.getStatut());
         rvDTO.setNotes(rve.getNotes());
 
@@ -99,6 +103,7 @@ public class RendezVousMapper {
         domain.setIdRendezVous(entity.getIdRendezVous());
         domain.setDateRendezVous(entity.getDateRendezVous());
         domain.setMotif(entity.getMotif());
+        domain.setConsultationType(entity.getConsultationType());
         domain.setStatut(entity.getStatut());
         domain.setNotes(entity.getNotes());
 

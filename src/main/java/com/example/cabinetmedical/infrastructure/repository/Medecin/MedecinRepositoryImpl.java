@@ -26,6 +26,12 @@ public class MedecinRepositoryImpl implements MedecinRepository {
        
         throw new UnsupportedOperationException("Unimplemented method 'findCabinetByMedecin'");
     }
+
+    @Override
+    public CabinetEntity findCabinetByMedecinEmail(String email) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findCabinetByMedecinEmail'");
+    }
     public List<MedecinEntity> findAll() {return springMedecinRepository.findAll();}
     public Optional<MedecinEntity> findByEmail(String email) {return springMedecinRepository.findByEmail(email);}
 }

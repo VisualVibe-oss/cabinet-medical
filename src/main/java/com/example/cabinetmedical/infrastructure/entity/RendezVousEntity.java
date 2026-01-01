@@ -29,7 +29,7 @@ public class RendezVousEntity {
     @Column(nullable = false)
     private String statut;
 
-    @Column(nullable = false)
+    @Column()
     private String notes;
 
     @ManyToOne
@@ -43,13 +43,14 @@ public class RendezVousEntity {
     @OneToOne(mappedBy = "rendezVous")
     private ConsultationEntity consultation;
 
-    public RendezVousEntity(int idRendezVous, Date dateRendezVous, String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
+    public RendezVousEntity(int idRendezVous, Date dateRendezVous, String  consultationType ,String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
         this.idRendezVous = idRendezVous;
         this.dateDebutRendezVous = dateDebutRendezVous;
         this.dateFinRendezVous = dateFinRendezVous;
         this.motif = motif;
         this.statut = statut;
         this.notes = notes;
+        this.consultationType = consultationType ; 
         this.cabinet = cabinet;
         this.patient = patient;
         this.consultation = consultation;
@@ -58,6 +59,15 @@ public class RendezVousEntity {
 
     public int getIdRendezVous() {
         return idRendezVous;
+    }
+
+
+    public String getConsultationType(){
+        return consultationType  ; 
+    }
+
+    public void setConsultationType(String consultationType){
+        this.consultationType = consultationType ; 
     }
 
     public void setIdRendezVous(int idRendezVous) {

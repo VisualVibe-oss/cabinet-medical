@@ -8,5 +8,7 @@ public class Medecin extends Propietaire {
         super(idMedecin,nom, prenom, email, password, telephone, cabinet);
     }
 
+    public Medecin(){}
+
     
 }

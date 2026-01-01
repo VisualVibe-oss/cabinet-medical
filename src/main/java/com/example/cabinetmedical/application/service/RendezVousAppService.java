@@ -1,5 +1,6 @@
 package com.example.cabinetmedical.application.service;
 
+import com.example.cabinetmedical.application.DTO.PatientDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.dto.UserDTO;
 import com.example.cabinetmedical.domain.Repository.MedecinRepository;
@@ -10,10 +11,12 @@ import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
 import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
+import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
+import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.PatientMapper;
@@ -75,6 +78,33 @@ public class RendezVousAppService {
             cabinetEntity = secretaireRepository.findCabinetBySecretaireId(user.getId());
         } else if (AuthService.medecinRole.equals(user.getRole())) {
             cabinetEntity = medecinRepository.findCabinetByMedecin(user.getId());
+        } else {
+            throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
+        }
+
+        if (cabinetEntity == null) {
+            throw new IllegalArgumentException("Utilisateur invalide : ");
+        }
+
+        Cabinet cabinet = CabinetMapper.toDomain(cabinetEntity);
+        Medecin medecin = MedecinMapper.toDomain(cabinetEntity.getMedecin()) ;
+        cabinet.setMedecin(medecin);
+
+        
+
+        return cabinet;
+    }
+
+
+
+    private Cabinet getCabinetByEmail(UserDTO user) {
+
+        CabinetEntity cabinetEntity;
+
+        if (AuthService.secretaireRole.equals(user.getRole())) {
+            cabinetEntity = secretaireRepository.findCabinetBySecretaireEmail(user.getEmail());
+        } else if (AuthService.medecinRole.equals(user.getRole())) {
+            cabinetEntity = medecinRepository.findCabinetByMedecinEmail(user.getEmail());
         } else {
             throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
         }
@@ -195,4 +225,37 @@ public class RendezVousAppService {
         return  true ; 
     }
 
+
+
+
+
+
+    
+    public RendezVousDTO getRendezVousByIdPatient(int idPatient , UserDTO user) {
+
+        Cabinet cabinet = getCabinetByEmail(user);
+        BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
+
+        RendezVousEntity rendezVousEntity = springRendezVousRepository.findByPatient_IdPatient(idPatient) ;
+
+        
+        if(rendezVousEntity == null){
+            throw new DataIntegrityViolationException("Aucun rendez vous n'existe pour ce patient avec id :"+ idPatient) ;
+        }
+
+        PatientEntity patientEntity = rendezVousEntity.getPatient() ; 
+        
+        // On passe par behavior pack 
+        RendezVous rendezVous = RendezVousMapper.toDomain(rendezVousEntity) ;
+        FeatureParameter<RendezVous> parameter = new FeatureParameter<>(Featurekey.GET_RDV_INFO, rendezVous);
+        FeatureResponce<RendezVous> response = behaviorPack.performWork(parameter);
+
+        RendezVousDTO rendezVousDTO =  RendezVousMapper.toDTO(rendezVous)  ;
+        Patient patient =  PatientMapper.toDomain(patientEntity) ;
+
+        rendezVousDTO.setPatient(patient);
+
+        
+        return rendezVousDTO;
+    }
 }

@@ -115,6 +115,7 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
         rdv.setStatut(RendezVousState.SCHEDULED);
         rdv.setNotes("Pas de notes particulières");
         rdv.setCabinet(cabinet);
+        rdv.setConsultationType("Visite Hebdomadaire");
         rdv.setPatient(patient);
         return rdvRepo.save(rdv);
     }

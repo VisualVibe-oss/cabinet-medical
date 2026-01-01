@@ -7,6 +7,7 @@ import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
 import com.example.cabinetmedical.domain.model.Medecin.AddSecretaire;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
+import com.example.cabinetmedical.domain.model.functionnalities.GetRDVInfo;
 import com.example.cabinetmedical.domain.model.functionnalities.GetRendezVous;
 import com.example.cabinetmedical.domain.model.functionnalities.SetStateRdvOngoing;
 import com.example.cabinetmedical.domain.utils.Featurekey;
@@ -27,13 +28,18 @@ public class BehaviorPackBuilder {
         Featurekey.TEST, FunctionnalitieTest::new,
             Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
             Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,
-            Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new
+            Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new,
+        Featurekey.GET_RDV_INFO , GetRDVInfo::new   
     );
 
 
     private static Map<PackKey, List<Featurekey>> packRegistry = Map.of(
         PackKey.Pack_TEST, List.of(Featurekey.TEST  ),
-        PackKey.BASIC , List.of(Featurekey.GET_SECRETAIRE  , Featurekey.SET_RDV_ONGOING)
+        PackKey.BASIC , List.of(
+            Featurekey.GET_SECRETAIRE  , 
+            Featurekey.SET_RDV_ONGOING ,
+            Featurekey.GET_RDV_INFO 
+        )
     );
 
 

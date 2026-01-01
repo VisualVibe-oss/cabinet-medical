@@ -23,4 +23,6 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     @Transactional
     @Query("UPDATE RendezVousEntity r SET r.statut = :#{#rendezVous.statut} WHERE r.idRendezVous = :#{#rendezVous.idRendezVous}")
     int setSateRendezVous(@Param("rendezVous") RendezVousEntity rendezVous);
+
+    RendezVousEntity findByPatient_IdPatient(int idPatient);
 }

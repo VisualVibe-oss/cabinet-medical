@@ -1,6 +1,7 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 import com.example.cabinetmedical.domain.model.patient.Patient;
+import com.example.cabinetmedical.application.DTO.PatientDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
@@ -64,9 +65,36 @@ public class PatientMapper {
         p.setSexe(pe.getSexe());
         p.setDateNaissance(pe.getDateNaissance());
         p.setTypeMutuelle(pe.getTypeMutuelle());
-        p.setCabinet(CabinetMapper .toDomain(pe.getCabinet()));
-        p.setRendezVous(rendezVousDomains);
+        
+        if (pe.getCabinet() != null) {
+        p.setCabinet(CabinetMapper.toDomain(pe.getCabinet()));
+    }
 
+        
         return p;
+    }
+
+
+
+    public static PatientDTO toDTO(PatientEntity pe) {
+        if (pe == null) {
+            return null;
+        }
+
+        PatientDTO dto = new PatientDTO();
+        
+        // Mapping des champs simples
+        dto.setIdPatient(pe.getIdPatient());
+        dto.setNom(pe.getNom());
+        dto.setPrenom(pe.getPrenom());
+        dto.setCin(pe.getCin());
+        dto.setTelephone(pe.getTelephone());
+        dto.setSexe(pe.getSexe());
+        dto.setDateNaissance(pe.getDateNaissance());
+        dto.setTypeMutuelle(pe.getTypeMutuelle());
+
+        
+
+        return dto;
     }
 }

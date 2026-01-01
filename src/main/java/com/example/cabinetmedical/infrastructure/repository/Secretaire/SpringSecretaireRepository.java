@@ -13,4 +13,7 @@ public interface SpringSecretaireRepository extends JpaRepository<SecretaireEnti
         @Query("SELECT s.cabinet FROM SecretaireEntity s WHERE s.idSecretaire = :id")
          public CabinetEntity findCabinetBySecretaireId(int id) ;    List<SecretaireEntity> findByCabinet_idCabinet(int idcabinet);
     void deleteByidSecretaire(int idsecretaire);
+
+         @Query("SELECT s.cabinet FROM SecretaireEntity s WHERE s.email = :email")
+        CabinetEntity findCabinetBySecretaireEmail(String email);
 }

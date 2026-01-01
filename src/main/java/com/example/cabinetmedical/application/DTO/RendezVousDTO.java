@@ -19,5 +19,5 @@ public class RendezVousDTO {
     private String notes;
     private int idCabinet;
     private Patient patient;
-
+    private String consultationType;
 }
