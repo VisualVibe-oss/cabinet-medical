@@ -6,6 +6,7 @@ import com.example.cabinetmedical.domain.Repository.MedecinRepository;
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
 import com.example.cabinetmedical.domain.Repository.SecretaireRepository;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
 import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
@@ -17,6 +18,7 @@ import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.PatientMapper;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
+import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
 import com.example.cabinetmedical.infrastructure.mapper.PatientMapper;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
 import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
@@ -46,12 +48,14 @@ public class RendezVousAppService {
     private SpringRendezVousRepository springRendezVousRepository;
     private SpringSecretaireRepository secretaireRepository;
     private MedecinRepository medecinRepository;
+    private NotificationService notificationService ;
 
     public RendezVousAppService(
             RendezVousRepositoryImpl rendezVousRepository, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetMapper cm, PatientMapper pmImp,
             RendezVousRepository rendezVousRepository,
             SpringSecretaireRepository secretaireRepository,
-            MedecinRepository medecinRepository,
+            MedecinRepository medecinRepository, 
+            NotificationService notificationService ,
             SpringRendezVousRepository springRendezVousRepository) {
         this.rendezVousRepositoryImp = rendezVousRepositoryImp;
         this.secretaireRepository = secretaireRepository;
@@ -75,10 +79,15 @@ public class RendezVousAppService {
             throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
         }
 
-        Cabinet cabinet = CabinetMapper.toDomain(cabinetEntity);
-        if (cabinet == null) {
+        if (cabinetEntity == null) {
             throw new IllegalArgumentException("Utilisateur invalide : ");
         }
+
+        Cabinet cabinet = CabinetMapper.toDomain(cabinetEntity);
+        Medecin medecin = MedecinMapper.toDomain(cabinetEntity.getMedecin()) ;
+        cabinet.setMedecin(medecin);
+
+        
 
         return cabinet;
     }
@@ -156,7 +165,10 @@ public class RendezVousAppService {
 
 
 
+
+
     public Boolean setRendezVousOnGoing(RendezVousDTO rendezVousDTO , UserDTO user){
+
 
         Cabinet cabinet = getCabinetFromUser(user);
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
@@ -172,6 +184,14 @@ public class RendezVousAppService {
         if(ligneAffecte == 0 ){
             throw new EntityNotFoundException("Ce rendez vous n'existe pas"+ rendezVousDTO.getIdRendezVous() ) ;
         }
+
+        // diffuse un message au medecin qu il a une consultation en cours 
+        String emailMedcin = cabinet.getMedecin().getEmail() ;
+        if(emailMedcin == null){
+            throw new EntityNotFoundException("Ce medecin avec cet email n'existe pas :"+ emailMedcin) ;
+        }
+        notificationService.consultationReadyNotification(emailMedcin ,"Tu as une consiltation");
+        
         return  true ; 
     }
 
