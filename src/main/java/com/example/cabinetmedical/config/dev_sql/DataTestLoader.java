@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
@@ -25,6 +27,7 @@ import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRen
 ;
 
 @Component
+@Profile("dev")
 public class DataTestLoader {
 
     @Autowired
@@ -39,13 +42,17 @@ public class DataTestLoader {
     private SpringRendezVousRepository rdvRepo;
     @Autowired 
     private OffreRepository offreRepository ; 
+    @Autowired 
+    private PasswordEncoder passwordEncoder ;
+
     // 1. Insérer un Cabinet
     public CabinetEntity createCabinet() {
         MedecinEntity medecin = new MedecinEntity();
         medecin.setNom("Benani");
         medecin.setPrenom("Driss");
-        medecin.setEmail("dr.benani@email.com");
-        medecin.setPassword("hash_password");
+        String email =  "dr.benani@email.com" ; 
+        medecin.setEmail(email.toUpperCase());
+        medecin.setPassword(passwordEncoder.encode("password123"));
         medecin.setTelephone("0612345678");
         
         OffreEntity offreEntity = offreRepository.findByPackKey(PackKey.BASIC).get();
@@ -65,8 +72,9 @@ public class DataTestLoader {
         SecretaireEntity secretaire = new SecretaireEntity();
         secretaire.setNom("Fassi");
         secretaire.setPrenom("Sanaa");
-        secretaire.setEmail("sanaa@email.com");
-        secretaire.setPassword("123456");
+        String email = "sanaa@email.com" ;
+        secretaire.setEmail(email.toUpperCase());
+        secretaire.setPassword(passwordEncoder.encode("password123"));
         secretaire.setSalaire(5000f);
         secretaire.setCabinet(cabinet);
         return secretaireRepo.save(secretaire);
