@@ -22,43 +22,47 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
-
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
     @Autowired
-    private  AuthService authService;
+    private AuthService authService;
     @Autowired
     private JwtService jwtService;
 
     private void setHeaders(String accessToken, String refreshToken, HttpServletResponse response) {
-
+        // 1. Configuration du cookie d'accès (Access Token)
         ResponseCookie accessCookie = ResponseCookie.from("accessToken", accessToken)
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .maxAge(60 * 15)
-                .sameSite("Strict")
+                .httpOnly(true) // Protection contre le JS malveillant (XSS)
+                .secure(false) // Mettre à FALSE pour HTTP local (sinon le cookie est rejeté en local)
+                .path("/") // Disponible pour toute l'application
+                .maxAge(60 * 15) // 15 minutes
+                .sameSite("Lax") // Indispensable pour le cross-port (3000 -> 8080)
                 .build();
 
+        // 2. Configuration du cookie de rafraîchissement (Refresh Token)
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false) // Mettre à FALSE pour HTTP local
                 .path("/api/auth/refresh")
-                .maxAge(60 * 60 * 24 * 7)
-                .sameSite("Strict")
+                .maxAge(60 * 60 * 24 * 7) // 7 jours
+                .sameSite("Lax")
                 .build();
 
-        response.setHeader("Access-Token", accessCookie.toString());
-        response.setHeader("Refresh-Token", refreshCookie.toString());
+        // 3. ENVOI DES HEADERS (Le secret est ici)
+        // On utilise l'en-tête standard "Set-Cookie"
+        // On utilise .addHeader() pour envoyer DEUX lignes Set-Cookie
+        response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, accessCookie.toString());
+        response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody Map<String,Object > object, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody Map<String, Object> object,
+            HttpServletResponse response) {
 
         ObjectMapper mapper = new ObjectMapper();
-       SignupDataDTO signupData = mapper.convertValue(object, SignupDataDTO.class);
+        SignupDataDTO signupData = mapper.convertValue(object, SignupDataDTO.class);
         authService.signup(signupData);
 
         MedecinDTO medecin = signupData.getMedecin();
@@ -79,12 +83,10 @@ public class AuthController {
         return ResponseEntity.ok(apiResponse);
     }
 
-
-
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody LoginDTO loginData, HttpServletResponse res ) {
+    public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody LoginDTO loginData, HttpServletResponse res) {
 
-        UserDTO user = authService.login(loginData) ;
+        UserDTO user = authService.login(loginData);
 
         String accessToken = jwtService.generateAccesToken(user);
         String refreshToken = jwtService.generateAndSaveRefreshToken(user);
@@ -112,9 +114,10 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<String>> refreshToken(@RequestBody HttpServletRequest request , HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<String>> refreshToken(@RequestBody HttpServletRequest request,
+            HttpServletResponse response) {
 
-        String token = getRefreshTokenFromCookies(request) ;
+        String token = getRefreshTokenFromCookies(request);
         String accesToken = jwtService.refreshToken(token);
         setHeaders(accesToken, token, response);
         ApiResponse<String> apiResponse = ApiResponse.<String>builder()
@@ -123,13 +126,8 @@ public class AuthController {
                 .status(HttpStatus.CREATED.value())
                 .build();
 
-        return ResponseEntity.ok(apiResponse) ;
+        return ResponseEntity.ok(apiResponse);
     }
-
-
-
-
-
 
     @PostMapping("/deconnexion")
     public ResponseEntity<String> deconnecter(Authentication authentication) {
