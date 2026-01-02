@@ -258,4 +258,36 @@ public class RendezVousAppService {
         
         return rendezVousDTO;
     }
+
+
+
+        public RendezVousDTO getRendezVousById(int idRendezVous , UserDTO user) {
+
+        Cabinet cabinet = getCabinetByEmail(user);
+        
+        BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
+
+        RendezVousEntity rendezVousEntity = springRendezVousRepository.findByIdRendezVous(idRendezVous) ;
+
+        
+        if(rendezVousEntity == null){
+            throw new DataIntegrityViolationException("Aucun rendez vous existe  avec cet id :"+ idRendezVous) ;
+        }
+
+        PatientEntity patientEntity = rendezVousEntity.getPatient() ; 
+        
+        // On passe par behavior pack 
+        RendezVous rendezVous = RendezVousMapper.toDomain(rendezVousEntity) ;
+        //! Le key du fonctionnalite est le meme que getRendezVousByIdPatient , a changer si besoin
+        FeatureParameter<RendezVous> parameter = new FeatureParameter<>(Featurekey.GET_RDV_INFO, rendezVous);
+        FeatureResponce<RendezVous> response = behaviorPack.performWork(parameter);
+
+        RendezVousDTO rendezVousDTO =  RendezVousMapper.toDTO(rendezVous)  ;
+        Patient patient =  PatientMapper.toDomain(patientEntity) ;
+
+        rendezVousDTO.setPatient(patient);
+
+        
+        return rendezVousDTO;
+    }
 }

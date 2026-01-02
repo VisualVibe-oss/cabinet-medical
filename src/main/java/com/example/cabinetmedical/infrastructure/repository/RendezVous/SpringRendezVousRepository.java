@@ -25,4 +25,6 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     int setSateRendezVous(@Param("rendezVous") RendezVousEntity rendezVous);
 
     RendezVousEntity findByPatient_IdPatient(int idPatient);
+
+    RendezVousEntity findByIdRendezVous(int idRendezVous);
 }

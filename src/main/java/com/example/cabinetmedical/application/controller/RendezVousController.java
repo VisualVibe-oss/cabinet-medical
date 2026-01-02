@@ -65,12 +65,12 @@ public class RendezVousController {
 
 
     
-    @GetMapping("/patient/{idPatient}")
+    @GetMapping("/patient/{idRendezVous}")
     public ResponseEntity<ApiResponse<RendezVousDTO>> getRendezVousInfo(
         Authentication aut, 
-        @PathVariable("idPatient") int idPatient) {
+        @PathVariable("idRendezVous") int idRendezVous) {
        UserDTO user = getUserDto(aut) ;
-       RendezVousDTO rendezVousDTO = rendezVousAppService.getRendezVousByIdPatient(idPatient, user) ;
+       RendezVousDTO rendezVousDTO = rendezVousAppService.getRendezVousById(idRendezVous  , user) ;
 
        ApiResponse<RendezVousDTO> response = ApiResponse.<RendezVousDTO>builder()
                 .data(rendezVousDTO)
