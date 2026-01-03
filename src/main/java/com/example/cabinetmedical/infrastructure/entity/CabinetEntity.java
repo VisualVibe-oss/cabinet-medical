@@ -24,6 +24,8 @@ public class CabinetEntity {
 
     private String telephone;
 
+    private boolean etat=true;
+
     @OneToOne()
     @JoinColumn(name="idMedecin")
     private MedecinEntity medecin;
@@ -113,6 +115,9 @@ public class CabinetEntity {
     public MedecinEntity getMedecin() {
         return medecin;
     }
+
+    public boolean getEtat(){ return etat; }
+    public void setEtat(boolean etat) { this.etat = etat; }
 
     public void setMedecin(MedecinEntity medecin) {
         this.medecin = medecin;

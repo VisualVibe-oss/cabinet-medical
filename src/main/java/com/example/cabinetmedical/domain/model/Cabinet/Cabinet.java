@@ -5,7 +5,16 @@ import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 
 public class Cabinet {
-      BehaviorPack behaviorPack ; 
+      BehaviorPack behaviorPack ;
+
+    private int idCabinet;
+    public int getIdCabinet() {
+        return idCabinet;
+    }
+
+    public void setIdCabinet(int idCabinet) {
+        this.idCabinet = idCabinet;
+    }
 
 
 
