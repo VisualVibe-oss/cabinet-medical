@@ -3,9 +3,7 @@ package com.example.cabinetmedical.application.service;
 import com.example.cabinetmedical.application.DTO.PatientDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.dto.UserDTO;
-import com.example.cabinetmedical.domain.Repository.MedecinRepository;
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
-import com.example.cabinetmedical.domain.Repository.SecretaireRepository;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
@@ -24,6 +22,7 @@ import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
 import com.example.cabinetmedical.infrastructure.mapper.PatientMapper;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
+import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.RendezVousRepositoryImpl;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
@@ -220,6 +219,7 @@ public class RendezVousAppService {
         if(emailMedcin == null){
             throw new EntityNotFoundException("Ce medecin avec cet email n'existe pas :"+ emailMedcin) ;
         }
+        
         notificationService.consultationReadyNotification(emailMedcin ,"Tu as une consiltation");
         
         return  true ; 

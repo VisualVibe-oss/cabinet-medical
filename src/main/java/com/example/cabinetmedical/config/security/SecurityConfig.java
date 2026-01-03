@@ -19,9 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Optional;
 
@@ -44,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/login" ,"/api/signup" ,"/api/refresh"  ).permitAll()
                         .requestMatchers("/api/logout").authenticated()
                         .requestMatchers("/api/medecin/**").hasRole("MEDECIN")
+                        .requestMatchers("/api/consultation/**").hasRole("MEDECIN")
                         .requestMatchers("/api/secretaire/**").hasRole("SECRETAIRE")
                         .requestMatchers("/api/rendezvous/**").hasAnyRole("MEDECIN", "SECRETAIRE")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

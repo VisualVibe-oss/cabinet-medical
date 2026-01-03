@@ -13,5 +13,6 @@ public enum Featurekey {
     EDIT_DEPENCE ,
     GET_SECRETAIRE , 
     SET_RDV_ONGOING  , 
-    GET_RDV_INFO
+    GET_RDV_INFO ,
+    CREE_CONSULTATION
 }

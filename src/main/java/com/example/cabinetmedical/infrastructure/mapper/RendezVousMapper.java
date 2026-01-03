@@ -32,6 +32,7 @@ public class RendezVousMapper {
         rve.setMotif(rv.getMotif());
         rve.setConsultationType(rv.getConsultationType());
         rve.setStatut(rv.getStatut());
+        rve.setPrix(rv.getPrix());
         rve.setNotes(rv.getNotes());
         // Vérification pour le Patient
         if (rv.getPatient() != null) {
@@ -56,6 +57,7 @@ public class RendezVousMapper {
         rv.setDateDebutRendezVous(rvDTO.getDateDebutRendezVous());
         rv.setDateFinRendezVous(rvDTO.getDateFinRendezVous());
         rv.setMotif(rvDTO.getMotif());
+        rv.setPrix(rvDTO.getPrix());
         rv.setConsultationType(rvDTO.getConsultationType());
         rv.setStatut(rvDTO.getStatut());
         rv.setNotes(rvDTO.getNotes());
@@ -73,6 +75,7 @@ public class RendezVousMapper {
         rvDTO.setConsultationType(rv.getConsultationType());
         rvDTO.setStatut(rv.getStatut());
         rvDTO.setNotes(rv.getNotes());
+        rvDTO.setPrix(rv.getPrix());
 
         return rvDTO;
     }
@@ -88,6 +91,8 @@ public class RendezVousMapper {
         rvDTO.setConsultationType(rve.getConsultationType());
         rvDTO.setStatut(rve.getStatut());
         rvDTO.setNotes(rve.getNotes());
+        rvDTO.setPrix(rve.getPrix());
+
 
         return rvDTO;
     }
@@ -105,6 +110,7 @@ public class RendezVousMapper {
         domain.setMotif(entity.getMotif());
         domain.setConsultationType(entity.getConsultationType());
         domain.setStatut(entity.getStatut());
+        domain.setPrix(entity.getPrix());
         domain.setNotes(entity.getNotes());
 
         // Mappage des relations complexes

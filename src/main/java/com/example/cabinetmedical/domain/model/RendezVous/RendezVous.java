@@ -18,6 +18,7 @@ public class RendezVous {
     private Cabinet cabinet;
     private String consultationType;
     private Patient patient;
+    private int prix;
 
     public RendezVous(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif,  RendezVousState statut, String notes, Cabinet cabinet, Patient patient) {
         this.idRendezVous = idRendezVous;
@@ -39,6 +40,21 @@ public class RendezVous {
 
     public void setIdRendezVous(int idRendezVous) {
         this.idRendezVous = idRendezVous;
+    }
+
+   public String getConsultationType() {
+        return consultationType;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }   
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setConsultationType(String consultationType) {
+        this.consultationType = consultationType;
     }
 
     public Date getDateRendezVous() {

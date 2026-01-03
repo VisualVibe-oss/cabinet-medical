@@ -1,14 +1,51 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
+
+import com.example.cabinetmedical.application.dto.FactureDTO;
 import com.example.cabinetmedical.domain.model.Facture.Facture;
 import com.example.cabinetmedical.infrastructure.entity.FactureEntity;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
 
-@Component
+
 public class FactureMapper {
-    private CabinetMapper cm;
+
+    // Format de date standard pour le JSON (ISO 8601)
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public FactureDTO toDto(FactureEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        FactureDTO dto = new FactureDTO();
+        
+        dto.setIdFacture(entity.getIdFacture());
+        dto.setType(entity.getType());
+        
+        // Conversion de int (Entity) vers Float (DTO)
+        dto.setPrix((float) entity.getPrix());
+
+        // Conversion sécurisée de la Date vers String
+        if (entity.getDate() != null) {
+            dto.setDate(dateFormat.format(entity.getDate()));
+        }
+
+        // Conversion de l'Enum State vers String
+        if (entity.getState() != null) {
+            dto.setState(entity.getState().name());
+        }
+
+        // Extraction de l'ID du Cabinet (évite d'envoyer tout l'objet Cabinet)
+        if (entity.getCabinet() != null) {
+            dto.setCabinetId(entity.getCabinet().getIdCabinet());
+        }
+
+        return dto;
+    }
+
+
+     private CabinetMapper cm;
 
     public FactureMapper(CabinetMapper cm) {
         this.cm = cm;
@@ -29,5 +66,4 @@ public class FactureMapper {
     public List<Facture> toDomainList(List<FactureEntity> fe) {
         return fe.stream().map(this::toDomain).toList();
     }
-
 }

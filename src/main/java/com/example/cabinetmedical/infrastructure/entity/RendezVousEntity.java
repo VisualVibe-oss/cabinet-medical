@@ -24,9 +24,18 @@ public class RendezVousEntity {
     @Column(nullable = false)
     private String motif;
 
+    @Column(nullable = false)
+    private int prix;
+
+    @Column(nullable = false)
+    private int prix;
+
+    
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private RendezVousState statut;
+
     private String statut;
 
     @Column()
@@ -43,13 +52,14 @@ public class RendezVousEntity {
     @OneToOne(mappedBy = "rendezVous")
     private ConsultationEntity consultation;
 
-    public RendezVousEntity(int idRendezVous, Date dateRendezVous, String  consultationType ,String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
+    public RendezVousEntity(int idRendezVous,  int prix,Date dateRendezVous, String  consultationType ,String motif, RendezVousState statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
         this.idRendezVous = idRendezVous;
         this.dateDebutRendezVous = dateDebutRendezVous;
         this.dateFinRendezVous = dateFinRendezVous;
         this.motif = motif;
         this.statut = statut;
         this.notes = notes;
+        this.prix = prix;
         this.consultationType = consultationType ; 
         this.cabinet = cabinet;
         this.patient = patient;
@@ -62,6 +72,13 @@ public class RendezVousEntity {
     }
 
 
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
+    public int getPrix() {
+        return prix;
+    }
     public String getConsultationType(){
         return consultationType  ; 
     }

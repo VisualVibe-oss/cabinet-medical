@@ -1,63 +1,54 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
-import jakarta.persistence.*;
 
+
+
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="dossierMedical")
+@Table(name = "dossier_medical")
 public class DossierMedicalEntity {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idDossier;
 
-    @Column(nullable = false)
-    private String antMedicaux;
-
-    @Column(nullable = false)
-    private String antChirug;
-
-    @Column(nullable = false)
-    private String allergies;
-
-    @Column(nullable = false)
-    private String traitement;
-
-    @Column(nullable = false)
-    private String habitudes;
-
-    @Column(nullable = false)
-    private String historiqueConsultations;
-
-    @Column(nullable = false)
-    private String documentsMedicaux;
-
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date dateCreation;
+
+    @Column(nullable = false)
+    private String statut; // ACTIF / ARCHIVE
 
     @OneToOne(mappedBy = "dossierMedical")
     private PatientEntity patient;
 
     @OneToMany(mappedBy = "dossierMedical")
-    private List<ConsultationEntity> consultation;
+    private List<ConsultationEntity> consultations;
 
-    public DossierMedicalEntity() {
-    }
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private List<AntecedentMedicalEntity> antecedentsMedicaux;
 
-    public DossierMedicalEntity(int idDossier, String antMedicaux, String antChirug, String allergies, String traitement, String habitudes, String historiqueConsultations, String documentsMedicaux, Date dateCreation, PatientEntity patient, List<ConsultationEntity> consultation) {
-        this.idDossier = idDossier;
-        this.antMedicaux = antMedicaux;
-        this.antChirug = antChirug;
-        this.allergies = allergies;
-        this.traitement = traitement;
-        this.habitudes = habitudes;
-        this.historiqueConsultations = historiqueConsultations;
-        this.documentsMedicaux = documentsMedicaux;
-        this.dateCreation = dateCreation;
-        this.patient = patient;
-        this.consultation = consultation;
-    }
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private List<AntecedentChirurgicalEntity> antecedentsChirurgicaux;
+
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private List<AllergieEntity> allergies;
+
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private List<TraitementChroniqueEntity> traitementsChroniques;
+
+    @OneToOne(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private HabitudeVieEntity habitudesVie;
+
+    // @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    // private List<DocumentMedicalEntity> documentsMedicaux;
+
+    
+
+    public DossierMedicalEntity() {}
 
     public int getIdDossier() {
         return idDossier;
@@ -65,62 +56,6 @@ public class DossierMedicalEntity {
 
     public void setIdDossier(int idDossier) {
         this.idDossier = idDossier;
-    }
-
-    public String getAntMedicaux() {
-        return antMedicaux;
-    }
-
-    public void setAntMedicaux(String antMedicaux) {
-        this.antMedicaux = antMedicaux;
-    }
-
-    public String getAntChirug() {
-        return antChirug;
-    }
-
-    public void setAntChirug(String antChirug) {
-        this.antChirug = antChirug;
-    }
-
-    public String getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(String allergies) {
-        this.allergies = allergies;
-    }
-
-    public String getTraitement() {
-        return traitement;
-    }
-
-    public void setTraitement(String traitement) {
-        this.traitement = traitement;
-    }
-
-    public String getHabitudes() {
-        return habitudes;
-    }
-
-    public void setHabitudes(String habitudes) {
-        this.habitudes = habitudes;
-    }
-
-    public String getHistoriqueConsultations() {
-        return historiqueConsultations;
-    }
-
-    public void setHistoriqueConsultations(String historiqueConsultations) {
-        this.historiqueConsultations = historiqueConsultations;
-    }
-
-    public String getDocumentsMedicaux() {
-        return documentsMedicaux;
-    }
-
-    public void setDocumentsMedicaux(String documentsMedicaux) {
-        this.documentsMedicaux = documentsMedicaux;
     }
 
     public Date getDateCreation() {
@@ -131,6 +66,14 @@ public class DossierMedicalEntity {
         this.dateCreation = dateCreation;
     }
 
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
     public PatientEntity getPatient() {
         return patient;
     }
@@ -139,13 +82,54 @@ public class DossierMedicalEntity {
         this.patient = patient;
     }
 
-    public List<ConsultationEntity> getConsultation() {
-        return consultation;
+    public List<ConsultationEntity> getConsultations() {
+        return consultations;
     }
 
-    public void setConsultation(List<ConsultationEntity> consultation) {
-        this.consultation = consultation;
+    public void setConsultations(List<ConsultationEntity> consultations) {
+        this.consultations = consultations;
+    }
+
+    public List<AntecedentMedicalEntity> getAntecedentsMedicaux() {
+        return antecedentsMedicaux;
+    }
+
+    public void setAntecedentsMedicaux(List<AntecedentMedicalEntity> antecedentsMedicaux) {
+        this.antecedentsMedicaux = antecedentsMedicaux;
+    }
+
+    public List<AntecedentChirurgicalEntity> getAntecedentsChirurgicaux() {
+        return antecedentsChirurgicaux;
+    }
+
+    public void setAntecedentsChirurgicaux(List<AntecedentChirurgicalEntity> antecedentsChirurgicaux) {
+        this.antecedentsChirurgicaux = antecedentsChirurgicaux;
+    }
+
+    public List<AllergieEntity> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(List<AllergieEntity> allergies) {
+        this.allergies = allergies;
+    }
+
+    public List<TraitementChroniqueEntity> getTraitementsChroniques() {
+        return traitementsChroniques;
+    }
+
+    public void setTraitementsChroniques(List<TraitementChroniqueEntity> traitementsChroniques) {
+        this.traitementsChroniques = traitementsChroniques;
+    }
+
+    public HabitudeVieEntity getHabitudesVie() {
+        return habitudesVie;
+    }
+
+    public void setHabitudesVie(HabitudeVieEntity habitudesVie) {
+        this.habitudesVie = habitudesVie;
     }
 
 
+    
 }

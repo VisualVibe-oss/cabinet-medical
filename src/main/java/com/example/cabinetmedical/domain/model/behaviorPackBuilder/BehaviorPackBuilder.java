@@ -5,6 +5,7 @@ import com.example.cabinetmedical.domain.model.Medecin.EditSecretaire;
 import com.example.cabinetmedical.domain.model.Offre.Offre;
 import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
 import com.example.cabinetmedical.domain.model.Medecin.AddSecretaire;
+import com.example.cabinetmedical.domain.model.functionnalities.CreerConsultation;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
 import com.example.cabinetmedical.domain.model.functionnalities.GetRDVInfo;
@@ -29,7 +30,9 @@ public class BehaviorPackBuilder {
             Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
             Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,
             Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new,
-        Featurekey.GET_RDV_INFO , GetRDVInfo::new   
+        Featurekey.GET_RDV_INFO , GetRDVInfo::new   ,  
+        Featurekey.CREE_CONSULTATION , CreerConsultation::new
+        
     );
 
 
@@ -38,7 +41,8 @@ public class BehaviorPackBuilder {
         PackKey.BASIC , List.of(
             Featurekey.GET_SECRETAIRE  , 
             Featurekey.SET_RDV_ONGOING ,
-            Featurekey.GET_RDV_INFO 
+            Featurekey.GET_RDV_INFO  ,
+            Featurekey.CREE_CONSULTATION
         )
     );
 

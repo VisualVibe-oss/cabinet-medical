@@ -1,7 +1,6 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -14,16 +13,21 @@ public class MedicamentEntity {
     @Column(nullable = false)
     private String nom;
 
-    @ManyToMany(mappedBy = "medicament")
-    private List<OrdonnanceMedEntity> ordonnanceMed;
+    // Correction : On utilise le type de l'entité de liaison (table de jointure)
+    @OneToMany(mappedBy = "medicament") 
+    private List<MedciamentOrdonnanceEntity> medciamentOrdonnanceEntities;
 
-    public MedicamentEntity(int idMedicament, String nom, List<OrdonnanceMedEntity> ordonnanceMed) {
-        this.idMedicament = idMedicament;
-        this.nom = nom;
-        this.ordonnanceMed = ordonnanceMed;
-    }
+    // --- CONSTRUCTEURS ---
 
     public MedicamentEntity() {}
+
+    public MedicamentEntity(int idMedicament, String nom, List<MedciamentOrdonnanceEntity> medciamentOrdonnanceEntities) {
+        this.idMedicament = idMedicament;
+        this.nom = nom;
+        this.medciamentOrdonnanceEntities = medciamentOrdonnanceEntities;
+    }
+
+    // --- GETTERS ET SETTERS ---
 
     public int getIdMedicament() {
         return idMedicament;
@@ -41,11 +45,11 @@ public class MedicamentEntity {
         this.nom = nom;
     }
 
-    public List<OrdonnanceMedEntity> getOrdonnanceMed() {
-        return ordonnanceMed;
+    public List<MedciamentOrdonnanceEntity> getMedciamentOrdonnanceEntities() {
+        return medciamentOrdonnanceEntities;
     }
 
-    public void setOrdonnanceMed(List<OrdonnanceMedEntity> ordonnanceMed) {
-        this.ordonnanceMed = ordonnanceMed;
+    public void setMedciamentOrdonnanceEntities(List<MedciamentOrdonnanceEntity> medciamentOrdonnanceEntities) {
+        this.medciamentOrdonnanceEntities = medciamentOrdonnanceEntities;
     }
 }

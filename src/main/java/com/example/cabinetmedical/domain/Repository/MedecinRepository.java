@@ -15,9 +15,5 @@ public interface MedecinRepository {
     Optional<MedecinEntity> findByEmail(String email);
 
     // Cette méthode va chercher le cabinet lié au secrétaire par son ID
-    @Query("SELECT c.cabinet FROM MedecinEntity c WHERE c.idMedecin = :id")
-    CabinetEntity findCabinetByMedecin(@Param("id") int idMedecin);
-
-    @Query("SELECT s.cabinet FROM MedecinEntity s WHERE s.email = :email")
-    CabinetEntity findCabinetByMedecinEmail(String email);
+  
 }

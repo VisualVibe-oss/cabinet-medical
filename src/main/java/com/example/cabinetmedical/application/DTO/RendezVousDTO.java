@@ -20,4 +20,5 @@ public class RendezVousDTO {
     private int idCabinet;
     private Patient patient;
     private String consultationType;
+    private int prix;
 }

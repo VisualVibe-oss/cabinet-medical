@@ -1,10 +1,13 @@
 package com.example.cabinetmedical.application.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import com.example.cabinetmedical.application.dto.FactureDTO;
 
 @Service
 public class NotificationService {
@@ -29,4 +32,19 @@ public class NotificationService {
         payload
     );
 }
+    public void facturePendingNotification(List<String> emails, FactureDTO factureDTO) {
+
+        if (factureDTO == null) {
+            throw new IllegalArgumentException("FactureDTO ne peut pas être null");
+        }
+        for (String email : emails) {
+            messagingTemplate.convertAndSendToUser(
+            email, 
+            "/facture/pending", 
+            factureDTO
+        );
+        }
+        
+
+    }
 }

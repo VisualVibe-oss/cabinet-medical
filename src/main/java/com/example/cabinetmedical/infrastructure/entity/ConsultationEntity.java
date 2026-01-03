@@ -1,9 +1,8 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
-
 import jakarta.persistence.*;
-
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "consultation")
@@ -12,26 +11,47 @@ public class ConsultationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idConsultation;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String type;
 
+    @Column(nullable = true)
+    private String motif; 
+
+    @Column(nullable = true)
+    private String symptome; // Note: Stocké en String (vous pouvez utiliser une délimitation si c'est une liste)
+
+    @Column(nullable = true)
+    private Double temperature;
+
+    @Column(nullable = true)
+    private String dateSymptome;
+
+    @Column(nullable = true)
+    private Double poid;
+
+    @Column(nullable = true)
+    private Double tension;
+
+    @Column(nullable = true)
+    private Integer frequenceCardiaque;
+
+    @Column(nullable = true)
+    private String observationClinique;
+
+
+
+
+    //* A changer  */
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private String examenClinique;
+    
 
-    @Column(nullable = false)
-    private String examenSupplementaire;
+    @OneToOne(mappedBy = "consultation" ,cascade = CascadeType.PERSIST)
+    private FactureEntity facture;
 
-    @Column(nullable = false)
-    private String diagnostic;
-
-    @Column(nullable = false)
-    private String observations;
-
-    @Column(nullable = false)
-    private Boolean payement;
+    @OneToMany(mappedBy = "consultation" , cascade = CascadeType.PERSIST)
+    private List<ExamenEntity> examenEntities;
 
     @OneToOne
     @JoinColumn(name="idRendezVous")
@@ -39,126 +59,89 @@ public class ConsultationEntity {
 
     @ManyToOne
     @JoinColumn(name="idDossierMedical")
-    private  DossierMedicalEntity dossierMedical;
+    private DossierMedicalEntity dossierMedical;
 
-    @OneToOne
-    @JoinColumn(name = "idOrdonnanceSup")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "idOrdonnanceSup" )
     private OrdonnanceSupEntity ordonnanceSup;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idOrdonnanceMed")
     private OrdonnanceMedEntity ordonnanceMed;
 
-    public ConsultationEntity(int idConsultation, String type, Date date, String examenClinique, String examenSupplementaire, String diagnostic, String observations, Boolean payement, RendezVousEntity rendezVous, DossierMedicalEntity dossierMedical, OrdonnanceSupEntity ordonnanceSup, OrdonnanceMedEntity ordonnanceMed) {
+    // --- CONSTRUCTEURS ---
+
+    public ConsultationEntity() {}
+
+    // Constructeur complet (mis à jour avec les nouveaux champs)
+    public ConsultationEntity(int idConsultation, String type, String motif, String symptome, Double temperature, String dateSymptome, Double poid, Double tension, Integer frequenceCardiaque, String observationClinique, Date date, String examenClinique, String examenSupplementaire, String diagnostic, String observations, Boolean payement, RendezVousEntity rendezVous, DossierMedicalEntity dossierMedical, OrdonnanceSupEntity ordonnanceSup, OrdonnanceMedEntity ordonnanceMed) {
         this.idConsultation = idConsultation;
         this.type = type;
+        this.motif = motif;
+        this.symptome = symptome;
+        this.temperature = temperature;
+        this.dateSymptome = dateSymptome;
+        this.poid = poid;
+        this.tension = tension;
+        this.frequenceCardiaque = frequenceCardiaque;
+        this.observationClinique = observationClinique;
         this.date = date;
-        this.examenClinique = examenClinique;
-        this.examenSupplementaire = examenSupplementaire;
-        this.diagnostic = diagnostic;
-        this.observations = observations;
-        this.payement = payement;
         this.rendezVous = rendezVous;
         this.dossierMedical = dossierMedical;
         this.ordonnanceSup = ordonnanceSup;
         this.ordonnanceMed = ordonnanceMed;
     }
 
-    public ConsultationEntity(){}
+    // --- GETTERS ET SETTERS (Nouveaux champs) ---
 
-    public int getIdConsultation() {
-        return idConsultation;
-    }
+    public String getMotif() { return motif; }
+    public void setMotif(String motif) { this.motif = motif; }
 
-    public void setIdConsultation(int idConsultation) {
-        this.idConsultation = idConsultation;
-    }
+    public String getSymptome() { return symptome; }
+    public void setSymptome(String symptome) { this.symptome = symptome; }
 
-    public String getType() {
-        return type;
-    }
+    public Double getTemperature() { return temperature; }
+    public void setTemperature(Double temperature) { this.temperature = temperature; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public String getDateSymptome() { return dateSymptome; }
+    public void setDateSymptome(String dateSymptome) { this.dateSymptome = dateSymptome; }
 
-    public Date getDate() {
-        return date;
-    }
+    public Double getPoid() { return poid; }
+    public void setPoid(Double poid) { this.poid = poid; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public Double getTension() { return tension; }
+    public void setTension(Double tension) { this.tension = tension; }
 
-    public String getExamenClinique() {
-        return examenClinique;
-    }
+    public Integer getFrequenceCardiaque() { return frequenceCardiaque; }
+    public void setFrequenceCardiaque(Integer frequenceCardiaque) { this.frequenceCardiaque = frequenceCardiaque; }
 
-    public void setExamenClinique(String examenClinique) {
-        this.examenClinique = examenClinique;
-    }
+    public String getObservationClinique() { return observationClinique; }
+    public void setObservationClinique(String observationClinique) { this.observationClinique = observationClinique; }
 
-    public String getExamenSupplementaire() {
-        return examenSupplementaire;
-    }
+    // --- GETTERS ET SETTERS (Anciens champs inchangés) ---
 
-    public void setExamenSupplementaire(String examenSupplementaire) {
-        this.examenSupplementaire = examenSupplementaire;
-    }
+    public int getIdConsultation() { return idConsultation; }
+    public void setIdConsultation(int idConsultation) { this.idConsultation = idConsultation; }
 
-    public String getDiagnostic() {
-        return diagnostic;
-    }
+    public List<ExamenEntity> getExamenEntities() { return examenEntities; }
+    public void setExamenEntities(List<ExamenEntity> examenEntities) { this.examenEntities = examenEntities; }  
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public void setDiagnostic(String diagnostic) {
-        this.diagnostic = diagnostic;
-    }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
 
-    public String getObservations() {
-        return observations;
-    }
+    public FactureEntity getFacture() { return facture; }
+    public void setFacture(FactureEntity facture) { this.facture = facture;}
+    public RendezVousEntity getRendezVous() { return rendezVous; }
+    public void setRendezVous(RendezVousEntity rendezVous) { this.rendezVous = rendezVous; }
 
-    public void setObservations(String observations) {
-        this.observations = observations;
-    }
+    public DossierMedicalEntity getDossierMedical() { return dossierMedical; }
+    public void setDossierMedical(DossierMedicalEntity dossierMedical) { this.dossierMedical = dossierMedical; }
 
-    public Boolean getPayement() {
-        return payement;
-    }
+    public OrdonnanceSupEntity getOrdonnanceSup() { return ordonnanceSup; }
+    public void setOrdonnanceSup(OrdonnanceSupEntity ordonnanceSup) { this.ordonnanceSup = ordonnanceSup; }
 
-    public void setPayement(Boolean payement) {
-        this.payement = payement;
-    }
-
-    public RendezVousEntity getRendezVous() {
-        return rendezVous;
-    }
-
-    public void setRendezVous(RendezVousEntity rendezVous) {
-        this.rendezVous = rendezVous;
-    }
-
-    public DossierMedicalEntity getDossierMedical() {
-        return dossierMedical;
-    }
-
-    public void setDossierMedical(DossierMedicalEntity dossierMedical) {
-        this.dossierMedical = dossierMedical;
-    }
-
-    public OrdonnanceSupEntity getOrdonnanceSup() {
-        return ordonnanceSup;
-    }
-
-    public void setOrdonnanceSup(OrdonnanceSupEntity ordonnanceSup) {
-        this.ordonnanceSup = ordonnanceSup;
-    }
-
-    public OrdonnanceMedEntity getOrdonnanceMed() {
-        return ordonnanceMed;
-    }
-
-    public void setOrdonnanceMed(OrdonnanceMedEntity ordonnanceMed) {
-        this.ordonnanceMed = ordonnanceMed;
-    }
+    public OrdonnanceMedEntity getOrdonnanceMed() { return ordonnanceMed; }
+    public void setOrdonnanceMed(OrdonnanceMedEntity ordonnanceMed) { this.ordonnanceMed = ordonnanceMed; }
 }

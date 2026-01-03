@@ -1,12 +1,12 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
-@Table(name = "ordonnanceMed")
+@Table(name = "ordonnance_med")
 public class OrdonnanceMedEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idOrdonnanceMed;
@@ -14,18 +14,21 @@ public class OrdonnanceMedEntity {
     @OneToOne(mappedBy = "ordonnanceMed")
     private ConsultationEntity consultation;
 
-    @ManyToMany
-    @JoinTable(name = "ordonnance_medicament",
-    joinColumns = @JoinColumn(name = "idOrdonnanceMed"),
-    inverseJoinColumns = @JoinColumn(name = "idMedicament"))
-    private List<MedicamentEntity> medicament;
+    // Correction : Nom du champ plus explicite et type cohérent avec @OneToMany
+    @OneToMany(mappedBy = "ordonnanceMed"  , cascade = CascadeType.PERSIST ) // Assurez-vous que le champ s'appelle ainsi dans MedciamentOrdonnanceEntity
+    private List<MedciamentOrdonnanceEntity> medicaments;
 
-    public OrdonnanceMedEntity(int idOrdonnanceMed, ConsultationEntity consultation, List<MedicamentEntity> medicament) {
+    // --- CONSTRUCTEURS ---
+
+    public OrdonnanceMedEntity() {}
+
+    public OrdonnanceMedEntity(int idOrdonnanceMed, ConsultationEntity consultation, List<MedciamentOrdonnanceEntity> medicaments) {
         this.idOrdonnanceMed = idOrdonnanceMed;
         this.consultation = consultation;
-        this.medicament = medicament;
+        this.medicaments = medicaments;
     }
-    public OrdonnanceMedEntity() {}
+
+    // --- GETTERS ET SETTERS ---
 
     public int getIdOrdonnanceMed() {
         return idOrdonnanceMed;
@@ -43,11 +46,11 @@ public class OrdonnanceMedEntity {
         this.consultation = consultation;
     }
 
-    public List<MedicamentEntity> getMedicament() {
-        return medicament;
+    public List<MedciamentOrdonnanceEntity> getMedicaments() {
+        return medicaments;
     }
 
-    public void setMedicament(List<MedicamentEntity> medicament) {
-        this.medicament = medicament;
+    public void setMedicaments(List<MedciamentOrdonnanceEntity> medicaments) {
+        this.medicaments = medicaments;
     }
 }
