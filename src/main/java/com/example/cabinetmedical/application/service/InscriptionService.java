@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.application.service;
 
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 import com.example.cabinetmedical.application.dto.AuthResponse;
 import com.example.cabinetmedical.application.dto.MedecinInscriptionRequest;
 import com.example.cabinetmedical.application.dto.SecretaireInscriptionRequest;
@@ -12,7 +12,6 @@ import com.example.cabinetmedical.infrastructure.repository.AdminRepository;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

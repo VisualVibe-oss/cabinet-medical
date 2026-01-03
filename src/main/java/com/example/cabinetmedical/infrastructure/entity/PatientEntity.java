@@ -21,8 +21,7 @@ public class PatientEntity {
     @Column(nullable = false)
     private String cin;
 
-    @Column(nullable = false)
-    private String password;
+
 
     @Column(nullable = false)
     private String telephone;
@@ -49,12 +48,11 @@ public class PatientEntity {
 
     public PatientEntity() {}
 
-    public PatientEntity(int idPatient, String nom, String prenom, String cin, String password, String telephone, String sexe, Date dateNaissance, String typeMutuelle, CabinetEntity cabinet, List<RendezVousEntity> rendezVous, DossierMedicalEntity dossierMedical) {
+    public PatientEntity(int idPatient, String nom, String prenom, String cin,  String telephone, String sexe, Date dateNaissance, String typeMutuelle, CabinetEntity cabinet, List<RendezVousEntity> rendezVous, DossierMedicalEntity dossierMedical) {
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
         this.cin = cin;
-        this.password = password;
         this.telephone = telephone;
         this.sexe = sexe;
         this.dateNaissance = dateNaissance;
@@ -62,6 +60,16 @@ public class PatientEntity {
         this.cabinet = cabinet;
         this.rendezVous = rendezVous;
         this.dossierMedical = dossierMedical;
+    }
+    public PatientEntity(int idPatient, String nom, String prenom, String cin,  String telephone, String sexe, Date dateNaissance, String typeMutuelle) {
+        this.idPatient = idPatient;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.cin = cin;
+        this.telephone = telephone;
+        this.sexe = sexe;
+        this.dateNaissance = dateNaissance;
+        this.typeMutuelle = typeMutuelle;
     }
 
     public int getIdPatient() {
@@ -96,13 +104,7 @@ public class PatientEntity {
         this.cin = cin;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getTelephone() {
         return telephone;
