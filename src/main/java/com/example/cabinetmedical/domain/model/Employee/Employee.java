@@ -1,6 +1,13 @@
 package com.example.cabinetmedical.domain.model.Employee;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+import com.example.cabinetmedical.domain.utils.PermissionKey;
+import com.example.cabinetmedical.domain.utils.PermissionParameter;
+import com.example.cabinetmedical.domain.utils.PermissionResponce;
+import com.example.cabinetmedical.exception.AbsentSecretaryPermissionError;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Employee {
     private int idSecretaire;
@@ -11,8 +18,10 @@ public abstract class Employee {
     private Float salaire;
     private String telephone;
     private Cabinet cabinet;
+    private Set<PermissionKey> PermissionKeys = new HashSet<PermissionKey>();
+    private SecretaryPermissions secretaryPermissions;
 
-    public Employee(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, Cabinet cabinet) {
+    public Employee(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, Cabinet cabinet, Set<PermissionKey> PermissionKeys) {
         this.idSecretaire = idSecretaire;
         this.nom = nom;
         this.prenom = prenom;
@@ -21,6 +30,7 @@ public abstract class Employee {
         this.salaire = salaire;
         this.telephone = telephone;
         this.cabinet = cabinet;
+        this.PermissionKeys = PermissionKeys;
     }
 
     protected Employee() {
@@ -88,5 +98,23 @@ public abstract class Employee {
 
     public void setCabinet(Cabinet cabinet) {
         this.cabinet = cabinet;
+    }
+
+    public Set<PermissionKey> getPermissionKeys() {return this.PermissionKeys;}
+    public void setPermissionKeys(Set<PermissionKey> PermissionKeys) {this.PermissionKeys = PermissionKeys;}
+
+    public PermissionResponce<?> doWork(PermissionParameter<?> param) {
+
+        if (!PermissionKeys.contains(param.getKey())) {
+            throw new AbsentSecretaryPermissionError(param.getKey());
+        }
+        return secretaryPermissions.doWork(param);
+    }
+    public void grantPermission(PermissionKey key) {
+        this.PermissionKeys.add(key);
+    }
+
+    public void revokePermission(PermissionKey key) {
+        this.PermissionKeys.remove(key);
     }
 }

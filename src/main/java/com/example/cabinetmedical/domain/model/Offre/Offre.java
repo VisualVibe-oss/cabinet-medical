@@ -12,13 +12,17 @@ import com.example.cabinetmedical.domain.utils.OfferType;
 public class Offre {
     private List<Featurekey> featurekeys = new ArrayList<>();
     private OfferType type;
+    private PackKey packKey;
 
     // Constructeur sans-argument
     public Offre(PackKey packKey) {
        this.packKey = packKey ;
     }
+    public Offre() {
 
-    
+    }
+
+
 
     // Getter
     public PackKey getPackkey() {
@@ -29,4 +33,21 @@ public class Offre {
     public void setPackkey(PackKey packKey) {
         this.packKey = packKey ;
     }
+
+    public List<Featurekey> getFeaturekeys() {
+        return featurekeys;
+    }
+
+    public void setFeaturekeys(List<Featurekey> featurekeys) {
+        this.featurekeys = featurekeys;
+    }
+
+    public OfferType getType() {
+        return type;
+    }
+
+    public void setType(OfferType type) {
+        this.type = type;
+    }
+
 }

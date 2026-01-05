@@ -31,7 +31,7 @@ public class OffreEntity {
     @Column(nullable = false)
     private int offreDurationInDays;
 
-    
+
 
     public OffreEntity( int offreDurationInDays, PackKey key, String type, float prix, String description, List<CabinetEntity> cabinet) {
         this.key = key;

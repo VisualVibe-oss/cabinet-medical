@@ -34,7 +34,7 @@ public class Cabinet {
     private List<Action> action; //?
       BehaviorPack behaviorPack ;
 
-    public Cabinet(int idCabinet, String logo, String nom, String specialite, String adresse, String telephone, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
+    public Cabinet(int idCabinet, String logo, String nom, String specialite, String adresse, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
         this.idCabinet = idCabinet;
         this.logo = logo;
         this.nom = nom;

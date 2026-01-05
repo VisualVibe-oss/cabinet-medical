@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.dto;
+package com.example.cabinetmedical.application.DTO;
 // src/main/java/com/example/demo/dto/CabinetDTO.java (ou Cabinet.java)
 
 

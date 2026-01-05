@@ -1,9 +1,10 @@
 package com.example.cabinetmedical.domain.model.behaviorPackBuilder;
 
+import com.example.cabinetmedical.domain.model.Medecin.DeleteSecretaire;
+import com.example.cabinetmedical.domain.model.Medecin.EditSecretaire;
 import com.example.cabinetmedical.domain.model.Offre.Offre;
 import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
-import com.example.cabinetmedical.domain.model.functionnalities.AddSecretaire;
-import com.example.cabinetmedical.domain.model.functionnalities.CreeRendezVous;
+import com.example.cabinetmedical.domain.model.Medecin.AddSecretaire;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
 import com.example.cabinetmedical.domain.utils.Featurekey;
@@ -22,8 +23,9 @@ public class BehaviorPackBuilder {
     //* registry contient les associations entre les Featurekey et les fournisseurs de Functionnalitie correspondants */
    private static Map<Featurekey, Supplier<Functionnalitie>> registry = Map.of(
         Featurekey.TEST, FunctionnalitieTest::new,
-        Featurekey.CREE_RENDEZ_VOUS, CreeRendezVous::new,
-            Featurekey.ADD_SECRETAIRE, AddSecretaire::new
+            Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
+            Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,
+            Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new
     );
 
 

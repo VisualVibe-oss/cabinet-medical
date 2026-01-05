@@ -27,7 +27,7 @@ public class CabinetEntity {
     @Column(nullable = false , columnDefinition = "TEXT")
     private String signatureBase64;
 
-     
+
     private Date dateFinOffre;
 
 
@@ -60,7 +60,7 @@ public class CabinetEntity {
 
     public CabinetEntity(int idCabinet,Date dateFinOffre,String nom,String pays, String specialite, String adresse, String telephone) {
         this.idCabinet = idCabinet;
-        
+
         this.dateFinOffre = dateFinOffre;
         this.nom = nom;
         this.pays = pays;
@@ -80,7 +80,7 @@ public class CabinetEntity {
     }
     public void setPays(String pays) {
         this.pays = pays;
-    }   
+    }
 
     public String getSignatureBase64() {
         return signatureBase64;
@@ -92,7 +92,7 @@ public class CabinetEntity {
     @Temporal(TemporalType.TIMESTAMP)
     public Date getDateFinOffre() {
         return dateFinOffre;
-    }       
+    }
     public void setDateFinOffre() {
         if(this.offre == null){
             this.dateFinOffre = null;
@@ -102,17 +102,17 @@ public class CabinetEntity {
     }
 
 
-   
-
-    
 
 
-    
+
+
+
+
     public void setIdCabinet(int idCabinet) {
         this.idCabinet = idCabinet;
     }
 
-   
+
     public String getNom() {
         return nom;
     }
@@ -137,7 +137,7 @@ public class CabinetEntity {
         this.adresse = adresse;
     }
 
-    
+
     public MedecinEntity getMedecin() {
         return medecin;
     }
@@ -202,5 +202,5 @@ public class CabinetEntity {
         this.action = action;
     }
 
-    
+
 }

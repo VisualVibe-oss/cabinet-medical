@@ -1,11 +1,10 @@
 package com.example.cabinetmedical.infrastructure.mapper;
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
-import jakarta.validation.constraints.Null;
-
-import com.example.cabinetmedical.application.dto.CabinetDTO;
-import com.example.cabinetmedical.application.dto.MedecinDTO;
+import com.example.cabinetmedical.application.DTO.CabinetDTO;
+import com.example.cabinetmedical.application.DTO.MedecinDTO;
 
 
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public final class CabinetMapper {
 
-    private CabinetMapper() {}
+    public CabinetMapper() {}
 
     public static CabinetEntity DtoToEntity(MedecinDTO medecinDTO, CabinetDTO cabinetDTO) {
         CabinetEntity cabinet = new CabinetEntity();
@@ -37,8 +36,8 @@ public final class CabinetMapper {
             if (medecinDTO.getNom() != null) med.setNom(medecinDTO.getNom());
             if (medecinDTO.getPrenom() != null) med.setPrenom(medecinDTO.getPrenom());
             if (medecinDTO.getEmail() != null) med.setEmail(medecinDTO.getEmail());
-            if (medecinDTO.getNumero() != null) med.setTelephone(medecinDTO.getNumero());
-            if(medecinDTO.getMotDePasse() !=null) med.setPassword(medecinDTO.getMotDePasse()) ;
+            if (medecinDTO.getTelephone() != null) med.setTelephone(medecinDTO.getTelephone());
+            if(medecinDTO.getPassword() !=null) med.setPassword(medecinDTO.getPassword()) ;
 
             cabinet.setMedecin(med);
         }
@@ -55,9 +54,13 @@ public final class CabinetMapper {
         }
     }
   
-  public Cabinet toDomain(CabinetEntity cabinetEntity) {
+    public Cabinet toDomain(CabinetEntity ce) {
         Cabinet cabinet = new Cabinet();
         return cabinet;
+    }
+    public CabinetEntity toEntity(Cabinet cabinet){
+        CabinetEntity cabinetEntity = new CabinetEntity();
+        return cabinetEntity;
     }
 }
 

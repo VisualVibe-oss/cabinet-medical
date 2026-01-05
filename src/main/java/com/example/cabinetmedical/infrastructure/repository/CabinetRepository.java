@@ -33,4 +33,6 @@ public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer>
     @Modifying
     @Transactional
     void updateDateFinOffreByIdCabinet(int idCabinet, Date newDatefinoffre);
+
+    CabinetEntity findByIdCabinet(int idCabinet);
 }

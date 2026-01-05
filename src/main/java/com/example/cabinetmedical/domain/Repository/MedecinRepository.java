@@ -3,6 +3,11 @@ package com.example.cabinetmedical.domain.Repository;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface MedecinRepository {
-    public MedecinEntity find(int id);
+    MedecinEntity find(int id);
+    List<MedecinEntity> findAll();
+    Optional<MedecinEntity> findByEmail(String email);
 }

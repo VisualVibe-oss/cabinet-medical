@@ -1,6 +1,10 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
+import com.example.cabinetmedical.domain.utils.PermissionKey;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "secretaire")
@@ -30,7 +34,16 @@ public class SecretaireEntity {
     @JoinColumn(name = "idCabinet")
     private CabinetEntity cabinet;
 
-    public SecretaireEntity(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, CabinetEntity cabinet) {
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "secretaire_permissions",
+            joinColumns = @JoinColumn(name = "id_secretaire")
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "permission_key")
+    private Set<PermissionKey> permissionKeys = new HashSet<>();
+
+    public SecretaireEntity(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, CabinetEntity cabinet, Set<PermissionKey> permissionKeys) {
         this.idSecretaire = idSecretaire;
         this.nom = nom;
         this.prenom = prenom;
@@ -39,6 +52,7 @@ public class SecretaireEntity {
         this.salaire = salaire;
         this.telephone = telephone;
         this.cabinet = cabinet;
+        this.permissionKeys = permissionKeys;
     }
 
     public SecretaireEntity(){}
@@ -105,5 +119,13 @@ public class SecretaireEntity {
 
     public void setIdSecretaire(int idSecretaire) {
         this.idSecretaire = idSecretaire;
+    }
+
+    public Set<PermissionKey> getPermissionKeys() {
+        return permissionKeys;
+    }
+
+    public void setPermissionKeys(Set<PermissionKey> permissionKeys) {
+        this.permissionKeys = permissionKeys;
     }
 }
