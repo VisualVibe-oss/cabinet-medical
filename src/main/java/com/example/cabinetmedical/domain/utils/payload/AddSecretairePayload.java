@@ -1,5 +1,6 @@
 package com.example.cabinetmedical.domain.utils.payload;
 
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 
@@ -7,14 +8,14 @@ import java.util.List;
 
 public class AddSecretairePayload {
     private Secretaire secretaire;
-    private Medecin medecin;
+    private List<Secretaire> total;
     private int maxEmployees;
     List<String> existingSecretaireEmails;
     List<String> existingMedecinEmails;
 
-    public AddSecretairePayload(Secretaire secretaire, Medecin medecin, int maxEmployees,  List<String> existingSecretaireEmails, List<String> existingMedecinEmails) {
+    public AddSecretairePayload(Secretaire secretaire, List<Secretaire> total, int maxEmployees,  List<String> existingSecretaireEmails, List<String> existingMedecinEmails) {
         this.secretaire = secretaire;
-        this.medecin = medecin;
+        this.total = total;
         this.maxEmployees = maxEmployees;
         this.existingSecretaireEmails = existingSecretaireEmails;
         this.existingMedecinEmails = existingMedecinEmails;
@@ -29,13 +30,6 @@ public class AddSecretairePayload {
         this.secretaire = secretaire;
     }
 
-    public Medecin getMedecin() {
-        return medecin;
-    }
-
-    public void setMedecin(Medecin medecin) {
-        this.medecin = medecin;
-    }
 
     public int getMaxEmployees() {
         return maxEmployees;
@@ -43,6 +37,14 @@ public class AddSecretairePayload {
 
     public void setMaxEmployees(int maxEmployees) {
         this.maxEmployees = maxEmployees;
+    }
+
+    public List<Secretaire> getTotal() {
+        return total;
+    }
+
+    public void setTotal(List<Secretaire> total) {
+        this.total = total;
     }
 
     public List<String> getExistingSecretaireEmails() {
@@ -60,5 +62,6 @@ public class AddSecretairePayload {
     public void setExistingMedecinEmails(List<String> existingMedecinEmails) {
         this.existingMedecinEmails = existingMedecinEmails;
     }
+
 }
 
