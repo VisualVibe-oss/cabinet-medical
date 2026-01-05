@@ -2,6 +2,7 @@ package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -12,13 +13,18 @@ public class RendezVousEntity {
     private int idRendezVous;
 
     @Column(nullable = false)
-    private Date dateRendezVous;
+    private LocalDateTime dateDebutRendezVous;
+    @Column(nullable = false)
+    private LocalDateTime dateFinRendezVous;
 
     @Column(nullable = false)
     private String motif;
 
     @Column(nullable = false)
     private String statut;
+
+    @Column(nullable = false)
+    private float prix;
 
     @Column(nullable = false)
     private String notes;
@@ -34,9 +40,10 @@ public class RendezVousEntity {
     @OneToOne(mappedBy = "rendezVous")
     private ConsultationEntity consultation;
 
-    public RendezVousEntity(int idRendezVous, Date dateRendezVous, String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
+    public RendezVousEntity(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif, String statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {
         this.idRendezVous = idRendezVous;
-        this.dateRendezVous = dateRendezVous;
+        this.dateDebutRendezVous = dateDebutRendezVous;
+        this.dateFinRendezVous = dateFinRendezVous;
         this.motif = motif;
         this.statut = statut;
         this.notes = notes;
@@ -54,13 +61,6 @@ public class RendezVousEntity {
         this.idRendezVous = idRendezVous;
     }
 
-    public Date getDateRendezVous() {
-        return dateRendezVous;
-    }
-
-    public void setDateRendezVous(Date dateRendezVous) {
-        this.dateRendezVous = dateRendezVous;
-    }
 
     public String getMotif() {
         return motif;
@@ -108,5 +108,21 @@ public class RendezVousEntity {
 
     public void setConsultation(ConsultationEntity consultation) {
         this.consultation = consultation;
+    }
+
+    public LocalDateTime getDateDebutRendezVous() {
+        return dateDebutRendezVous;
+    }
+
+    public void setDateDebutRendezVous(LocalDateTime dateDebutRendezVous) {
+        this.dateDebutRendezVous = dateDebutRendezVous;
+    }
+
+    public LocalDateTime getDateFinRendezVous() {
+        return dateFinRendezVous;
+    }
+
+    public void setDateFinRendezVous(LocalDateTime dateFinRendezVous) {
+        this.dateFinRendezVous = dateFinRendezVous;
     }
 }

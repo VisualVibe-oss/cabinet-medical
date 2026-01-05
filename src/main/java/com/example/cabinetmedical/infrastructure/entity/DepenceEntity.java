@@ -1,5 +1,6 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
+import com.example.cabinetmedical.domain.utils.DepenceType;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,31 +18,52 @@ public class DepenceEntity {
     @Column(nullable = false)
     private Float prix;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String type;
+    private DepenceType type; //
 
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
+    @Column
     private int periodeJour;
+
+    @Column
+    private Date lastGenratedDate;
+
+    @Column
+    private Date anchorDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idParent")
+    private DepenceEntity parent;
 
     @ManyToOne
     @JoinColumn(name="idCabinet")
     private CabinetEntity cabinet;
 
-    public DepenceEntity(int idDepence, String description, Float prix, String type, Date date, int periodeJour, CabinetEntity cabinet) {
+    public DepenceEntity(int idDepence, String description, Float prix, DepenceType type, Date date, int periodeJour,Date lastGenratedDate, Date anchorDate , DepenceEntity parent, CabinetEntity cabinet) {
         this.idDepence = idDepence;
         this.description = description;
         this.prix = prix;
         this.type = type;
         this.date = date;
         this.periodeJour = periodeJour;
+        this.lastGenratedDate = lastGenratedDate;
+        this.anchorDate = anchorDate;
+        this.parent = parent;
         this.cabinet = cabinet;
     }
 
     public DepenceEntity() {
 
+    }
+
+    public DepenceEntity getParent() {
+        return parent;
+    }
+
+    public void setParent(DepenceEntity parent) {
+        this.parent = parent;
     }
 
     public int getIdDepence() {
@@ -68,11 +90,11 @@ public class DepenceEntity {
         this.prix = prix;
     }
 
-    public String getType() {
+    public DepenceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DepenceType type) {
         this.type = type;
     }
 
@@ -99,4 +121,22 @@ public class DepenceEntity {
     public void setCabinet(CabinetEntity cabinet) {
         this.cabinet = cabinet;
     }
+
+    public Date getLastGenratedDate() {
+        return lastGenratedDate;
+    }
+
+    public void setLastGenratedDate(Date lastGenratedDate) {
+        this.lastGenratedDate = lastGenratedDate;
+    }
+
+    public Date getAnchorDate() {
+        return anchorDate;
+    }
+
+    public void setAnchorDate(Date anchorDate) {
+        this.anchorDate = anchorDate;
+    }
+
+
 }
