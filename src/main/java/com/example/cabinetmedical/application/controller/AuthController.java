@@ -84,7 +84,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody LoginDTO loginData, HttpServletResponse res) {
+    public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody LoginDTO loginData, HttpServletResponse res) {
 
         UserDTO user = authService.login(loginData);
 
@@ -137,4 +137,27 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().body("Aucun utilisateur connecté");
     }
+
+
+
+
+
+     @PostMapping("/login/admin")
+    public ResponseEntity<ApiResponse<UserDTO>> loginAdmin(@RequestBody LoginDTO loginData, HttpServletResponse res) {
+
+        UserDTO user = authService.login(loginData);
+
+        String accessToken = jwtService.generateAccesToken(user);
+        String refreshToken = jwtService.generateAndSaveRefreshToken(user);
+        setHeaders(accessToken, refreshToken, res);
+        ApiResponse<UserDTO> apiResponse = ApiResponse.<UserDTO>builder()
+                .data(user)
+                .message("User registered successfully")
+                .status(HttpStatus.CREATED.value())
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
 }

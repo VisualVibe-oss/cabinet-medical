@@ -13,7 +13,7 @@ public class DossierMedicalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idDossier;
+    private Integer idDossier;
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)

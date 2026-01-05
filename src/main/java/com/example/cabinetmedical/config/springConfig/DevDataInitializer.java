@@ -32,8 +32,11 @@ public class DevDataInitializer {
             PatientEntity patient1 = dataLoader.createPatient(cabinet, "Alami");
             PatientEntity patient2 = dataLoader.createPatient(cabinet, "Touzani");
 
-            dataLoader.createRendezVous(cabinet, patient1);
+            RendezVousEntity rendezVous = dataLoader.createRendezVous(cabinet, patient1);
             dataLoader.createRendezVous(cabinet, patient2);
+
+            ConsultationEntity consultationEntity =  dataLoader.createConsultationWithoutDossierMedical(rendezVous) ;
+            dataLoader.createDossierMedical(cabinet, consultationEntity, patient1);
 
             System.out.println("--- Données insérées avec succès ---");
         };

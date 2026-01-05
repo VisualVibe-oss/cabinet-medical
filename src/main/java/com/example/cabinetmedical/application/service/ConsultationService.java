@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.catalina.connector.Request;
 import org.springframework.stereotype.Service;
 
+import com.example.cabinetmedical.application.dto.ConsultationResponseDTO;
 import com.example.cabinetmedical.application.dto.FactureDTO;
 import com.example.cabinetmedical.application.dto.RequestConsultationDTO;
 import com.example.cabinetmedical.application.dto.UserDTO;
@@ -26,6 +27,7 @@ import com.example.cabinetmedical.infrastructure.entity.FactureEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.ConsultationMapper;
+import com.example.cabinetmedical.infrastructure.mapper.ConsultationResponseMapper;
 import com.example.cabinetmedical.infrastructure.mapper.FactureMapper;
 import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
@@ -139,5 +141,28 @@ public class ConsultationService {
 
         return true ; 
     
+    }
+
+
+
+
+
+
+    public List<ConsultationResponseDTO> getPreviousConsultationsByRendezVousId(int idRendezVous) {
+
+        // 1️⃣ Charger le rendez-vous
+        RendezVousEntity rendezVous = springRendezVousRepository.findById(idRendezVous)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        // 2️⃣ Récupérer le patient
+        int patientId = rendezVous.getPatient().getIdPatient();
+
+        // 3️⃣ Charger toutes les consultations du patient
+        List<ConsultationEntity> consultations =
+                consultationRepository.findAllByPatientId(patientId);
+
+        return consultations.stream()
+                .map((consultationEntity) -> ConsultationResponseMapper.toDTO(consultationEntity))
+                .toList();
     }
 }

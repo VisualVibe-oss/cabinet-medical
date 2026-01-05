@@ -33,6 +33,17 @@ public class MedciamentOrdonnanceEntity {
     @Column(nullable = true)
     private String Dosage ;
 
+
+    public MedciamentOrdonnanceEntity(MedicamentEntity medicament, OrdonnanceMedEntity ordonnanceMed, String duration, String dosage) {
+        this.medicament = medicament;
+        this.ordonnanceMed = ordonnanceMed;
+        this.duration = duration;
+        this.Dosage = dosage;
+    }
+
+    public MedciamentOrdonnanceEntity() {
+    }
+
     public int getIdMedciamentOrdonnance() {
         return idMedciamentOrdonnance;
     }
@@ -63,5 +74,8 @@ public class MedciamentOrdonnanceEntity {
     public void setOrdonnanceMed(OrdonnanceMedEntity ordonnanceMed) {
         this.ordonnanceMed = ordonnanceMed;
     }
+
+
+
 
 }

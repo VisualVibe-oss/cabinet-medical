@@ -9,7 +9,7 @@ import java.util.List;
 public class ConsultationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idConsultation;
+    private Integer idConsultation;
 
     @Column(nullable = true)
     private String type;

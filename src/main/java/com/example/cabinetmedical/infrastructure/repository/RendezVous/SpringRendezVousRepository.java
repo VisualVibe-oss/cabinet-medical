@@ -1,9 +1,11 @@
 package com.example.cabinetmedical.infrastructure.repository.RendezVous;
 
 import com.example.cabinetmedical.domain.utils.RendezVousState;
+import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,4 +29,8 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     RendezVousEntity findByPatient_IdPatient(int idPatient);
 
     RendezVousEntity findByIdRendezVous(int idRendezVous);
+   // Méthode personnalisée pour récupérer le Patient via l'ID du RendezVous
+    @Query("SELECT r.patient FROM RendezVousEntity r WHERE r.idRendezVous = :id")
+    Optional<PatientEntity> findPatientByIdRendezVous(@Param("id") int idRendezVous);
+
 }
