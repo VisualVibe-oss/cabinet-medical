@@ -5,6 +5,8 @@ import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 //TEMPORARY
 @Component
 public class RendezVousMapper {
@@ -12,17 +14,23 @@ public class RendezVousMapper {
     private PatientMapper pm;
     private CabinetMapper cm;
 
+    public RendezVousMapper(PatientMapper pm, CabinetMapper cm) {
+        this.pm = pm;
+        this.cm = cm;
+    }
+
     public RendezVousEntity toEntity(RendezVous rv){
 
 
         RendezVousEntity rve = new RendezVousEntity();
 
         rve.setIdRendezVous(rv.getIdRendezVous());
-        rve.setDateRendezVous(rv.getDateRendezVous());
+        rve.setDateDebutRendezVous(rv.getDateDebutRendezVous());
+        rve.setDateFinRendezVous(rv.getDateFinRendezVous());
         rve.setMotif(rv.getMotif());
         rve.setStatut(rv.getStatut());
         rve.setNotes(rv.getNotes());
-        rve.setPatient(this.pm.toEntity(rv.getPatient()));
+        rve.setPatient(null);
         rve.setCabinet(this.cm.toEntity(rv.getCabinet()));
 
         return rve;
@@ -32,11 +40,12 @@ public class RendezVousMapper {
         RendezVous rv = new RendezVous();
 
         rv.setIdRendezVous(rve.getIdRendezVous());
-        rv.setDateRendezVous(rve.getDateRendezVous());
+        rv.setDateDebutRendezVous(rve.getDateDebutRendezVous());
+        rv.setDateFinRendezVous(rve.getDateFinRendezVous());
         rv.setMotif(rve.getMotif());
         rv.setStatut(rve.getStatut());
         rv.setNotes(rve.getNotes());
-        rv.setPatient(this.pm.toDomain(rve.getPatient()));
+        rv.setPatient(null);
         rv.setCabinet(this.cm.toDomain(rve.getCabinet()));
 
         return rv;
@@ -46,7 +55,8 @@ public class RendezVousMapper {
         RendezVous rv = new RendezVous();
 
         rv.setIdRendezVous(rvDTO.getIdRendezVous());
-        rv.setDateRendezVous(rvDTO.getDateRendezVous());
+        rv.setDateDebutRendezVous(rvDTO.getDateDebutRendezVous());
+        rv.setDateFinRendezVous(rvDTO.getDateFinRendezVous());
         rv.setMotif(rvDTO.getMotif());
         rv.setStatut(rvDTO.getStatut());
         rv.setNotes(rvDTO.getNotes());
@@ -58,7 +68,8 @@ public class RendezVousMapper {
         RendezVousDTO rvDTO = new RendezVousDTO();
 
         rvDTO.setIdRendezVous(rv.getIdRendezVous());
-        rvDTO.setDateRendezVous(rv.getDateRendezVous());
+        rvDTO.setDateDebutRendezVous(rv.getDateDebutRendezVous());
+        rvDTO.setDateFinRendezVous(rv.getDateFinRendezVous());
         rvDTO.setMotif(rv.getMotif());
         rvDTO.setStatut(rv.getStatut());
         rvDTO.setNotes(rv.getNotes());
@@ -71,11 +82,20 @@ public class RendezVousMapper {
         RendezVousDTO rvDTO = new RendezVousDTO();
 
         rvDTO.setIdRendezVous(rve.getIdRendezVous());
-        rvDTO.setDateRendezVous(rve.getDateRendezVous());
+        rvDTO.setDateDebutRendezVous(rve.getDateDebutRendezVous());
+        rvDTO.setDateFinRendezVous(rve.getDateFinRendezVous());
         rvDTO.setMotif(rve.getMotif());
         rvDTO.setStatut(rve.getStatut());
         rvDTO.setNotes(rve.getNotes());
 
         return rvDTO;
+    }
+
+    public List<RendezVousDTO> toDTOList(List<RendezVousEntity> rveList){
+        return rveList.stream().map(this::toDTO).toList();
+    }
+
+    public List<RendezVous> toDomainList(List<RendezVousDTO> rvdtoList){
+        return rvdtoList.stream().map(this::toDomain).toList();
     }
 }

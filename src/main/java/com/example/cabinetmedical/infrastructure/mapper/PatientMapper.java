@@ -10,23 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//TEMPORARY
 @Component
 public class PatientMapper {
-    RendezVousMapper rvm = new RendezVousMapper();
-    CabinetMapper cm = new CabinetMapper();
 
-    public PatientEntity toEntity(Patient p){
+    private final CabinetMapper cm;
 
+    public PatientMapper(CabinetMapper cm) {
+        this.cm = cm;
+    }
+
+    public PatientEntity toEntity(Patient p) {
         PatientEntity pe = new PatientEntity();
-
-        List<RendezVousEntity> rendezVousEntities = null;
-        if (p.getRendezVous() != null) {
-            rendezVousEntities = p.getRendezVous()
-                    .stream()
-                    .map(rvm::toEntity)
-                    .collect(Collectors.toList());
-        }
 
         pe.setIdPatient(p.getIdPatient());
         pe.setNom(p.getNom());
@@ -38,23 +32,16 @@ public class PatientMapper {
         pe.setDateNaissance(p.getDateNaissance());
         pe.setTypeMutuelle(p.getTypeMutuelle());
         pe.setCabinet(cm.toEntity(p.getCabinet()));
-        pe.setRendezVous(rendezVousEntities);
+
+        // 🚫 DO NOT map rendezvous here
+        pe.setRendezVous(null);
 
         return pe;
     }
 
-    public Patient toDomain(PatientEntity pe){
-
-
+    public Patient toDomain(PatientEntity pe) {
         Patient p = new Patient();
 
-        List<RendezVous> rendezVousDomains = null;
-        if (pe.getRendezVous() != null) {
-            rendezVousDomains = pe.getRendezVous()
-                    .stream()
-                    .map(rvm::toDomain)
-                    .collect(Collectors.toList());
-        }
         p.setIdPatient(pe.getIdPatient());
         p.setNom(pe.getNom());
         p.setPrenom(pe.getPrenom());
@@ -65,7 +52,9 @@ public class PatientMapper {
         p.setDateNaissance(pe.getDateNaissance());
         p.setTypeMutuelle(pe.getTypeMutuelle());
         p.setCabinet(cm.toDomain(pe.getCabinet()));
-        p.setRendezVous(rendezVousDomains);
+
+        // 🚫 DO NOT map rendezvous here
+        p.setRendezVous(null);
 
         return p;
     }
