@@ -16,24 +16,23 @@ public class AddSecretaire implements Functionnalitie {
         if (param==null || param.getPayload()==null){
             throw new IllegalArgumentException("param or the payload is null");
         }
+
+
         if (!(param.getPayload() instanceof AddSecretairePayload)){
             throw new IllegalArgumentException("the payload is not of type AddSecretairePayload");
         }
         AddSecretairePayload payload = (AddSecretairePayload) param.getPayload();
 
-        if (payload.getMedecin()==null || payload.getSecretaire()==null){
-            throw new IllegalArgumentException("the doctor or secretary are null");
+        if (payload.getSecretaire()==null){
+            throw new IllegalArgumentException("secretary is null");
         }
-        Cabinet cabinet = payload.getMedecin().getCabinet();
+        Cabinet cabinet = payload.getSecretaire().getCabinet();
         if (cabinet==null){
             throw new IllegalArgumentException("the office is null");
         }
-        if (!(cabinet.getOffre().getFeaturekeys().contains(param.getKey()))){
-            return new FeatureResponce(param.getKey(), "the current subscription tier does not allow for this functionality");
-        }
-        List<Secretaire> secretaires = cabinet.getSecretaire();
-        int currentTotal = (secretaires ==null) ? 0 : secretaires.size();
-        if (currentTotal > payload.getMaxEmployees()){
+        List<Secretaire> secretaires = payload.getTotal();
+        int currentTotal = secretaires.size();
+        if (currentTotal >= payload.getMaxEmployees()){
             return new FeatureResponce(param.getKey(), "Limit Reached for the current pack");
         }
 

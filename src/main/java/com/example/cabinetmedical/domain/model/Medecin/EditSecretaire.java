@@ -5,6 +5,7 @@ import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
+import com.example.cabinetmedical.domain.utils.payload.AddSecretairePayload;
 import com.example.cabinetmedical.domain.utils.payload.EditSecretairePayload;
 
 import java.util.Set;
@@ -13,8 +14,17 @@ public class EditSecretaire implements Functionnalitie {
 
     @Override
     public FeatureResponce performWork(FeatureParameter param){
-       EditSecretairePayload p =  (EditSecretairePayload) param.getPayload();
+        if (param==null || param.getPayload()==null){
+            throw new IllegalArgumentException("param or the payload is null");
+        }
+        if (!(param.getPayload() instanceof EditSecretairePayload)){
+            throw new IllegalArgumentException("the payload is not of type EditSecretairePayload");
+        }
+       EditSecretairePayload p = (EditSecretairePayload) param.getPayload();
        Secretaire s = p.getSecretaire();
+       if (s == null){
+           throw new IllegalArgumentException("secretaire is null");
+       }
 
         if (p.getSalaire() < 0) {
             throw new IllegalArgumentException("invalid salary");

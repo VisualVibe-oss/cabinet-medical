@@ -1,31 +1,33 @@
 package com.example.cabinetmedical.domain.model.Medecin;
 
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
-import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.domain.utils.payload.AddSecretairePayload;
-import com.example.cabinetmedical.domain.utils.payload.DeleteSecretairePayload;
-import com.example.cabinetmedical.exception.SecretaireNotInCabinetException;
+import com.example.cabinetmedical.exception.DepenceNotFoundException;
+import com.example.cabinetmedical.exception.DepenceNotInCabinetException;
 
-public class DeleteSecretaire implements Functionnalitie {
+public class DeleteDepence implements Functionnalitie {
 
     @Override
     public FeatureResponce performWork(FeatureParameter param){
+
         if (param==null || param.getPayload()==null){
             throw new IllegalArgumentException("param or the payload is null");
         }
-        if (!(param.getPayload() instanceof Secretaire)){
-            throw new IllegalArgumentException("the payload is not of type Secretaire");
+        if (!(param.getPayload() instanceof Depence)){
+            throw new IllegalArgumentException("the payload is not of type Depence");
         }
-        Secretaire secretaire = (Secretaire) param.getPayload();
+        Depence depence = (Depence) param.getPayload();
 
-        if (secretaire == null){
-            throw new IllegalArgumentException("secretaire is null");
+        if (depence == null){
+            throw new DepenceNotFoundException("depence is null");
         }
 
-        return new FeatureResponce<>(Featurekey.DELETE_SECRETAIRE, secretaire);
+
+        return new FeatureResponce(Featurekey.DELETE_DEPENCE, depence);
     }
 }
