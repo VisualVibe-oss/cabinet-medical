@@ -1,10 +1,10 @@
 package com.example.cabinetmedical.domain.utils;
 
-public class FeatureResponce <T> {
-    Featurekey key ; 
-    T payload ; 
+public class PermissionResponce<T> {
+    PermissionKey key ;
+    T payload ;
 
-    public FeatureResponce(Featurekey key , T payload){
+    public PermissionResponce(PermissionKey key , T payload){
         this.key = key;
         this.payload = payload;
     }

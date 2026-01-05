@@ -1,16 +1,16 @@
 package com.example.cabinetmedical.domain.utils;
 
-public class FeatureParameter<T> {
-    Featurekey key ; 
-    T payload ; 
+public class PermissionParameter<T> {
+    PermissionKey key ;
+    T payload ;
 
-    public FeatureParameter(Featurekey key , T payload){
+    public PermissionParameter(PermissionKey key , T payload){
         this.key = key;
         this.payload = payload;
     }
 
 
-     public Featurekey getKey() {
+    public PermissionKey getKey() {
         return key;
     }
 
@@ -18,7 +18,7 @@ public class FeatureParameter<T> {
         return payload;
     }
 
-    public void setKey(Featurekey key) {
+    public void setKey(PermissionKey key) {
         this.key = key;
     }
 

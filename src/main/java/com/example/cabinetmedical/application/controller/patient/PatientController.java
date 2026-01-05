@@ -20,16 +20,108 @@ public class PatientController {
         this.patientAppService = patientAppService;
     }
 
+    // ============ OPÉRATIONS NÉCESSITANT DES PERMISSIONS ============
 
+    /**
+     * Créer un patient (nécessite permission CREE_PATIENT)
+     */
     @PostMapping
-    public ResponseEntity<ApiResponse<PatientDTO>> createPatient(@RequestBody PatientDTO patientDTO) {
-        PatientDTO createdPatient = patientAppService.createPatient(patientDTO);
+    public ResponseEntity<ApiResponse<PatientDTO>> createPatient(
+            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+            @RequestBody PatientDTO patientDTO) {
+
+        PatientDTO createdPatient = patientAppService.createPatient(idSecretaire, patientDTO);
         ApiResponse<PatientDTO> response = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
                 "Patient créé avec succès",
                 createdPatient
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Mettre à jour un patient (nécessite permission MODIFIER_PATIENT)
+     */
+    @PutMapping("/{idPatient}")
+    public ResponseEntity<ApiResponse<PatientDTO>> updatePatient(
+            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+            @PathVariable int idPatient,
+            @RequestBody PatientDTO patientDTO) {
+
+        PatientDTO updatedPatient = patientAppService.updatePatient(idSecretaire, idPatient, patientDTO);
+        ApiResponse<PatientDTO> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Patient mis à jour avec succès",
+                updatedPatient
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    //supp
+    @DeleteMapping("/{idPatient}")
+    public ResponseEntity<ApiResponse<Void>> deletePatient(
+            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+            @PathVariable int idPatient) {
+
+        patientAppService.deletePatient(idSecretaire, idPatient);
+        ApiResponse<Void> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Patient supprimé avec succès",
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Créer un dossier médical (nécessite permission CREE_DOSSIER_MEDICAL)
+     */
+    @PostMapping("/{idPatient}/dossier")
+    public ResponseEntity<ApiResponse<DossierMedicalDTO>> associateDossierMedical(
+            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+            @PathVariable int idPatient,
+            @RequestBody DossierMedicalDTO dossierDTO) {
+
+        DossierMedicalDTO dossier = patientAppService.associateDossierMedical(idSecretaire, idPatient, dossierDTO);
+        ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
+                HttpStatus.CREATED.value(),
+                "Dossier médical créé avec succès",
+                dossier
+        );
+        return ResponseEntity. status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Mettre à jour un dossier médical (nécessite permission MODIFIER_DOSSIER_MEDICAL)
+     */
+    @PutMapping("/{idPatient}/dossier")
+    public ResponseEntity<ApiResponse<DossierMedicalDTO>> updateDossierMedical(
+            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+            @PathVariable int idPatient,
+            @RequestBody DossierMedicalDTO dossierDTO) {
+
+        DossierMedicalDTO dossier = patientAppService. updateDossierMedical(idSecretaire, idPatient, dossierDTO);
+        ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Dossier médical mis à jour avec succès",
+                dossier
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    // ============ OPÉRATIONS DE CONSULTATION (SANS PERMISSIONS) ============
+
+    /**
+     * Récupérer un patient par son ID
+     */
+    @GetMapping("/{idPatient}")
+    public ResponseEntity<ApiResponse<PatientDTO>> getPatientById(@PathVariable int idPatient) {
+        PatientDTO patient = patientAppService.getPatientById(idPatient);
+        ApiResponse<PatientDTO> response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Patient récupéré avec succès",
+                patient
+        );
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -50,8 +142,11 @@ public class PatientController {
      * Rechercher des patients par nom
      */
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<PatientDTO>>> searchPatientsByNom(@RequestParam String nom,@RequestParam int idCabinet) {
-        List<PatientDTO> patients = patientAppService.getPatientsByNomAndCabinet(nom,idCabinet);
+    public ResponseEntity<ApiResponse<List<PatientDTO>>> searchPatientsByNom(
+            @RequestParam String nom,
+            @RequestParam int idCabinet) {
+
+        List<PatientDTO> patients = patientAppService.getPatientsByNomAndCabinet(nom, idCabinet);
         ApiResponse<List<PatientDTO>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Patients trouvés avec succès",
@@ -59,89 +154,20 @@ public class PatientController {
         );
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Rechercher un patient par CIN
+     */
     @GetMapping("/cin/{cin}/cabinet/{idCabinet}")
-    public ResponseEntity<ApiResponse<PatientDTO>> getPatientByCin(@PathVariable String cin,@PathVariable int idCabinet) {
-        PatientDTO patient = patientAppService.getPatientByCinAndCabinet(cin,idCabinet);
+    public ResponseEntity<ApiResponse<PatientDTO>> getPatientByCin(
+            @PathVariable String cin,
+            @PathVariable int idCabinet) {
+
+        PatientDTO patient = patientAppService.getPatientByCinAndCabinet(cin, idCabinet);
         ApiResponse<PatientDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Patient trouvé avec succès",
                 patient
-        );
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Récupérer un patient par son ID
-     */
-    @GetMapping("/{idPatient}")
-    public ResponseEntity<ApiResponse<PatientDTO>> getPatientById(@PathVariable int idPatient) {
-        PatientDTO patient = patientAppService.getPatientById(idPatient);
-        ApiResponse<PatientDTO> response = new ApiResponse<>(
-                HttpStatus.OK.value(),
-                "Patient récupéré avec succès",
-                patient
-        );
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Mettre à jour un patient
-     */
-    @PutMapping("/{idPatient}")
-    public ResponseEntity<ApiResponse<PatientDTO>> updatePatient(
-            @PathVariable int idPatient,
-            @RequestBody PatientDTO patientDTO) {
-        PatientDTO updatedPatient = patientAppService. updatePatient(idPatient, patientDTO);
-        ApiResponse<PatientDTO> response = new ApiResponse<>(
-                HttpStatus.OK.value(),
-                "Patient mis à jour avec succès",
-                updatedPatient
-        );
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Supprimer un patient
-     */
-    @DeleteMapping("/{idPatient}")
-    public ResponseEntity<ApiResponse<Void>> deletePatient(@PathVariable int idPatient) {
-        patientAppService.deletePatient(idPatient);
-        ApiResponse<Void> response = new ApiResponse<>(
-                HttpStatus.OK.value(),
-                "Patient supprimé avec succès",
-                null
-        );
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Associer un dossier médical à un patient
-     */
-    @PostMapping("/{idPatient}/dossier")
-    public ResponseEntity<ApiResponse<DossierMedicalDTO>> associateDossierMedical(
-            @PathVariable int idPatient,
-            @RequestBody DossierMedicalDTO dossierDTO) {
-        DossierMedicalDTO dossier = patientAppService.associateDossierMedical(idPatient, dossierDTO);
-        ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
-                HttpStatus.CREATED.value(),
-                "Dossier médical associé avec succès",
-                dossier
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    /**
-     * Mettre à jour le dossier médical
-     */
-    @PutMapping("/{idPatient}/dossier")
-    public ResponseEntity<ApiResponse<DossierMedicalDTO>> updateDossierMedical(
-            @PathVariable int idPatient,
-            @RequestBody DossierMedicalDTO dossierDTO) {
-        DossierMedicalDTO dossier = patientAppService. updateDossierMedical(idPatient, dossierDTO);
-        ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
-                HttpStatus.OK.value(),
-                "Dossier médical mis à jour avec succès",
-                dossier
         );
         return ResponseEntity.ok(response);
     }

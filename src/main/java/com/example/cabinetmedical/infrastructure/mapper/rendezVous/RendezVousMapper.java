@@ -1,112 +1,156 @@
 package com.example.cabinetmedical.infrastructure.mapper.rendezVous;
 
 import com.example.cabinetmedical.application.dto.rendezVous.RendezVousDTO;
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.domain.model.rendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
+import com.example.cabinetmedical.infrastructure.mapper.cabinet.CabinetMapper;
+import com.example.cabinetmedical.infrastructure.mapper.patient.PatientMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RendezVousMapper {
-    public RendezVousDTO toDTO(RendezVousEntity entity) {
-        if (entity == null) return null;
 
-        return RendezVousDTO.builder()
-                .idRendezVous(entity.getIdRendezVous())
-                .dateRendezVous(entity.getDateRendezVous())
-                .motif(entity.getMotif())
-                .statut(entity.getStatut())
-                .notes(entity.getNotes())
-                .idCabinet(entity.getCabinet() != null ? entity.getCabinet().getIdCabinet() : null)
-                .idPatient(entity. getPatient() != null ? entity.getPatient().getIdPatient() : null)
-                .nomPatient(entity.getPatient() != null ? entity.getPatient().getNom() : null)
-                .prenomPatient(entity.getPatient() != null ? entity.getPatient().getPrenom() : null)
-                .telephonePatient(entity.getPatient() != null ? entity.getPatient().getTelephone() : null)
-                .cinPatient(entity.getPatient() != null ? entity.getPatient().getCin() : null)
-                .build();
+    private final CabinetMapper cabinetMapper;
+    private final PatientMapper patientMapper;
+
+    public RendezVousMapper(CabinetMapper cabinetMapper, PatientMapper patientMapper) {
+        this.cabinetMapper = cabinetMapper;
+        this. patientMapper = patientMapper;
     }
 
-    // Domain to DTO
-    public RendezVousDTO toDTO(RendezVous rv) {
-        if (rv == null) return null;
-
-        return RendezVousDTO.builder()
-                .idRendezVous(rv.getIdRendezVous())
-                .dateRendezVous(rv. getDateRendezVous())
-                .motif(rv.getMotif())
-                .statut(rv.getStatut())
-                .notes(rv.getNotes())
-                .idCabinet(rv.getCabinet() != null ? rv.getCabinet().getIdCabinet() : null)
-                .idPatient(rv.getPatient() != null ? rv.getPatient().getIdPatient() : null)
-                .nomPatient(rv. getPatient() != null ? rv.getPatient().getNom() : null)
-                .prenomPatient(rv.getPatient() != null ? rv.getPatient().getPrenom() : null)
-                .telephonePatient(rv.getPatient() != null ? rv.getPatient().getTelephone() : null)
-                .cinPatient(rv. getPatient() != null ? rv.getPatient().getCin() : null)
-                .build();
-    }
-
-    // DTO to domain
-    public RendezVous toDomain(RendezVousDTO dto) {
-        if (dto == null) return null;
-
-        RendezVous rv = new RendezVous();
-
-        if (dto.getIdRendezVous() != null) {
-            rv.setIdRendezVous(dto.getIdRendezVous());
+    /**
+     * Entity → Domain
+     */
+    public RendezVous toDomain(RendezVousEntity entity) {
+        if (entity == null) {
+            return null;
         }
 
-        rv.setDateRendezVous(dto.getDateRendezVous());
-        rv.setMotif(dto.getMotif());
-        rv.setStatut(dto.getStatut());
-        rv.setNotes(dto.getNotes());
+        RendezVous domain = new RendezVous();
+        domain.setIdRendezVous(entity.getIdRendezVous());
+        domain.setDateRendezVous(entity. getDateRendezVous());
+        domain.setMotif(entity.getMotif());
+        domain.setStatut(entity.getStatut());
+        domain.setNotes(entity.getNotes());
 
-        // Cabinet et Patient seront settés par le service
-        return rv;
+        // Mapper les relations
+        if (entity.getCabinet() != null) {
+            domain.setCabinet(cabinetMapper. toDomain(entity.getCabinet()));
+        }
+
+        if (entity.getPatient() != null) {
+            domain.setPatient(patientMapper.toDomain(entity.getPatient()));
+        }
+
+        return domain;
     }
 
-    // Entity to domain
-    public RendezVous toDomain(RendezVousEntity entity) {
-        if (entity == null) return null;
+    /**
+     * DTO → Domain
+     */
+    public RendezVous toDomain(RendezVousDTO dto) {
+        if (dto == null) {
+            return null;
+        }
 
-        RendezVous rv = new RendezVous();
-        rv.setIdRendezVous(entity.getIdRendezVous());
-        rv.setDateRendezVous(entity.getDateRendezVous());
-        rv.setMotif(entity.getMotif());
-        rv.setStatut(entity.getStatut());
-        rv.setNotes(entity.getNotes());
+        RendezVous domain = new RendezVous();
+        domain.setIdRendezVous(dto.getIdRendezVous() != null ? dto.getIdRendezVous() : 0);
+        domain.setDateRendezVous(dto.getDateRendezVous());
+        domain.setMotif(dto.getMotif());
+        domain.setStatut(dto. getStatut());
+        domain.setNotes(dto.getNotes());
 
+        // Créer des objets Cabinet et Patient avec uniquement les IDs
+        if (dto.getIdCabinet() != null) {
+            Cabinet cabinet = new Cabinet();
+            cabinet.setIdCabinet(dto.getIdCabinet());
+            domain. setCabinet(cabinet);
+        }
 
-        return rv;
+        if (dto.getIdPatient() != null) {
+            Patient patient = new Patient();
+            patient.setIdPatient(dto.getIdPatient());
+            domain.setPatient(patient);
+        }
+
+        return domain;
     }
 
-    // Domain to ent
-    public RendezVousEntity toEntity(RendezVous rv) {
-        if (rv == null) return null;
+    /**
+     * Domain → Entity
+     */
+    public RendezVousEntity toEntity(RendezVous domain) {
+        if (domain == null) {
+            return null;
+        }
 
         RendezVousEntity entity = new RendezVousEntity();
-        entity.setIdRendezVous(rv.getIdRendezVous());
-        entity.setDateRendezVous(rv.getDateRendezVous());
-        entity.setMotif(rv.getMotif());
-        entity.setStatut(rv.getStatut());
-        entity.setNotes(rv.getNotes());
-
-        // Les relations (Cabinet, Patient) seront déjà settées dans le service
-        // On les copie directement depuis le domain
-        if (rv.getCabinet() != null) {
-            // Créer une CabinetEntity minimale juste avec l'ID
-            com.example.cabinetmedical.infrastructure.entity.CabinetEntity cabinetEntity =
-                    new com.example.cabinetmedical.infrastructure.entity.CabinetEntity();
-            cabinetEntity.setIdCabinet(rv.getCabinet().getIdCabinet());
-            entity.setCabinet(cabinetEntity);
+        if (domain.getIdRendezVous() > 0) {
+            entity. setIdRendezVous(domain.getIdRendezVous());
         }
+        entity.setDateRendezVous(domain. getDateRendezVous());
+        entity.setMotif(domain.getMotif());
+        entity.setStatut(domain.getStatut());
+        entity.setNotes(domain.getNotes());
 
-        if (rv.getPatient() != null) {
-            // Créer une PatientEntity minimale juste avec l'ID
-            com.example.cabinetmedical.infrastructure.entity.PatientEntity patientEntity =
-                    new com. example.cabinetmedical. infrastructure.entity.PatientEntity();
-            patientEntity.setIdPatient(rv.getPatient().getIdPatient());
-            entity.setPatient(patientEntity);
-        }
+        // Note: Les relations (cabinet, patient) doivent être chargées depuis la DB
+        // dans le service avant la sauvegarde
 
         return entity;
+    }
+
+    /**
+     * Entity → DTO
+     */
+    public RendezVousDTO toDTO(RendezVousEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        RendezVousDTO dto = new RendezVousDTO();
+        dto.setIdRendezVous(entity.getIdRendezVous());
+        dto.setDateRendezVous(entity. getDateRendezVous());
+        dto.setMotif(entity.getMotif());
+        dto.setStatut(entity.getStatut());
+        dto.setNotes(entity.getNotes());
+
+        // Mapper les IDs des relations
+        if (entity.getCabinet() != null) {
+            dto.setIdCabinet(entity.getCabinet().getIdCabinet());
+        }
+
+        if (entity.getPatient() != null) {
+            dto.setIdPatient(entity. getPatient().getIdPatient());
+        }
+
+        return dto;
+    }
+
+    /**
+     * Domain → DTO
+     */
+    public RendezVousDTO toDTO(RendezVous domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        RendezVousDTO dto = new RendezVousDTO();
+        dto.setIdRendezVous(domain.getIdRendezVous());
+        dto.setDateRendezVous(domain.getDateRendezVous());
+        dto.setMotif(domain.getMotif());
+        dto.setStatut(domain.getStatut());
+        dto.setNotes(domain.getNotes());
+
+        if (domain.getCabinet() != null) {
+            dto.setIdCabinet(domain.getCabinet().getIdCabinet());
+        }
+
+        if (domain.getPatient() != null) {
+            dto.setIdPatient(domain.getPatient().getIdPatient());
+        }
+
+        return dto;
     }
 }

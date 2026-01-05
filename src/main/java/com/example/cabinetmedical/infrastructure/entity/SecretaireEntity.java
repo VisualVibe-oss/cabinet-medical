@@ -1,6 +1,9 @@
 package com.example.cabinetmedical.infrastructure.entity;
 
 import jakarta.persistence.*;
+import com.example.cabinetmedical.domain.utils.PermissionKey;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "secretaire")
@@ -29,6 +32,24 @@ public class SecretaireEntity {
     @ManyToOne
     @JoinColumn(name = "idCabinet")
     private CabinetEntity cabinet;
+
+
+
+    @ElementCollection (fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "secretaire_permissions",
+            joinColumns = @JoinColumn(name = "id_secretaire"))
+    @Enumerated (EnumType.STRING)
+    @Column(name = "permission_key")
+    private Set<PermissionKey> permissionKeys = new HashSet<>();
+
+    public Set<PermissionKey> getPermissionKeys() {
+        return permissionKeys;
+    }
+
+    public void setPermissionKeys(Set<PermissionKey> permissionKeys) {
+        this.permissionKeys = permissionKeys;
+    }
 
     public SecretaireEntity(int idSecretaire, String nom, String prenom, String email, String password, Float salaire, String telephone, CabinetEntity cabinet) {
         this.idSecretaire = idSecretaire;

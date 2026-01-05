@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PatientMapper {
     private final DossierMedicalMapper dossierMedicalMapper;
+
     public PatientMapper(DossierMedicalMapper dossierMedicalMapper) {
         this.dossierMedicalMapper = dossierMedicalMapper;
     }
@@ -46,11 +47,43 @@ public class PatientMapper {
         domain.setIdPatient(entity.getIdPatient());
         domain.setNom(entity.getNom());
         domain.setPrenom(entity.getPrenom());
-        domain.setCin(entity. getCin());
+        domain.setCin(entity.getCin());
         domain.setTelephone(entity.getTelephone());
         domain.setSexe(entity. getSexe());
         domain.setDateNaissance(entity.getDateNaissance());
         domain.setTypeMutuelle(entity. getTypeMutuelle());
+
+        // Mapper le dossier médical si présent
+        if (entity.getDossierMedical() != null) {
+            domain.setDossierMedical(dossierMedicalMapper.toDomain(entity.getDossierMedical()));
+        }
+
+        return domain;
+    }
+
+    // ✅ NOUVELLE MÉTHODE : DTO -> Domain
+    /**
+     * DTO -> Domain
+     */
+    public Patient toDomain(PatientDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Patient domain = new Patient();
+        domain.setIdPatient(dto.getIdPatient());
+        domain.setNom(dto.getNom());
+        domain.setPrenom(dto.getPrenom());
+        domain.setCin(dto.getCin());
+        domain.setTelephone(dto.getTelephone());
+        domain.setSexe(dto.getSexe());
+        domain.setDateNaissance(dto.getDateNaissance());
+        domain.setTypeMutuelle(dto.getTypeMutuelle());
+
+        // Mapper le dossier médical si présent
+        if (dto.getDossierMedical() != null) {
+            domain.setDossierMedical(dossierMedicalMapper.toDomain(dto.getDossierMedical()));
+        }
 
         return domain;
     }
@@ -72,8 +105,16 @@ public class PatientMapper {
         dto.setSexe(entity.getSexe());
         dto.setDateNaissance(entity.getDateNaissance());
         dto.setTypeMutuelle(entity.getTypeMutuelle());
-        dto.setIdCabinet(entity.getCabinet().getIdCabinet());
-        dto.setDossierMedical(dossierMedicalMapper.toDTO(entity.getDossierMedical()));
+
+        // Mapper le cabinet si présent
+        if (entity. getCabinet() != null) {
+            dto.setIdCabinet(entity.getCabinet().getIdCabinet());
+        }
+
+        // Mapper le dossier médical si présent
+        if (entity.getDossierMedical() != null) {
+            dto.setDossierMedical(dossierMedicalMapper. toDTO(entity.getDossierMedical()));
+        }
 
         return dto;
     }
@@ -88,14 +129,23 @@ public class PatientMapper {
 
         PatientDTO dto = new PatientDTO();
         dto.setIdPatient(domain.getIdPatient());
-        dto.setNom(domain.getNom());
+        dto.setNom(domain. getNom());
         dto.setPrenom(domain.getPrenom());
         dto.setCin(domain.getCin());
-        dto.setTelephone(domain.getTelephone());
+        dto.setTelephone(domain. getTelephone());
         dto.setSexe(domain.getSexe());
         dto.setDateNaissance(domain.getDateNaissance());
         dto.setTypeMutuelle(domain.getTypeMutuelle());
-        dto.setIdCabinet(domain.getCabinet().getIdCabinet());
+
+        // Mapper le cabinet si présent
+        if (domain.getCabinet() != null) {
+            dto.setIdCabinet(domain.getCabinet().getIdCabinet());
+        }
+
+        // Mapper le dossier médical si présent
+        if (domain.getDossierMedical() != null) {
+            dto.setDossierMedical(dossierMedicalMapper.toDto(domain.getDossierMedical()));
+        }
 
         return dto;
     }

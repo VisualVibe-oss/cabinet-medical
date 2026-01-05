@@ -16,9 +16,9 @@ public class Patient {
     private Date dateNaissance;
     private String typeMutuelle;
     private Cabinet cabinet;
-    private DossierMedical idDossierMedical;
+    private DossierMedical DossierMedical;
 
-    public Patient(Integer idPatient, String nom, String prenom, String cin, String telephone, String sexe, Date dateNaissance, String typeMutuelle, Cabinet cabinet, DossierMedical idDossierMedical) {
+    public Patient(Integer idPatient, String nom, String prenom, String cin, String telephone, String sexe, Date dateNaissance, String typeMutuelle, Cabinet cabinet, DossierMedical DossierMedical) {
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
@@ -28,7 +28,7 @@ public class Patient {
         this.dateNaissance = dateNaissance;
         this.typeMutuelle = typeMutuelle;
         this.cabinet = cabinet;
-        this.idDossierMedical = idDossierMedical;
+        this.DossierMedical = DossierMedical;
     }
 
     public Patient() {
@@ -107,11 +107,11 @@ public class Patient {
         this.cabinet = cabinet;
     }
 
-    public DossierMedical getIdDossierMedical() {
-        return idDossierMedical;
+    public DossierMedical getDossierMedical() {
+        return DossierMedical;
     }
 
-    public void setIdDossierMedical(DossierMedical idDossierMedical) {
-        this.idDossierMedical = idDossierMedical;
+    public void setDossierMedical(DossierMedical idDossierMedical) {
+        this.DossierMedical = idDossierMedical;
     }
 }
