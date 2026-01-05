@@ -9,12 +9,6 @@ public class CreeRendezVous implements ExecutePermission<RendezVous,RendezVous> 
     @Override
     public PermissionResponce<RendezVous> doWork(PermissionParameter<RendezVous> param){
         RendezVous rendezVousPayload = (RendezVous) param.getPayload();
-        rendezVousPayload.setStatut("Scheduled");
-
-        if (rendezVousPayload.getNotes() == null){
-            rendezVousPayload.setNotes("");
-        }
-
         return new PermissionResponce<RendezVous>(PermissionKey.CREE_RENDEZ_VOUS, rendezVousPayload);
 
     }
