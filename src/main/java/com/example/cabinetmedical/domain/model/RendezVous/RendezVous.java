@@ -3,20 +3,24 @@ package com.example.cabinetmedical.domain.model.RendezVous;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class RendezVous {
     private int idRendezVous;
-    private Date dateRendezVous;
+    private LocalDateTime dateDebutRendezVous;
+    private LocalDateTime dateFinRendezVous;
     private String motif;
     private String statut;
     private String notes;
+    private float prix;
     private Cabinet cabinet;
     private Patient patient;
 
-    public RendezVous(int idRendezVous, Date dateRendezVous, String motif, String statut, String notes, Cabinet cabinet, Patient patient) {
+    public RendezVous(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif, String statut, String notes, Cabinet cabinet, Patient patient) {
         this.idRendezVous = idRendezVous;
-        this.dateRendezVous = dateRendezVous;
+        this.dateDebutRendezVous = dateDebutRendezVous;
+        this.dateFinRendezVous = dateFinRendezVous;
         this.motif = motif;
         this.statut = statut;
         this.notes = notes;
@@ -33,13 +37,6 @@ public class RendezVous {
         this.idRendezVous = idRendezVous;
     }
 
-    public Date getDateRendezVous() {
-        return dateRendezVous;
-    }
-
-    public void setDateRendezVous(Date dateRendezVous) {
-        this.dateRendezVous = dateRendezVous;
-    }
 
     public String getMotif() {
         return motif;
@@ -79,5 +76,21 @@ public class RendezVous {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public LocalDateTime getDateDebutRendezVous() {
+        return dateDebutRendezVous;
+    }
+
+    public void setDateDebutRendezVous(LocalDateTime dateDebutRendezVous) {
+        this.dateDebutRendezVous = dateDebutRendezVous;
+    }
+
+    public LocalDateTime getDateFinRendezVous() {
+        return dateFinRendezVous;
+    }
+
+    public void setDateFinRendezVous(LocalDateTime dateFinRendezVous) {
+        this.dateFinRendezVous = dateFinRendezVous;
     }
 }
