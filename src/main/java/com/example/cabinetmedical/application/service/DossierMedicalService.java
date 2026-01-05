@@ -3,8 +3,8 @@ package com.example.cabinetmedical.application.service;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
-import com.example.cabinetmedical.application.dto.DossierMedicalDetailDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.DossierMedicalDetailDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.patient.Patient;

@@ -33,4 +33,5 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     @Query("SELECT r.patient FROM RendezVousEntity r WHERE r.idRendezVous = :id")
     Optional<PatientEntity> findPatientByIdRendezVous(@Param("id") int idRendezVous);
 
+    List<RendezVousEntity> findAllByCabinet_idCabinet(int idCabinet);
 }

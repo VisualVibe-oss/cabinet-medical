@@ -1,8 +1,8 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 
-import com.example.cabinetmedical.application.dto.ConsultationResponseDTO;
-import com.example.cabinetmedical.application.dto.MedicamentResponseDTO;
+import com.example.cabinetmedical.application.DTO.ConsultationResponseDTO;
+import com.example.cabinetmedical.application.DTO.MedicamentResponseDTO;
 import com.example.cabinetmedical.infrastructure.entity.ConsultationEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedciamentOrdonnanceEntity;
 

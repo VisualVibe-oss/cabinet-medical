@@ -10,6 +10,11 @@ import java.util.List;
 //TEMPORARY
 @Component
 public class SecretaireMapper {
+    CabinetMapper cm;
+
+    public SecretaireMapper(CabinetMapper cm){
+        this.cm = cm;
+    }
 
 
 

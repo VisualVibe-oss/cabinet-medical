@@ -2,7 +2,8 @@ package com.example.cabinetmedical.application.controller;
 
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
+import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.RendezVousAppService;
 import com.example.cabinetmedical.application.service.SecretaireAppService;
 
@@ -24,28 +25,19 @@ public class RendezVousController {
 
     private final SecretaireAppService secretaireAppService;
     private final RendezVousAppService rendezVousAppService;
+    private AuthService authService  ; 
 
-    public RendezVousController(SecretaireAppService secretaireAppService, RendezVousAppService rendezVousAppService) {
+    public RendezVousController(SecretaireAppService secretaireAppService, 
+        AuthService authService ,
+        RendezVousAppService rendezVousAppService) {
         this.secretaireAppService = secretaireAppService;
         this.rendezVousAppService = rendezVousAppService;
+        this.authService =authService ;
     }
 
 
 
-    private UserDTO getUserDto(Authentication authentication) {
-
-        String email = (String) authentication.getPrincipal();
-
-        // 2. Récupérer le rôle et supprimer "ROLE_"
-        String role = authentication.getAuthorities().stream()
-                .map(authority -> authority.getAuthority().replace("ROLE_", ""))
-                .findFirst()
-                .orElse("NONE");
-        UserDTO user = new UserDTO() ;
-        user.setEmail(email);
-        user.setRole(role);
-        return user ; 
-    }
+    
 
     @PostMapping("/create/{idSecretaire}")
     public RendezVousDTO creeRendezVous(@RequestParam int idSecretaire, @RequestBody RendezVousDTO rvdto) {
@@ -69,7 +61,7 @@ public class RendezVousController {
     public ResponseEntity<ApiResponse<RendezVousDTO>> getRendezVousInfo(
         Authentication aut, 
         @PathVariable("idRendezVous") int idRendezVous) {
-       UserDTO user = getUserDto(aut) ;
+       UserDTO user = authService.getUserDto(aut) ;
        RendezVousDTO rendezVousDTO = rendezVousAppService.getRendezVousById(idRendezVous  , user) ;
 
        ApiResponse<RendezVousDTO> response = ApiResponse.<RendezVousDTO>builder()

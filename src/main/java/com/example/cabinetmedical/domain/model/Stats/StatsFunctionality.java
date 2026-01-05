@@ -5,6 +5,7 @@ import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.model.Facture.Facture;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.utils.DepenceType;
+import com.example.cabinetmedical.domain.utils.FactureState;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
 import com.example.cabinetmedical.domain.utils.Featurekey;
@@ -78,7 +79,7 @@ public class StatsFunctionality implements Functionnalitie {
     }
 
     private float sommefactures(List<Facture> factures){
-        return factures.stream().map(Facture::getPrix).reduce(0.0f, Float::sum);
+        return factures.stream().filter(f -> f.getState() == FactureState.PAID).map(Facture::getPrix).reduce(0, Integer::sum);
     }
 
     private float sommedepences(List<Depence> depences){
@@ -98,7 +99,7 @@ public class StatsFunctionality implements Functionnalitie {
 
 
     private float peakday(List<Facture> factures){
-        return factures.stream().collect(
+        return factures.stream().filter(f -> f.getState() == FactureState.PAID).collect(
                 Collectors.groupingBy(
                         f->f.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                         Collectors.summingDouble(Facture::getPrix)
@@ -128,7 +129,8 @@ public class StatsFunctionality implements Functionnalitie {
     private List<TransactionDTO> buildtransaction(List<Depence> depences, List<Facture> factures){
         List<TransactionDTO> list = new ArrayList<>();
 
-        for(Facture f: factures){
+       
+        factures.stream().filter(f -> f.getState()== FactureState.PAID).forEach( f ->{
             TransactionDTO dto = new TransactionDTO();
             dto.setIdDepence(f.getIdFacture());
             dto.setDate(f.getDate());
@@ -137,7 +139,7 @@ public class StatsFunctionality implements Functionnalitie {
             dto.setKind("Income");
             dto.setType(null);
             list.add(dto);
-        }
+        } );
 
         depences.stream()
                 .filter(d -> d.getType() == DepenceType.ONE_TIME || d.getType() == DepenceType.PERIODIC)

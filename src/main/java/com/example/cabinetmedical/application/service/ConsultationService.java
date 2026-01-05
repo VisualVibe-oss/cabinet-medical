@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.catalina.connector.Request;
 import org.springframework.stereotype.Service;
 
-import com.example.cabinetmedical.application.dto.ConsultationResponseDTO;
-import com.example.cabinetmedical.application.dto.FactureDTO;
-import com.example.cabinetmedical.application.dto.RequestConsultationDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.ConsultationResponseDTO;
+import com.example.cabinetmedical.application.DTO.FactureDTO;
+import com.example.cabinetmedical.application.DTO.RequestConsultationDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
@@ -122,8 +122,7 @@ public class ConsultationService {
         consultationEntity = consultationRepository.save(consultationEntity) ;
         
         FactureEntity factureEntity = consultationEntity.getFacture() ;
-        FactureMapper   factureMapper = new FactureMapper() ;
-        FactureDTO factureDTO = factureMapper.toDto(factureEntity) ;
+        FactureDTO factureDTO = FactureMapper.toDto(factureEntity) ;
 
         // On recupere les email des secretaire du cabinet
         int idCabinet = cabinet.getIdCabinet() ;

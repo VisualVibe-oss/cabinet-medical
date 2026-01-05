@@ -20,7 +20,7 @@ public class RendezVousMapper {
         this.cm = cm;
     }
 
-    public RendezVousEntity toEntity(RendezVous rv){
+  
 
     public static RendezVousEntity toEntity(RendezVous rv) {
 
@@ -35,11 +35,8 @@ public class RendezVousMapper {
         rve.setPrix(rv.getPrix());
         rve.setNotes(rv.getNotes());
         // Vérification pour le Patient
-        if (rv.getPatient() != null) {
-            rve.setPatient(PatientMapper.toEntity(rv.getPatient()));
-        } else {
-            rve.setPatient(null);
-        }
+        rve.setPatient(null);
+
 
         // Vérification pour le Cabinet
         if (rv.getCabinet() != null) {
@@ -106,7 +103,8 @@ public class RendezVousMapper {
 
         // Mappage des champs simples
         domain.setIdRendezVous(entity.getIdRendezVous());
-        domain.setDateRendezVous(entity.getDateRendezVous());
+        domain.setDateDebutRendezVous(entity.getDateDebutRendezVous());
+        domain.setDateFinRendezVous(entity.getDateFinRendezVous());
         domain.setMotif(entity.getMotif());
         domain.setConsultationType(entity.getConsultationType());
         domain.setStatut(entity.getStatut());
@@ -118,4 +116,10 @@ public class RendezVousMapper {
 
         return domain;
     }
+    public List<RendezVousDTO> toDTOList(List<RendezVousEntity> rveList){
+          return rveList.stream().map(this::toDTO).toList();
+} 
+public List<RendezVous> toDomainList(List<RendezVousDTO> rvdtoList){
+          return rvdtoList.stream().map(RendezVousMapper::toDomain).toList();
+} 
 }

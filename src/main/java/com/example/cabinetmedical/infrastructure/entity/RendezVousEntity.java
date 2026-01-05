@@ -27,8 +27,6 @@ public class RendezVousEntity {
     @Column(nullable = false)
     private int prix;
 
-    @Column(nullable = false)
-    private int prix;
 
     
     
@@ -36,20 +34,10 @@ public class RendezVousEntity {
     @Column(nullable = false)
     private RendezVousState statut;
 
-    private String statut;
 
     @Column()
     private String notes;
 
-    @ManyToOne
-    @JoinColumn(name="idCabinet")
-    private CabinetEntity cabinet;
-
-    @ManyToOne
-    @JoinColumn(name="idPatient")
-    private PatientEntity patient;
-
-    @OneToOne(mappedBy = "rendezVous")
     private ConsultationEntity consultation;
 
     public RendezVousEntity(int idRendezVous,  int prix,Date dateRendezVous, String  consultationType ,String motif, RendezVousState statut, String notes, CabinetEntity cabinet, PatientEntity patient, ConsultationEntity consultation) {

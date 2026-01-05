@@ -14,23 +14,22 @@ public class RendezVous {
     private String motif;
     private RendezVousState statut;
     private String notes;
-    private float prix;
     private Cabinet cabinet;
     private String consultationType;
     private Patient patient;
     private int prix;
 
-    public RendezVous(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif,  RendezVousState statut, String notes, Cabinet cabinet, Patient patient) {
+    public RendezVous(int idRendezVous, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif,  RendezVousState statut, String notes, Cabinet cabinet, Patient patient, int prix) {
         this.idRendezVous = idRendezVous;
         this.dateDebutRendezVous = dateDebutRendezVous;
         this.dateFinRendezVous = dateFinRendezVous;
-        this.dateRendezVous = dateRendezVous;
         this.consultationType = consultationType;
         this.motif = motif;
         this.statut = statut;
         this.notes = notes;
         this.cabinet = cabinet;
         this.patient = patient;
+        this.prix = prix;
     }
     public RendezVous(){}
 
@@ -56,15 +55,6 @@ public class RendezVous {
     public void setConsultationType(String consultationType) {
         this.consultationType = consultationType;
     }
-
-    public Date getDateRendezVous() {
-        return dateRendezVous;
-    }
-
-    public void setDateRendezVous(Date dateRendezVous) {
-        this.dateRendezVous = dateRendezVous;
-    }
-
     public String getMotif() {
         return motif;
     }

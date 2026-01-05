@@ -2,7 +2,7 @@ package com.example.cabinetmedical.application.service;
 
 import com.example.cabinetmedical.application.DTO.PatientDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Medecin.Medecin;
@@ -42,7 +42,8 @@ import java.util.List;
 @Service
 public class RendezVousAppService {
 
-    private RendezVousRepositoryImpl rendezVousRepository;
+    private RendezVousRepositoryImpl rendezVousRepositoryImpl;
+    private RendezVousRepository rendezVousRepository;
     private CabinetRepository cabinetRepository;
     private RendezVousMapper rvm;
     private CabinetMapper cm;
@@ -53,13 +54,14 @@ public class RendezVousAppService {
     private NotificationService notificationService ;
 
     public RendezVousAppService(
-            RendezVousRepositoryImpl rendezVousRepository, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetMapper cm, PatientMapper pmImp,
+            RendezVousRepositoryImpl rendezVousRepositoryImpl, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetMapper cm, PatientMapper pmImp,
             RendezVousRepository rendezVousRepository,
             SpringSecretaireRepository secretaireRepository,
             MedecinRepository medecinRepository, 
             NotificationService notificationService ,
             SpringRendezVousRepository springRendezVousRepository) {
-        this.rendezVousRepositoryImp = rendezVousRepositoryImp;
+        this.rendezVousRepositoryImpl = rendezVousRepositoryImpl;
+        this.rendezVousRepository = rendezVousRepository;
         this.secretaireRepository = secretaireRepository;
         this.medecinRepository = medecinRepository;
         this.springRendezVousRepository = springRendezVousRepository;
@@ -69,57 +71,6 @@ public class RendezVousAppService {
         this.pm = pm;
     }
 
-    private Cabinet getCabinetFromUser(UserDTO user) {
-
-        CabinetEntity cabinetEntity;
-
-        if (AuthService.secretaireRole.equals(user.getRole())) {
-            cabinetEntity = secretaireRepository.findCabinetBySecretaireId(user.getId());
-        } else if (AuthService.medecinRole.equals(user.getRole())) {
-            cabinetEntity = medecinRepository.findCabinetByMedecin(user.getId());
-        } else {
-            throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
-        }
-
-        if (cabinetEntity == null) {
-            throw new IllegalArgumentException("Utilisateur invalide : ");
-        }
-
-        Cabinet cabinet = CabinetMapper.toDomain(cabinetEntity);
-        Medecin medecin = MedecinMapper.toDomain(cabinetEntity.getMedecin()) ;
-        cabinet.setMedecin(medecin);
-
-        
-
-        return cabinet;
-    }
-
-
-
-    private Cabinet getCabinetByEmail(UserDTO user) {
-
-        CabinetEntity cabinetEntity;
-
-        if (AuthService.secretaireRole.equals(user.getRole())) {
-            cabinetEntity = secretaireRepository.findCabinetBySecretaireEmail(user.getEmail());
-        } else if (AuthService.medecinRole.equals(user.getRole())) {
-            cabinetEntity = medecinRepository.findCabinetByMedecinEmail(user.getEmail());
-        } else {
-            throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
-        }
-
-        if (cabinetEntity == null) {
-            throw new IllegalArgumentException("Utilisateur invalide : ");
-        }
-
-        Cabinet cabinet = CabinetMapper.toDomain(cabinetEntity);
-        Medecin medecin = MedecinMapper.toDomain(cabinetEntity.getMedecin()) ;
-        cabinet.setMedecin(medecin);
-
-        
-
-        return cabinet;
-    }
 
     // * Les rendez vous en attente */
     private List<RendezVous> getRendezVousFromCabinet(int idCabinet) {
@@ -209,6 +160,12 @@ public class RendezVousAppService {
 
         // On presiste les donnes 
         RendezVousEntity rendezVousEntity = RendezVousMapper.toEntity(response.getPayload()) ;
+        Patient patient = rendezVous.getPatient() ;
+        if(patient != null){
+            rendezVousEntity.setPatient(PatientMapper.toEntity(patient)) ;
+        }   
+        
+
         int ligneAffecte = springRendezVousRepository.setSateRendezVous(rendezVousEntity) ;
         if(ligneAffecte == 0 ){
             throw new EntityNotFoundException("Ce rendez vous n'existe pas"+ rendezVousDTO.getIdRendezVous() ) ;

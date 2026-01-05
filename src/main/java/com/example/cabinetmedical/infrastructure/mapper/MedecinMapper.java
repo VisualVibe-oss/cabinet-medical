@@ -11,8 +11,7 @@ import java.util.List;
 public class MedecinMapper {
     CabinetMapper cm ;
 
-    public Medecin toDomain(MedecinDTO mdto) {
-        Medecin medecin = new Medecin(mdto.getIdMedecin(), mdto.getNom(), mdto.getPrenom(), mdto.getEmail(), mdto.getPassword(), mdto.getTelephone(), mdto.getCabinet());
+    public  static Medecin toDomain(MedecinDTO mdto) {
         Medecin medecin = new Medecin(mdto.getIdMedecin(), mdto.getNom(), mdto.getPrenom(), mdto.getEmail(), mdto.getPassword(), mdto.getTelephone(), mdto.getCabinet());
         return medecin;
     }
@@ -46,6 +45,11 @@ public class MedecinMapper {
         medecin.setCabinet(null);
     }
 
+    
     return medecin;
 }
+public static List<Medecin> toDomainList(List<MedecinEntity> me){
+return me.stream().map(MedecinMapper::toDomain).toList();
+}
+
 }

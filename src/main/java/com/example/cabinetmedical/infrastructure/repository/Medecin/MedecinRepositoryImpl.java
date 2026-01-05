@@ -21,7 +21,6 @@ public class MedecinRepositoryImpl implements MedecinRepository {
        return springMedecinRepository.findById(id).orElse(null);
     }
 
-<<<<<<< HEAD
     @Override
     public CabinetEntity findCabinetByMedecin(int idMedecin) {
        
@@ -35,7 +34,4 @@ public class MedecinRepositoryImpl implements MedecinRepository {
     }
     public List<MedecinEntity> findAll() {return springMedecinRepository.findAll();}
     public Optional<MedecinEntity> findByEmail(String email) {return springMedecinRepository.findByEmail(email);}
-=======
-   
->>>>>>> acf2c00 (feat: Add consultation creation functionality and related DTOs)
 }

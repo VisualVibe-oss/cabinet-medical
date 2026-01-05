@@ -3,10 +3,10 @@ package com.example.cabinetmedical.application.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cabinetmedical.application.DTO.ConsultationResponseDTO;
+import com.example.cabinetmedical.application.DTO.RequestConsultationDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.ConsultationResponseDTO;
-import com.example.cabinetmedical.application.dto.RequestConsultationDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
 import com.example.cabinetmedical.application.service.ConsultationService;
 
 import java.util.List;

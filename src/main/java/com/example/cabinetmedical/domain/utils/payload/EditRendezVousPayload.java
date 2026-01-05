@@ -3,6 +3,7 @@ package com.example.cabinetmedical.domain.utils.payload;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.domain.model.patient.Patient;
+import com.example.cabinetmedical.domain.utils.RendezVousState;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,13 +13,13 @@ public class EditRendezVousPayload {
     private LocalDateTime dateDebutRendezVous;
     private LocalDateTime dateFinRendezVous;
     private String motif;
-    private String statut;
+    private RendezVousState statut;
     private String notes;
     private Cabinet cabinet;
     private Patient patient;
     private List<RendezVous> existingrvs;
 
-    public EditRendezVousPayload(RendezVous current, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif, String statut, String notes, Cabinet cabinet, Patient patient, List<RendezVous> existingrvs) {
+    public EditRendezVousPayload(RendezVous current, LocalDateTime dateDebutRendezVous, LocalDateTime dateFinRendezVous, String motif, RendezVousState statut, String notes, Cabinet cabinet, Patient patient, List<RendezVous> existingrvs) {
         this.current = current;
         this.dateDebutRendezVous = dateDebutRendezVous;
         this.dateFinRendezVous = dateFinRendezVous;
@@ -62,11 +63,11 @@ public class EditRendezVousPayload {
         this.motif = motif;
     }
 
-    public String getStatut() {
+    public RendezVousState getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(RendezVousState statut) {
         this.statut = statut;
     }
 

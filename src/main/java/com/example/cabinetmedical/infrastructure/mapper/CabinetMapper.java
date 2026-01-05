@@ -89,10 +89,7 @@ public final class CabinetMapper {
         CabinetEntity cabinetEntity = new CabinetEntity();
         return cabinetEntity;
     }
-    public CabinetEntity toEntity(Cabinet cabinet){
-        CabinetEntity cabinetEntity = new CabinetEntity();
-        return cabinetEntity;
-    }
+    
 }
 
 

@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 
-import com.example.cabinetmedical.application.dto.*;
+import com.example.cabinetmedical.application.DTO.*;
 import com.example.cabinetmedical.domain.model.consultation.Consultation;
 import com.example.cabinetmedical.domain.model.Examen.Examen;
 import com.example.cabinetmedical.domain.model.ordonnance.*;

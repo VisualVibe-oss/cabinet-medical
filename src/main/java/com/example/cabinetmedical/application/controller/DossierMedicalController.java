@@ -3,10 +3,10 @@ package com.example.cabinetmedical.application.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cabinetmedical.application.DTO.DossierMedicalDetailDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.DossierMedicalDetailDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
 import com.example.cabinetmedical.application.service.DossierMedicalService;
 
 import java.util.List;
@@ -63,7 +63,6 @@ public class DossierMedicalController {
                 .build();
 
 
-                System.out.println("c est la reponse ------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " +detailDTO.toString());
         return ResponseEntity.ok(response);
     }
     

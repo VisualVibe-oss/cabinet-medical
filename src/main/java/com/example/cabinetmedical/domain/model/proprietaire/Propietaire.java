@@ -13,7 +13,7 @@ public abstract class Propietaire {
     private String telephone;
     private Cabinet cabinet;
 
-    public Propietaire(int idMedecin, String nom, String prenom, String email, String password, String telephone, Cabinet cabinet) {
+    
     public Propietaire(int idMedecin, String nom, String prenom, String email, String password, String telephone, Cabinet cabinet) {
         this.idMedecin = idMedecin;
         this.nom = nom;

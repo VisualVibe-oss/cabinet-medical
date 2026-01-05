@@ -8,15 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class SecretaireDTO {
+public class SecretaireDTO  extends UserDTO{
     private int idSecretaire;
     private String nom;
     private String prenom;
-    private String email;
-    private String password;
     private Float salaire;
     private String telephone;
-    private int idCabinet;
+    private String motdePass ; 
     private Set<PermissionKey> permissionKeys = new HashSet<>();
 
 

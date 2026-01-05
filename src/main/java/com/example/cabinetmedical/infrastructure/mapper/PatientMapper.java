@@ -13,19 +13,22 @@ import java.util.stream.Collectors;
 
 @Component
 public class PatientMapper {
+    CabinetMapper cm;
+    RendezVousMapper rvm;
 
-    public static PatientMapper(CabinetMapper cm) {
+    public PatientMapper(CabinetMapper cm, RendezVousMapper rvm) {
         this.cm = cm;
+        this.rvm = rvm;
     }
 
-    public PatientEntity toEntity(Patient p) {
+    public static PatientEntity toEntity(Patient p) {
         PatientEntity pe = new PatientEntity();
 
         List<RendezVousEntity> rendezVousEntities = null;
         if (p.getRendezVous() != null) {
             rendezVousEntities = p.getRendezVous()
                     .stream()
-                    .map(rvm::toEntity)
+                    .map(RendezVousMapper::toEntity)
                     .collect(Collectors.toList());
         }
 
@@ -53,7 +56,7 @@ public class PatientMapper {
         if (pe.getRendezVous() != null) {
             rendezVousDomains = pe.getRendezVous()
                     .stream()
-                    .map(rvm::toDomain)
+                    .map(RendezVousMapper::toDomain)
                     .collect(Collectors.toList());
         }
         p.setIdPatient(pe.getIdPatient());

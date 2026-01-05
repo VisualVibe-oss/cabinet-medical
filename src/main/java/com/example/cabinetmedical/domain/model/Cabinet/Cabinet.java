@@ -10,11 +10,17 @@ import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.FeatureParameter;
 import com.example.cabinetmedical.domain.utils.FeatureResponce;
+
+import lombok.Data;
+
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 
 
 import java.util.List;
 
+
+
+@Data
 public class Cabinet {
     private int idCabinet;
     private String logo;
@@ -51,131 +57,6 @@ public class Cabinet {
         this.action = action;
         this.behaviorPack = behaviorPack;
     }
-
-    public Cabinet(){}
-
-    public int getIdCabinet() {
-        return idCabinet;
-    }
-
-    public void setIdCabinet(int idCabinet) {
-        this.idCabinet = idCabinet;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getSpecialite() {
-        return specialite;
-    }
-
-    public void setSpecialite(String specialite) {
-        this.specialite = specialite;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public Medecin getMedecin() {
-        return medecin;
-    }
-
-    public void setMedecin(Medecin medecin) {
-        this.medecin = medecin;
-    }
-
-    public List<Secretaire> getSecretaire() {
-        return secretaire;
-    }
-
-    public void setSecretaire(List<Secretaire> secretaire) {
-        this.secretaire = secretaire;
-    }
-
-    public List<Depence> getDepence() {
-        return depence;
-    }
-
-    public void setDepence(List<Depence> depence) {
-        this.depence = depence;
-    }
-
-    public List<Facture> getFacture() {
-        return facture;
-    }
-
-    public void setFacture(List<Facture> facture) {
-        this.facture = facture;
-    }
-
-    public List<RendezVous> getRendezVous() {
-        return rendezVous;
-    }
-
-    public void setRendezVous(List<RendezVous> rendezVous) {
-        this.rendezVous = rendezVous;
-    }
-
-    public List<Patient> getPatient() {
-        return patient;
-    }
-
-    public void setPatient(List<Patient> patient) {
-        this.patient = patient;
-    }
-
-    public Offre getOffre() {
-        return offre;
-    }
-
-    public void setOffre(Offre offre) {
-        this.offre = offre;
-    }
-
-    public List<Action> getAction() {
-        return action;
-    }
-
-    public void setAction(List<Action> action) {
-        this.action = action;
-    }
-
-    public void setBehaviorPack(BehaviorPack behaviorPack) {
-        this.behaviorPack = behaviorPack;
-    }
-
-    public BehaviorPack getBehaviorPack() {
-        return behaviorPack;
-    }
-
-    public FeatureResponce performWork(FeatureParameter parameter) {
-         return behaviorPack.performWork(parameter) ;
-    }
+    public Cabinet (){}
 
 }

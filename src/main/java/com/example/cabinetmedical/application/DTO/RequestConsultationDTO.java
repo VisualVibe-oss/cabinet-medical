@@ -1,6 +1,6 @@
 
 
-package com.example.cabinetmedical.application.dto;
+package com.example.cabinetmedical.application.DTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

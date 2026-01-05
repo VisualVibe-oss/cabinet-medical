@@ -5,10 +5,16 @@ import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.DTO.Stats.StatsDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
 import com.example.cabinetmedical.application.DTO.SecretaireDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
+import com.example.cabinetmedical.application.service.AuthService;
+import com.example.cabinetmedical.application.service.CabinetAppService;
 import com.example.cabinetmedical.application.service.MedecinAppService;
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -16,20 +22,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api/medecin")
 public class MedecinController {
 
-    MedecinAppService medecinAppService;
+    private MedecinAppService medecinAppService;
+    private  AuthService authService ; 
+    private  CabinetAppService cabinetAppService ; 
 
-    public MedecinController(MedecinAppService medecinAppService) {
+    public MedecinController(MedecinAppService medecinAppService 
+        ,AuthService authService , 
+        CabinetAppService cabinetAppService
+      ) {
         this.medecinAppService = medecinAppService;
+        this.authService = authService  ;
+        this.cabinetAppService  =cabinetAppService ;
     }
 
     @PostMapping("/addSecretary")
     public ApiResponse<SecretaireDTO> addSecretary(@RequestBody SecretaireDTO secretaireDTO) {
         Object result = medecinAppService.addSecretary(secretaireDTO);
 
+        //* Valider le preseence du id  */
+        Cabinet cabinet = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        int idCabinet =  cabinet.getIdCabinet() ;
         if (result instanceof SecretaireDTO secretaire) {
-            String message = "Secretary: " + secretaire.getIdSecretaire() + " added for: " + secretaireDTO.getIdCabinet();
+            String message = "Secretary: " + secretaire.getIdSecretaire() + " added for: " + idCabinet;
             return new ApiResponse<>(HttpStatus.OK.value(), message, secretaire);
         } else if (result instanceof String msg) {
             return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), msg, null);
@@ -40,6 +57,7 @@ public class MedecinController {
     @GetMapping("/secretaires/{idCabinet}")
     public ApiResponse<List<SecretaireDTO>> getAllSecretaries(@PathVariable int idCabinet) {
 
+        
         List<SecretaireDTO> secretaires = medecinAppService.getAllSecretaries(idCabinet);
         String message = "Secretary page accessed for office: " +  idCabinet;
         int status = HttpStatus.OK.value();
@@ -58,8 +76,12 @@ public class MedecinController {
     public ApiResponse<SecretaireDTO> updateSecretaire(@RequestBody SecretaireDTO secretaireDTO) {
         System.out.println("received dto" + secretaireDTO);
 
+        //* Valider le preseence du id  */
+        Cabinet cabinet = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        int idCabinet =  cabinet.getIdCabinet() ;
+
         SecretaireDTO secretaire = medecinAppService.updateSecretaire(secretaireDTO);
-        String message = "Secretary: " + secretaire.getIdSecretaire() + "updated for : " + secretaireDTO.getIdCabinet();
+        String message = "Secretary: " + secretaire.getIdSecretaire() + "updated for : " + idCabinet;
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, secretaire);
@@ -93,9 +115,13 @@ public class MedecinController {
     }
 
     @GetMapping("/getStats/{idCabinet}")
-    public ApiResponse<StatsDTO>  getStats(@PathVariable int idCabinet) {
+    public ApiResponse<StatsDTO>  getStats(
+        @PathVariable int idCabinet ,
+        Authentication aut 
+    ) {
 
-        StatsDTO stats = medecinAppService.getStats(idCabinet);
+        UserDTO user  = authService.getUserDto(aut) ;
+        StatsDTO stats = medecinAppService.getStats(user);
         String message = "Stats retrieved by" + idCabinet;
         int status = HttpStatus.OK.value();
 

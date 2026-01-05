@@ -13,12 +13,10 @@ import java.util.List;
 @Repository
 public interface SpringSecretaireRepository extends JpaRepository<SecretaireEntity, Integer> {
         @Query("SELECT s.cabinet FROM SecretaireEntity s WHERE s.idSecretaire = :id")
-<<<<<<< HEAD
-         public CabinetEntity findCabinetBySecretaireId(int id) ;    List<SecretaireEntity> findByCabinet_idCabinet(int idcabinet);
-    void deleteByidSecretaire(int idsecretaire);
-=======
-        public CabinetEntity findCabinetBySecretaireId(int id);
->>>>>>> acf2c00 (feat: Add consultation creation functionality and related DTOs)
+         public CabinetEntity findCabinetBySecretaireId(int id) ;
+        List<SecretaireEntity> findByCabinet_idCabinet(int idcabinet);
+        void deleteByidSecretaire(int idsecretaire);
+        
 
         @Query("SELECT s.cabinet FROM SecretaireEntity s WHERE s.email = :email")
         CabinetEntity findCabinetBySecretaireEmail(String email);

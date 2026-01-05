@@ -2,12 +2,12 @@ package com.example.cabinetmedical.infrastructure.mapper;
 
 import java.util.stream.Collectors;
 
-import com.example.cabinetmedical.application.dto.AllergieDTO;
-import com.example.cabinetmedical.application.dto.AntecedentChirurgicalDTO;
-import com.example.cabinetmedical.application.dto.AntecedentMedicalDTO;
-import com.example.cabinetmedical.application.dto.DossierMedicalDetailDTO;
-import com.example.cabinetmedical.application.dto.HabitudeVieDTO;
-import com.example.cabinetmedical.application.dto.TraitementChroniqueDTO;
+import com.example.cabinetmedical.application.DTO.AllergieDTO;
+import com.example.cabinetmedical.application.DTO.AntecedentChirurgicalDTO;
+import com.example.cabinetmedical.application.DTO.AntecedentMedicalDTO;
+import com.example.cabinetmedical.application.DTO.DossierMedicalDetailDTO;
+import com.example.cabinetmedical.application.DTO.HabitudeVieDTO;
+import com.example.cabinetmedical.application.DTO.TraitementChroniqueDTO;
 import com.example.cabinetmedical.infrastructure.entity.DossierMedicalEntity;
 import com.example.cabinetmedical.infrastructure.entity.HabitudeVieEntity;
 

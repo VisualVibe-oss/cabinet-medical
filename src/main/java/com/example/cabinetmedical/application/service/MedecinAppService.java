@@ -3,6 +3,7 @@ package com.example.cabinetmedical.application.service;
 import com.example.cabinetmedical.application.DTO.DepenceDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.DTO.SecretaireDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.DTO.Stats.ChartDTO;
 import com.example.cabinetmedical.application.DTO.Stats.StatsDTO;
 import com.example.cabinetmedical.domain.Repository.MedecinRepository;
@@ -26,6 +27,8 @@ import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import com.example.cabinetmedical.infrastructure.mapper.*;
 import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SecretaireRepositoryImpl;
+
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -56,6 +59,7 @@ public class MedecinAppService {
     private CabinetAppService  cabinetAppService;
 
 
+
     public MedecinAppService(MedecinMapper mm, SecretaireMapper sm, MedecinRepository medecinRepositoryImpl, SecretaireAppService secretaireAppService, RendezVousAppService rendezVousAppService, FactureAppService factureAppService, DepenceAppService depenceAppService, DepenceMapper dm, CabinetMapper cm, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetAppService cabinetAppService) {
         this.mm = mm;
         this.sm = sm;
@@ -76,18 +80,9 @@ public class MedecinAppService {
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
         //TEST ONLY
-        int idCabinet = secretaireDTO.getIdCabinet();
-        Cabinet cabinet = cm.toDomain(cabinetRepository.findByIdCabinet(idCabinet));
-        BehaviorPack behaviorPack = new BehaviorPack();
-        cabinet.setBehaviorPack(behaviorPack);
-
-        behaviorPack.addFeature(Featurekey.ADD_SECRETAIRE, new AddSecretaire());
-
-        Offre offre = new Offre();
-        offre.setType(OfferType.BASIC);
-        cabinet.setOffre(offre);
-        //
-
+        
+        Cabinet cabinet  = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        int idCabinet = cabinet.getIdCabinet() ; 
         Secretaire secretaire = sm.toDomain(secretaireDTO);
         List<Secretaire> total = sm.toDomainListFromDto(secretaireAppService.getAllSecretaries(idCabinet));
 
@@ -148,14 +143,9 @@ public class MedecinAppService {
         //int actuatidCabinet = actualCabinet.getIdCabinet();
 
 
-
-        //TEST ONLY
-        int idCabinet = secretaireDTO.getIdCabinet();
-        Cabinet cabinet = cm.toDomain(cabinetRepository.findByIdCabinet(idCabinet));
-        BehaviorPack behaviorPack = new BehaviorPack();
-        cabinet.setBehaviorPack(behaviorPack);
-        behaviorPack.addFeature(Featurekey.EDIT_SECRETAIRE, new EditSecretaire());
-
+        //* Verifier  si l'id exite  */
+        Cabinet cabinet  = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        int idCabinet =  cabinet.getIdCabinet() ;
         //
         Secretaire current = secretaireAppService.findByidSecretaire(secretaireDTO.getIdSecretaire());
         current.setCabinet(cabinet);
@@ -250,18 +240,12 @@ public class MedecinAppService {
         return rendezVousAppService.create(processedRendezVous, idCabinet);
     }
 
-    public StatsDTO getStats(int idCabinet){
+    public StatsDTO getStats(UserDTO user ){
 
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
 
-        //TEST ONLY
-        Cabinet cabinet = new Cabinet();
-        BehaviorPack behaviorPack = new BehaviorPack();
-        cabinet.setBehaviorPack(behaviorPack);
-
-        behaviorPack.addFeature(Featurekey.VIEW_STATS, new StatsFunctionality());
-        //
+      
 
         YearMonth currentMonth = YearMonth.now();
 
@@ -292,7 +276,7 @@ public class MedecinAppService {
 
         StatsPayload payload = new StatsPayload(lastMonthDepences, lastMonthFactures, allDepences, allFactures, monthDepences, monthFacture);
 
-        FeatureResponce<StatsDTO> responce = cabinet.performWork(new FeatureParameter(Featurekey.VIEW_STATS, payload));
+        FeatureResponce<StatsDTO> responce = cabinet.getBehaviorPack().performWork(new FeatureParameter(Featurekey.VIEW_STATS, payload));
 
         return  responce.getPayload();
     }

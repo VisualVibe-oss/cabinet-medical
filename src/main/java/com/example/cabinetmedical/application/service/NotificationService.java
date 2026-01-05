@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import com.example.cabinetmedical.application.dto.FactureDTO;
+import com.example.cabinetmedical.application.DTO.FactureDTO;
 
 @Service
 public class NotificationService {

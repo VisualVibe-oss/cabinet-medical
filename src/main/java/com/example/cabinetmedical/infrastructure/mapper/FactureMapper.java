@@ -1,19 +1,22 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 
-import com.example.cabinetmedical.application.dto.FactureDTO;
+import com.example.cabinetmedical.application.DTO.FactureDTO;
 import com.example.cabinetmedical.domain.model.Facture.Facture;
 import com.example.cabinetmedical.infrastructure.entity.FactureEntity;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 
 public class FactureMapper {
 
     // Format de date standard pour le JSON (ISO 8601)
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public FactureDTO toDto(FactureEntity entity) {
+
+    public static FactureDTO toDto(FactureEntity entity) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (entity == null) {
             return null;
         }
@@ -56,7 +59,7 @@ public class FactureMapper {
     }
 
     public Facture toDomain(FactureEntity fe) {
-        return new Facture(fe.getIdFacture(), fe.getType(), fe.getPrix(), fe.getDate(), cm.toDomain(fe.getCabinet()));
+        return new Facture(fe.getIdFacture(),fe.getType(), fe.getPrix(), fe.getDate(), cm.toDomain(fe.getCabinet()), fe.getState());
     }
 
     public List<FactureEntity> toEntityList(List<Facture> f) {

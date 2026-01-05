@@ -1,6 +1,7 @@
 package com.example.cabinetmedical.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class AuthService {
         if(medecinRepository.existsByEmail(medecinDTO.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
-        if(medecinRepository.existsByTelephone(medecinDTO.getNumero())) {
+        if(medecinRepository.existsByTelephone(medecinDTO.getTelephone())) {
             throw new RuntimeException("Phone number already exists");
         }
     }
@@ -64,7 +65,7 @@ public class AuthService {
         MedecinDTO medecin = signupData.getMedecin();
         CabinetDTO cabinet = signupData.getCabinet();  
 
-        medecin.setMotDePasse(passwordEncoder.encode(medecin.getMotDePasse()));
+        medecin.setPassword(passwordEncoder.encode(medecin.getPassword()));
 
         
         validateSignupData(medecin);
@@ -108,5 +109,22 @@ public class AuthService {
 
     return user;
 }
+
+
+
+public UserDTO getUserDto(Authentication authentication) {
+
+        String email = (String) authentication.getPrincipal();
+
+        // 2. Récupérer le rôle et supprimer "ROLE_"
+        String role = authentication.getAuthorities().stream()
+                .map(authority -> authority.getAuthority().replace("ROLE_", ""))
+                .findFirst()
+                .orElse("NONE");
+        UserDTO user = new UserDTO() ;
+        user.setEmail(email);
+        user.setRole(role);
+        return user ; 
+    }
 
 }
