@@ -4,16 +4,18 @@ import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class RendezVousDTO {
     private int idRendezVous;
-    private Date dateRendezVous;
+    private LocalDateTime dateDebutRendezVous;
+    private LocalDateTime dateFinRendezVous;
     private String motif;
     private String statut;
     private String notes;
-    private Cabinet cabinet;
+    private int idCabinet;
     private Patient patient;
 
 }
