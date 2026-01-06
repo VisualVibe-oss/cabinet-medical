@@ -48,7 +48,7 @@ public class SecretaireMapper {
         s.setNom(sdto.getNom());
         s.setPrenom(sdto.getPrenom());
         s.setEmail(sdto.getEmail());
-        s.setPassword(sdto.getPassword());
+        s.setPassword(sdto.getMotdePasse());
         s.setSalaire(sdto.getSalaire());
         s.setTelephone(sdto.getTelephone());
         s.setPermissionKeys(sdto.getPermissionKeys());
@@ -64,10 +64,9 @@ public class SecretaireMapper {
         sdto.setNom(se.getNom());
         sdto.setPrenom(se.getPrenom());
         sdto.setEmail(se.getEmail());
-        sdto.setPassword(se.getPassword());
+        sdto.setMotdePasse(se.getPassword());
         sdto.setSalaire(se.getSalaire());
         sdto.setTelephone(se.getTelephone());
-        sdto.setIdCabinet(se.getCabinet().getIdCabinet());
         sdto.setPermissionKeys(se.getPermissionKeys());
 
         return sdto;
@@ -81,10 +80,9 @@ public class SecretaireMapper {
         sdto.setNom(s.getNom());
         sdto.setPrenom(s.getPrenom());
         sdto.setEmail(s.getEmail());
-        sdto.setPassword(s.getPassword());
+        sdto.setMotdePasse(s.getPassword());
         sdto.setSalaire(s.getSalaire());
         sdto.setTelephone(s.getTelephone());
-        sdto.setIdCabinet(s.getCabinet().getIdCabinet());
         sdto.setPermissionKeys(s.getPermissionKeys());
 
         return sdto;

@@ -14,7 +14,7 @@ public class SecretaireDTO  extends UserDTO{
     private String prenom;
     private Float salaire;
     private String telephone;
-    private String motdePass ; 
+    private String motdePasse ; 
     private Set<PermissionKey> permissionKeys = new HashSet<>();
 
 

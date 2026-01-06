@@ -97,15 +97,19 @@ public class ConsultationService {
 
     public boolean createConsultation(int idRendezVous, UserDTO user,  RequestConsultationDTO requestConsultationDTO) {
 
+        // recuperation du rendezVousEntity  ( rendezVous ne contient pas le cle secondaire du consultation c est consulatoin qui le possed)
         RendezVousEntity rendezVousEntity = springRendezVousRepository.findByIdRendezVous(idRendezVous);
         if (rendezVousEntity == null) {
             throw new EntityNotFoundException("RendezVous with id " + idRendezVous + " not found");
        }
+        System.out.println("C'est le rendezVousEntity Recuperer" + rendezVousEntity.getIdRendezVous());
 
+        //  je mappe juste les champs primitve
        RendezVous rendezVous = RendezVousMapper.toDomain(rendezVousEntity) ;
        Consultation consultation = ConsultationMapper.toDomain(requestConsultationDTO) ;
 
 
+        // aucun traitmenent ici avec la base du donnes ;
         Cabinet cabinet = getCabinetByEmail(user);
 
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
@@ -114,12 +118,22 @@ public class ConsultationService {
         payload.setRendezVous(rendezVous);
         payload.setCabinet(cabinet);
         FeatureParameter<CreerConsultationPayload> parameter = new FeatureParameter<>(Featurekey.CREE_CONSULTATION,payload) ;
+        //  On lie la consulation avec  le cabinet domaine  cabinetENtity Toujour deja exsite 
         FeatureResponce<Consultation> response = behaviorPack.performWork(parameter);
+
+
+        // On mapper la consultation 
+        //  le mappage conssiste  a  une mappger des Entite aussis en relation cascade avec   consultationEntity 
+        //  On mappe aussis la facture et on le met en consultationEntity 
 
         ConsultationMapper consultationMapper = new ConsultationMapper() ;
 
         ConsultationEntity consultationEntity = consultationMapper.toEntity(response.getPayload()) ;
+
+        // On met le rendezVous avec la consultation Entiy ( toujour le rendezVous deja exsite et je pense qu il est pas changer pour une autre object )
+        consultationEntity.setRendezVous(rendezVousEntity);
         consultationEntity = consultationRepository.save(consultationEntity) ;
+        
         
         FactureEntity factureEntity = consultationEntity.getFacture() ;
         FactureDTO factureDTO = FactureMapper.toDto(factureEntity) ;

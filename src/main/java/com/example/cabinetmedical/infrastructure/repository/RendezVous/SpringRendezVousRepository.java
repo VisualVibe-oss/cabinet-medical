@@ -6,6 +6,7 @@ import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,12 +15,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
 
 @Repository
 public interface SpringRendezVousRepository extends JpaRepository<RendezVousEntity, Integer> {
 
-    List<RendezVousEntity> findByCabinet_IdCabinetAndDateRendezVousAfter(int idCabinet, Date date);
+    List<RendezVousEntity> findByCabinet_IdCabinetAndDateDebutRendezVous(int idCabinet, LocalDateTime date);
 
     @Modifying
     @Transactional

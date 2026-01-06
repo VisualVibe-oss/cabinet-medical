@@ -24,22 +24,25 @@ import java.util.function.Supplier;
 
 public class BehaviorPackBuilder {
     
-    //* registry contient les associations entre les Featurekey et les fournisseurs de Functionnalitie correspondants */
-   private static Map<Featurekey, Supplier<Functionnalitie>> featureRegistry = Map.of(
-        Featurekey.TEST, FunctionnalitieTest::new,
+    // * registry contient les associations entre les Featurekey et les fournisseurs
+    // de Functionnalitie correspondants */
+    private static Map<Featurekey, Supplier<Functionnalitie>> featureRegistry = Map.of(
+            Featurekey.TEST, FunctionnalitieTest::new,
             Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
             Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,
             Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new,
-        Featurekey.GET_RDV_INFO , GetRDVInfo::new   ,  
-        Featurekey.CREE_CONSULTATION , CreerConsultation::new
-        
+            Featurekey.GET_RDV_INFO, GetRDVInfo::new,
+            Featurekey.CREE_CONSULTATION, CreerConsultation::new  ,
+            Featurekey.GET_RDV_LIST , GetRendezVous::new ,
+            Featurekey.SET_RDV_ONGOING , SetStateRdvOngoing::new 
+
     );
 
 
     private static Map<PackKey, List<Featurekey>> packRegistry = Map.of(
         PackKey.Pack_TEST, List.of(Featurekey.TEST  ),
         PackKey.BASIC , List.of(
-            Featurekey.GET_SECRETAIRE  , 
+            Featurekey.GET_RDV_LIST  , 
             Featurekey.SET_RDV_ONGOING ,
             Featurekey.GET_RDV_INFO  ,
             Featurekey.CREE_CONSULTATION

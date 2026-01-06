@@ -9,6 +9,7 @@ import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
 import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Medecin.MedecinRepositoryImpl;
+import com.example.cabinetmedical.infrastructure.repository.Medecin.SpringMedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSecretaireRepository;
 
 import org.springframework.security.core.Authentication;
@@ -20,12 +21,12 @@ import java.util.Optional;
 @Service
 public class CabinetAppService {
     CabinetRepository cabinetRepository;
-    MedecinRepositoryImpl medecinRepository;
+    SpringMedecinRepository medecinRepository;
     CabinetMapper cm;
     SpringSecretaireRepository secretaireRepository ;
 
     public CabinetAppService(CabinetRepository cabinetRepository
-        , MedecinRepositoryImpl medecinRepository, 
+        , SpringMedecinRepository medecinRepository, 
         SpringSecretaireRepository secretaireRepository,
         CabinetMapper cm) {
         this.cabinetRepository = cabinetRepository;
@@ -54,7 +55,7 @@ public class CabinetAppService {
         if (AuthService.secretaireRole.equals(user.getRole())) {
             cabinetEntity = secretaireRepository.findCabinetBySecretaireId(user.getId());
         } else if (AuthService.medecinRole.equals(user.getRole())) {
-            cabinetEntity = medecinRepository.findCabinetByMedecin(user.getId());
+            cabinetEntity = medecinRepository.findCabinetByIdMedecin(user.getId());
         } else {
             throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
         }
@@ -82,7 +83,7 @@ public class CabinetAppService {
         if (AuthService.secretaireRole.equals(user.getRole())) {
             cabinetEntity = secretaireRepository.findCabinetBySecretaireEmail(user.getEmail());
         } else if (AuthService.medecinRole.equals(user.getRole())) {
-            cabinetEntity = medecinRepository.findCabinetByMedecinEmail(user.getEmail());
+            cabinetEntity = medecinRepository.findCabinetByEmail(user.getEmail());
         } else {
             throw new IllegalArgumentException("Rôle utilisateur invalide : " + user.getRole());
         }

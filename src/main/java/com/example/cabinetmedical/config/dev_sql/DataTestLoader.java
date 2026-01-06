@@ -1,5 +1,7 @@
 package com.example.cabinetmedical.config.dev_sql;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -126,11 +128,10 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
     public RendezVousEntity createRendezVous(CabinetEntity cabinet, PatientEntity patient) {
         RendezVousEntity rdv = new RendezVousEntity();
         // Obtenir la date d'aujourd'hui + 7 jours
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_YEAR, 7);
+        LocalDateTime dateCreation = LocalDateTime.now() ;
 
-        Date dateSemaineProchaine = cal.getTime();
-        rdv.setDateRendezVous(dateSemaineProchaine);
+
+        rdv.setDateDebutRendezVous(dateCreation);
         rdv.setMotif("Consultation de routine");
         rdv.setStatut(RendezVousState.SCHEDULED);
         rdv.setNotes("Pas de notes particulières");
@@ -142,11 +143,10 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
 
 
     public RendezVousEntity createPastRendezVous(CabinetEntity cabinet, PatientEntity patient) {
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DAY_OF_YEAR, -5);
 
+     LocalDateTime dateCreation = LocalDateTime.now() ;
     RendezVousEntity rdv = new RendezVousEntity();
-    rdv.setDateRendezVous(cal.getTime());
+    rdv.setDateDebutRendezVous(dateCreation);
     rdv.setMotif("Douleurs abdominales");
     rdv.setStatut(RendezVousState.DONE);
     rdv.setConsultationType("Urgence");
@@ -157,11 +157,9 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
 }
 
 public RendezVousEntity createFutureRendezVous(CabinetEntity cabinet, PatientEntity patient) {
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DAY_OF_YEAR, 10);
-
+    LocalDateTime dateCreation = LocalDateTime.now() ;
     RendezVousEntity rdv = new RendezVousEntity();
-    rdv.setDateRendezVous(cal.getTime());
+    rdv.setDateDebutRendezVous(dateCreation);
     rdv.setMotif("Contrôle général");
     rdv.setStatut(RendezVousState.SCHEDULED);
     rdv.setConsultationType("Contrôle");

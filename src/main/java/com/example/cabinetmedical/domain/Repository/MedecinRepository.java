@@ -9,12 +9,18 @@ import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import java.util.List;
 import java.util.Optional;
 
+
+
 public interface MedecinRepository {
     MedecinEntity find(int id);
+
+
     List<MedecinEntity> findAll();
     Optional<MedecinEntity> findByEmail(String email);
      public CabinetEntity findCabinetByMedecin(int idMedecin);
-     CabinetEntity findCabinetByMedecinEmail(String email);
+
+
+     CabinetEntity findCabinetByEmail(String email);
 
     // Cette méthode va chercher le cabinet lié au secrétaire par son ID
   

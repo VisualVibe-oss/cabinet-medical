@@ -13,12 +13,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class PatientMapper {
-    CabinetMapper cm;
-    RendezVousMapper rvm;
+   
 
-    public PatientMapper(CabinetMapper cm, RendezVousMapper rvm) {
-        this.cm = cm;
-        this.rvm = rvm;
+    public PatientMapper() {
+     
     }
 
     public static PatientEntity toEntity(Patient p) {
@@ -47,7 +45,7 @@ public class PatientMapper {
         return pe;
     }
 
-    public Patient toDomain(PatientEntity pe){
+    public static Patient toDomain(PatientEntity pe){
 
 
         Patient p = new Patient();

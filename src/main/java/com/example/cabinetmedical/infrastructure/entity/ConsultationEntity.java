@@ -9,7 +9,7 @@ import java.util.List;
 public class ConsultationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idConsultation;
+    private int idConsultation;
 
     @Column(nullable = true)
     private String type;
@@ -46,7 +46,7 @@ public class ConsultationEntity {
     private Date date;
 
     
-
+    
     @OneToOne(mappedBy = "consultation" ,cascade = CascadeType.PERSIST)
     private FactureEntity facture;
 

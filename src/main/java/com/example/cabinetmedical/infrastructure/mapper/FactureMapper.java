@@ -8,7 +8,9 @@ import com.example.cabinetmedical.infrastructure.entity.FactureEntity;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class FactureMapper {
 
     // Format de date standard pour le JSON (ISO 8601)

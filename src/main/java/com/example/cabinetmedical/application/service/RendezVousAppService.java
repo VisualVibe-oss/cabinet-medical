@@ -30,6 +30,8 @@ import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSec
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,18 +54,23 @@ public class RendezVousAppService {
     private SpringSecretaireRepository secretaireRepository;
     private MedecinRepository medecinRepository;
     private NotificationService notificationService ;
+    private CabinetAppService  cabinetService ; 
+
 
     public RendezVousAppService(
             RendezVousRepositoryImpl rendezVousRepositoryImpl, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetMapper cm, PatientMapper pmImp,
             RendezVousRepository rendezVousRepository,
             SpringSecretaireRepository secretaireRepository,
             MedecinRepository medecinRepository, 
+            CabinetAppService  cabinetService  ,
             NotificationService notificationService ,
             SpringRendezVousRepository springRendezVousRepository) {
+
         this.rendezVousRepositoryImpl = rendezVousRepositoryImpl;
         this.rendezVousRepository = rendezVousRepository;
         this.secretaireRepository = secretaireRepository;
         this.medecinRepository = medecinRepository;
+        this.cabinetService  =cabinetService ;
         this.springRendezVousRepository = springRendezVousRepository;
         this.cabinetRepository = cabinetRepository;
         this.rvm = rvm;
@@ -75,9 +82,9 @@ public class RendezVousAppService {
     // * Les rendez vous en attente */
     private List<RendezVous> getRendezVousFromCabinet(int idCabinet) {
 
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
         List<RendezVousEntity> rendezVousEnityList = springRendezVousRepository
-                .findByCabinet_IdCabinetAndDateRendezVousAfter(idCabinet, currentDate);
+                .findByCabinet_IdCabinetAndDateDebutRendezVous(idCabinet, currentDate);
         List<RendezVous> rendezVousList = rendezVousEnityList.stream()
                 .map(rendezVousEntity->{
                      RendezVous rendezVous = RendezVousMapper.toDomain(rendezVousEntity) ;
@@ -129,11 +136,11 @@ public class RendezVousAppService {
 
     public List<RendezVousDTO> getRendezVous(UserDTO user) {
 
-        Cabinet cabinet = getCabinetFromUser(user);
+        Cabinet cabinet = cabinetService.getCabinetFromUser(user);
         List<RendezVous> rendezVousList = getRendezVousFromCabinet(cabinet.getIdCabinet());
 
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
-        FeatureParameter<List<RendezVous>> parameter = new FeatureParameter<>(Featurekey.GET_SECRETAIRE, rendezVousList);
+        FeatureParameter<List<RendezVous>> parameter = new FeatureParameter<>(Featurekey.GET_RDV_LIST, rendezVousList);
         FeatureResponce<List<RendezVous>> response = behaviorPack.performWork(parameter);
 
         List<RendezVousDTO> rendezVousDTOList = response.getPayload().stream()
@@ -150,7 +157,7 @@ public class RendezVousAppService {
     public Boolean setRendezVousOnGoing(RendezVousDTO rendezVousDTO , UserDTO user){
 
 
-        Cabinet cabinet = getCabinetFromUser(user);
+        Cabinet cabinet = cabinetService.getCabinetFromUser(user);
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
 
         // On passe par behavior pack 
@@ -190,7 +197,7 @@ public class RendezVousAppService {
     
     public RendezVousDTO getRendezVousByIdPatient(int idPatient , UserDTO user) {
 
-        Cabinet cabinet = getCabinetByEmail(user);
+        Cabinet cabinet =cabinetService.getCabinetByEmail(user);
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
 
         RendezVousEntity rendezVousEntity = springRendezVousRepository.findByPatient_IdPatient(idPatient) ;
@@ -220,7 +227,7 @@ public class RendezVousAppService {
 
         public RendezVousDTO getRendezVousById(int idRendezVous , UserDTO user) {
 
-        Cabinet cabinet = getCabinetByEmail(user);
+        Cabinet cabinet = cabinetService.getCabinetByEmail(user);
         
         BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
 

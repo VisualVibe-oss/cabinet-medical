@@ -245,8 +245,9 @@ public class MedecinAppService {
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
 
-      
 
+        Cabinet cabinet = cabinetAppService.getCabinetFromUser(user) ;
+        int idCabinet = cabinet.getIdCabinet() ; 
         YearMonth currentMonth = YearMonth.now();
 
         LocalDate monthStartLD = currentMonth.atDay(1);

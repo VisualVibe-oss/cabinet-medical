@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.Controller;
 
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
-import com.example.cabinetmedical.application.dto.UserDTO;
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.config.dev_sql.DataTestLoader;
 import com.example.cabinetmedical.domain.utils.CreateRendezVousRequest;

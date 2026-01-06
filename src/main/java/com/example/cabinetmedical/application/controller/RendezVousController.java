@@ -39,11 +39,7 @@ public class RendezVousController {
 
     
 
-    @PostMapping("/create/{idSecretaire}")
-    public RendezVousDTO creeRendezVous(@RequestParam int idSecretaire, @RequestBody RendezVousDTO rvdto) {
-        return secretaireAppService.creeRendezVous(idSecretaire, rvdto);
-    }
-
+    
     @PostMapping("/search") // On change le verbe en POST
     public ResponseEntity<ApiResponse<List<RendezVousDTO>>> searchRendezVous(@RequestBody UserDTO user) {
         List<RendezVousDTO> RendezVousList = rendezVousAppService.getRendezVous(user);
