@@ -43,7 +43,6 @@ import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRen
 ;
 
 @Component
-@Profile("dev")
 public class DataTestLoader {
 
     @Autowired
@@ -84,6 +83,8 @@ public class DataTestLoader {
         cabinet.setSpecialite("Cardiologie");
         cabinet.setPays("Maroc");
         cabinet.setSignatureBase64("base64string...");
+
+
         cabinet.setMedecin(medecin);
         cabinet.setOffre(offreEntity);
         return cabinetRepo.save(cabinet);

@@ -1,5 +1,6 @@
 package com.example.cabinetmedical.domain.model.Employee;
 
+import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.utils.*;
 
 import java.util.Map;
@@ -11,8 +12,8 @@ public class SecretaryPermissions {
         this.registry = registry;
     }
 
-    public PermissionResponce<?> doWork(PermissionParameter<?> param) {
 
+    public PermissionResponce<?> doWork(PermissionParameter<?> param) {
         if(!registry.containsKey(param.getKey())) {
             throw new IllegalStateException("the registry does not contain the following key: " + param.getKey());
         }

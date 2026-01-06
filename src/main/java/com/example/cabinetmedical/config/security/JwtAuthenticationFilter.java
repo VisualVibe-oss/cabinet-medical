@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 
 @Component
@@ -23,6 +24,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+
+        System.out.println("Cookies = " + Arrays.toString(req.getCookies()));
+        System.out.println("Authorization = " + req.getHeader("Authorization"));
+        System.out.println("Path = " + req.getRequestURI());
 
         try{
             String jwt=getTokenFromCookies(req);

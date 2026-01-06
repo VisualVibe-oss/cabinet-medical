@@ -10,9 +10,11 @@ import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
 import com.example.cabinetmedical.domain.model.functionnalities.GetRDVInfo;
 import com.example.cabinetmedical.domain.model.functionnalities.GetRendezVous;
+import com.example.cabinetmedical.domain.model.functionnalities.SecretaryChecks.CheckAddRendezVous;
 import com.example.cabinetmedical.domain.model.functionnalities.SetStateRdvOngoing;
 import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.domain.utils.PackKey;
+import com.example.cabinetmedical.domain.utils.PermissionKey;
 import com.example.cabinetmedical.exception.FeatureKeyHasNoFeactionnalityError;
 import com.example.cabinetmedical.exception.PackNotRegistredError;
 import com.fasterxml.jackson.annotation.JsonFormat.Feature;
@@ -34,7 +36,8 @@ public class BehaviorPackBuilder {
             Featurekey.GET_RDV_INFO, GetRDVInfo::new,
             Featurekey.CREE_CONSULTATION, CreerConsultation::new  ,
             Featurekey.GET_RDV_LIST , GetRendezVous::new ,
-            Featurekey.SET_RDV_ONGOING , SetStateRdvOngoing::new 
+            Featurekey.SET_RDV_ONGOING , SetStateRdvOngoing::new,
+            Featurekey.CREE_RENDEZ_VOUS, CheckAddRendezVous::new
 
     );
 
@@ -45,9 +48,19 @@ public class BehaviorPackBuilder {
             Featurekey.GET_RDV_LIST  , 
             Featurekey.SET_RDV_ONGOING ,
             Featurekey.GET_RDV_INFO  ,
-            Featurekey.CREE_CONSULTATION
+            Featurekey.CREE_CONSULTATION,
+                    Featurekey.EDIT_SECRETAIRE
         )
     );
+
+    public static List<Featurekey> getFeaturesForPack(PackKey packKey) {
+        List<Featurekey> features = packRegistry.get(packKey);
+        if (features == null) {
+            throw new PackNotRegistredError("Cette pack n'a aucune feature");
+        }
+        return features;
+    }
+
 
 
     public static BehaviorPack build(Offre offre) {

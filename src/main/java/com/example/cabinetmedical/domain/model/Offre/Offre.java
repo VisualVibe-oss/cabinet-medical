@@ -1,7 +1,11 @@
 package com.example.cabinetmedical.domain.model.Offre;
 
+import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
+import com.example.cabinetmedical.domain.utils.Featurekey;
 import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.domain.utils.OfferType;
+
+import java.util.List;
 
 public class Offre {
     private PackKey packKey;
@@ -31,4 +35,9 @@ public class Offre {
 
     public int getOffreDurationInDays() { return offreDurationInDays; }
     public void setOffreDurationInDays(int offreDurationInDays) { this.offreDurationInDays = offreDurationInDays; }
+
+    public List<Featurekey> getFeatureKeys() {
+        return BehaviorPackBuilder.getFeaturesForPack(this.packKey);
+    }
+
 }

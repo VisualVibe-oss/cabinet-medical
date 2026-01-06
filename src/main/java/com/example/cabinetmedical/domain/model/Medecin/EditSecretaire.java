@@ -30,6 +30,7 @@ public class EditSecretaire implements Functionnalitie {
             throw new IllegalArgumentException("invalid salary");
         }
 
+
         s.setNom(p.getNom());
         s.setPrenom(p.getPrenom());
         s.setEmail(p.getEmail());
