@@ -4,8 +4,11 @@ import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.DTO.SecretaireDTO;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
+import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
+import com.example.cabinetmedical.domain.model.behaviorPackBuilder.BehaviorPackBuilder;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.utils.*;
+import com.example.cabinetmedical.domain.utils.payload.SecretaryCheck;
 import com.example.cabinetmedical.exception.SecretaireNotFoundException;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
@@ -14,6 +17,7 @@ import com.example.cabinetmedical.infrastructure.mapper.SecretaireMapper;
 import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SecretaireRepositoryImpl;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,9 +46,11 @@ public class SecretaireAppService {
         RendezVous rv = rvm.toDomain(rvdto);
         Cabinet cabinet = cm.toDomain(cabinetRepository.findByIdCabinet(idCabinet));
         Secretaire secretaire = findByidSecretaire(idSecretaire);
+        BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
+        SecretaryCheck payload = new SecretaryCheck(secretaire, new PermissionParameter(PermissionKey.CREE_RENDEZ_VOUS, rv));
 
 
-        PermissionResponce<RendezVous> responce = (PermissionResponce<RendezVous>) secretaire.doWork(new PermissionParameter<RendezVous>(PermissionKey.CREE_RENDEZ_VOUS, rv));
+        FeatureResponce<RendezVous> responce = behaviorPack.performWork(new FeatureParameter(Featurekey.CREE_RENDEZ_VOUS, payload));
         RendezVous processedRv = responce.getPayload();
 
         return rendezVousAppService.create(processedRv, idCabinet);

@@ -108,6 +108,7 @@ public abstract class Employee {
         if (!PermissionKeys.contains(param.getKey())) {
             throw new AbsentSecretaryPermissionError(param.getKey());
         }
+
         return secretaryPermissions.doWork(param);
     }
     public void grantPermission(PermissionKey key) {

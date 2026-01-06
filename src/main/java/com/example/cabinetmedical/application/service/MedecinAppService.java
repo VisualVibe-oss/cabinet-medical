@@ -1,9 +1,6 @@
 package com.example.cabinetmedical.application.service;
 
-import com.example.cabinetmedical.application.DTO.DepenceDTO;
-import com.example.cabinetmedical.application.DTO.RendezVousDTO;
-import com.example.cabinetmedical.application.DTO.SecretaireDTO;
-import com.example.cabinetmedical.application.DTO.UserDTO;
+import com.example.cabinetmedical.application.DTO.*;
 import com.example.cabinetmedical.application.DTO.Stats.ChartDTO;
 import com.example.cabinetmedical.application.DTO.Stats.StatsDTO;
 import com.example.cabinetmedical.domain.Repository.MedecinRepository;
@@ -29,6 +26,7 @@ import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SecretaireRepositoryImpl;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -57,10 +55,12 @@ public class MedecinAppService {
     private CabinetRepository cabinetRepository;
     private RendezVousMapper rvm;
     private CabinetAppService  cabinetAppService;
+    private PermissionFeatureMapper pfm;
 
 
 
-    public MedecinAppService(MedecinMapper mm, SecretaireMapper sm, MedecinRepository medecinRepositoryImpl, SecretaireAppService secretaireAppService, RendezVousAppService rendezVousAppService, FactureAppService factureAppService, DepenceAppService depenceAppService, DepenceMapper dm, CabinetMapper cm, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetAppService cabinetAppService) {
+    public MedecinAppService(MedecinMapper mm, SecretaireMapper sm, MedecinRepository medecinRepositoryImpl, SecretaireAppService secretaireAppService, RendezVousAppService rendezVousAppService, FactureAppService factureAppService, DepenceAppService depenceAppService, DepenceMapper dm, CabinetMapper cm, CabinetRepository cabinetRepository, RendezVousMapper rvm, CabinetAppService cabinetAppService,
+    PermissionFeatureMapper pfm) {
         this.mm = mm;
         this.sm = sm;
         this.medecinRepositoryImpl = medecinRepositoryImpl;
@@ -73,15 +73,16 @@ public class MedecinAppService {
         this.cabinetRepository = cabinetRepository;
         this.rvm = rvm;
         this.cabinetAppService = cabinetAppService;
+        this.pfm = pfm;
     }
 
-    public Object addSecretary(SecretaireDTO secretaireDTO) {
+    public Object addSecretary(CreateSecretaireDTO secretaireDTO, UserDTO user) {
 
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
         //TEST ONLY
         
-        Cabinet cabinet  = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        Cabinet cabinet  = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet = cabinet.getIdCabinet() ; 
         Secretaire secretaire = sm.toDomain(secretaireDTO);
         List<Secretaire> total = sm.toDomainListFromDto(secretaireAppService.getAllSecretaries(idCabinet));
@@ -119,48 +120,55 @@ public class MedecinAppService {
         else if(cabinet.getOffre().getType()==OfferType.PRO){
             addSecretairePayload.setMaxEmployees(5);
         }
+        BehaviorPack behaviorPack = BehaviorPackBuilder.build(cabinet.getOffre());
 
-        FeatureResponce<?> responce = cabinet.getBehaviorPack().performWork(new FeatureParameter<>(Featurekey.ADD_SECRETAIRE, addSecretairePayload));
+        FeatureResponce<?> responce = behaviorPack.performWork(new FeatureParameter<>(Featurekey.ADD_SECRETAIRE, addSecretairePayload));
 
         if (responce.getPayload() instanceof Secretaire processedSecretaire) {
             return sm.toDTO(secretaireAppService.saveSecretaire(processedSecretaire, idCabinet));
         } else {
             return responce.getPayload().toString();
         }
-
     }
 
     public List<SecretaireDTO> getAllSecretaries(int idCabinet) {
-        //for the future
-       // int actualidCabinet = cabinetAppService.getCurrentCabinet().getIdCabinet();
-        //
+
         return secretaireAppService.getAllSecretaries(idCabinet);
     }
 
-    public SecretaireDTO updateSecretaire(SecretaireDTO secretaireDTO) {
+    public List<PermissionKey> getPermissions(Cabinet cabinet) {
+        if( cabinet.getOffre().getFeatureKeys()!= null){
+            List<Featurekey> allowedFeatures = cabinet.getOffre().getFeatureKeys();
+            return pfm.permissionsAllowedByFeatures(allowedFeatures);
+        }
+        else return null;
+    }
+
+    public SecretaireDTO updateSecretaire(EditSecretaireDTO dto, UserDTO user) {
 
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
 
 
         //* Verifier  si l'id exite  */
-        Cabinet cabinet  = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        Cabinet cabinet  = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet =  cabinet.getIdCabinet() ;
         //
-        Secretaire current = secretaireAppService.findByidSecretaire(secretaireDTO.getIdSecretaire());
+        BehaviorPack behaviorPack =  BehaviorPackBuilder.build(cabinet.getOffre());
+        Secretaire current = secretaireAppService.findByidSecretaire(dto.getSecretaire().getIdSecretaire());
         current.setCabinet(cabinet);
 
         EditSecretairePayload payload = new EditSecretairePayload(
                 current,
-                secretaireDTO.getNom(),
-                secretaireDTO.getPrenom(),
-                secretaireDTO.getEmail(),
-                secretaireDTO.getTelephone(),
-                secretaireDTO.getSalaire(),
-                secretaireDTO.getPermissionKeys()
+                dto.getSecretaire().getNom(),
+                dto.getSecretaire().getPrenom(),
+                dto.getSecretaire().getEmail(),
+                dto.getSecretaire().getTelephone(),
+                dto.getSecretaire().getSalaire(),
+                dto.getSecretaire().getPermissionKeys()
         );
 
-        FeatureResponce<Secretaire> responce = cabinet.getBehaviorPack().performWork(new FeatureParameter(Featurekey.EDIT_SECRETAIRE, payload));
+        FeatureResponce<Secretaire> responce = behaviorPack.performWork(new FeatureParameter(Featurekey.EDIT_SECRETAIRE, payload));
 
         Secretaire processedSecretaire = responce.getPayload();
 

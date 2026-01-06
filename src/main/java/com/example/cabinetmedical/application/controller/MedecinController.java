@@ -1,11 +1,8 @@
 package com.example.cabinetmedical.application.controller;
 
-import com.example.cabinetmedical.application.DTO.DepenceDTO;
-import com.example.cabinetmedical.application.DTO.RendezVousDTO;
+import com.example.cabinetmedical.application.DTO.*;
 import com.example.cabinetmedical.application.DTO.Stats.StatsDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.DTO.SecretaireDTO;
-import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.CabinetAppService;
 import com.example.cabinetmedical.application.service.MedecinAppService;
@@ -15,6 +12,7 @@ import com.example.cabinetmedical.domain.utils.PermissionKey;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -27,23 +25,33 @@ public class MedecinController {
 
     private MedecinAppService medecinAppService;
     private  AuthService authService ; 
-    private  CabinetAppService cabinetAppService ; 
+    private  CabinetAppService cabinetAppService ;
+    PasswordEncoder passwordEncoder;
 
     public MedecinController(MedecinAppService medecinAppService 
         ,AuthService authService , 
-        CabinetAppService cabinetAppService
+        CabinetAppService cabinetAppService,
+                             PasswordEncoder passwordEncoder
       ) {
         this.medecinAppService = medecinAppService;
         this.authService = authService  ;
         this.cabinetAppService  =cabinetAppService ;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/addSecretary")
-    public ApiResponse<SecretaireDTO> addSecretary(@RequestBody SecretaireDTO secretaireDTO) {
-        Object result = medecinAppService.addSecretary(secretaireDTO);
+    public ApiResponse<SecretaireDTO> addSecretary(Authentication aut,@RequestBody CreateSecretaireDTO DTO) {
+
+        System.out.println("RECEVIED SECRETAIRE: "+DTO );
+
+        UserDTO user = authService.getUserDto(aut);
+
+        DTO.setPassword(passwordEncoder.encode(DTO.getPassword()));
+
+        Object result = medecinAppService.addSecretary(DTO, user);
 
         //* Valider le preseence du id  */
-        Cabinet cabinet = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet =  cabinet.getIdCabinet() ;
         if (result instanceof SecretaireDTO secretaire) {
             String message = "Secretary: " + secretaire.getIdSecretaire() + " added for: " + idCabinet;
@@ -54,8 +62,10 @@ public class MedecinController {
             return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown error", null);
         }
     }
-    @GetMapping("/secretaires/{idCabinet}")
-    public ApiResponse<List<SecretaireDTO>> getAllSecretaries(@PathVariable int idCabinet) {
+    @GetMapping("/secretaires")
+    public ApiResponse<List<SecretaireDTO>> getAllSecretaries(Authentication aut) {
+        UserDTO user = authService.getUserDto(aut);
+        int idCabinet = cabinetAppService.getCabinetByEmail(user).getIdCabinet() ;
 
         
         List<SecretaireDTO> secretaires = medecinAppService.getAllSecretaries(idCabinet);
@@ -65,22 +75,34 @@ public class MedecinController {
         return new ApiResponse<>(status,message,secretaires);
     }
 
-    @GetMapping("/secretaires/{idCabinet}/permissions")
-    public List<String> getAllPermissions() {
-        return Arrays.stream(PermissionKey.values())
-                .map(PermissionKey::name)
-                .collect(Collectors.toList());
+    @GetMapping("/secretaires/permissions")
+    public ApiResponse<List<String>> getAllPermissions(Authentication aut) {
+
+        UserDTO user = authService.getUserDto(aut);
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user);
+
+        List<PermissionKey> permissions =
+                medecinAppService.getPermissions(cabinet);
+
+        List<String> permissionNames = permissions.stream()
+                .map(Enum::name)
+                .toList();
+
+        return new ApiResponse(HttpStatus.OK.value(), "retrieved Permisions", permissionNames);
     }
 
+
     @PutMapping("/editSecretary")
-    public ApiResponse<SecretaireDTO> updateSecretaire(@RequestBody SecretaireDTO secretaireDTO) {
-        System.out.println("received dto" + secretaireDTO);
+    public ApiResponse<SecretaireDTO> updateSecretaire(@RequestBody EditSecretaireDTO DTO, Authentication aut) {
+
+        System.out.println("received dto" + DTO);
+        UserDTO user = authService.getUserDto(aut);
 
         //* Valider le preseence du id  */
-        Cabinet cabinet = cabinetAppService.getCabinetFromUser(secretaireDTO) ;
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet =  cabinet.getIdCabinet() ;
 
-        SecretaireDTO secretaire = medecinAppService.updateSecretaire(secretaireDTO);
+        SecretaireDTO secretaire = medecinAppService.updateSecretaire(DTO, user);
         String message = "Secretary: " + secretaire.getIdSecretaire() + "updated for : " + idCabinet;
         int status = HttpStatus.OK.value();
 
