@@ -12,7 +12,8 @@ import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import jakarta.transaction.Transactional;
-
+import java.util.List;
+import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
 public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer> {
 
@@ -26,14 +27,15 @@ public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer>
     @Query("UPDATE CabinetEntity c SET c.dateFinOffre = null WHERE c.offre.idOffre = :idOffre")
     void setOffreEndDateToNullByOffreId(int idOffre);
 
-
     Page<CabinetEntity> findByDateFinOffreBefore(Date date, Pageable pageable);
- 
 
     @Query("update CabinetEntity c set c.dateFinOffre  = :newDatefinoffre where c.idCabinet = :idCabinet")
     @Modifying
     @Transactional
     void updateDateFinOffreByIdCabinet(int idCabinet, Date newDatefinoffre);
+
+    @Query("SELECT c.etat FROM CabinetEntity c WHERE c.medecin = :medecin")
+    boolean findEtatByMedecin(MedecinEntity medecin);
 
     CabinetEntity findByIdCabinet(int idCabinet);
 }

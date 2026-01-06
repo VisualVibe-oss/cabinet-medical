@@ -30,6 +30,8 @@ public class CabinetEntity {
 
     private Date dateFinOffre;
 
+    private boolean etat = true ; 
+
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="idMedecin" , unique = true )
@@ -80,6 +82,14 @@ public class CabinetEntity {
     }
     public void setPays(String pays) {
         this.pays = pays;
+    }
+
+    public void setEtat(boolean etat ){
+        this.etat = etat ; 
+    }
+
+    public boolean getEtat(){
+        return this.etat ;
     }
 
     public String getSignatureBase64() {
