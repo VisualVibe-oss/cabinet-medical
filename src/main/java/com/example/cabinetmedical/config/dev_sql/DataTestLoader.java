@@ -129,10 +129,12 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
     public RendezVousEntity createRendezVous(CabinetEntity cabinet, PatientEntity patient) {
         RendezVousEntity rdv = new RendezVousEntity();
         // Obtenir la date d'aujourd'hui + 7 jours
-        LocalDateTime dateCreation = LocalDateTime.now() ;
+        LocalDateTime dateDebut = LocalDateTime.of(2026, 1, 6, 16, 0); // 6th Jan, 4:00 PM
+        LocalDateTime dateFin   = LocalDateTime.of(2026, 1, 6, 16, 0);
 
 
-        rdv.setDateDebutRendezVous(dateCreation);
+        rdv.setDateDebutRendezVous(dateDebut);
+        rdv.setDateFinRendezVous(dateFin);
         rdv.setMotif("Consultation de routine");
         rdv.setStatut(RendezVousState.SCHEDULED);
         rdv.setNotes("Pas de notes particulières");

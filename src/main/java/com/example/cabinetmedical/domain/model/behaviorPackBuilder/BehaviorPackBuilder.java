@@ -1,10 +1,9 @@
 package com.example.cabinetmedical.domain.model.behaviorPackBuilder;
 
-import com.example.cabinetmedical.domain.model.Medecin.DeleteSecretaire;
-import com.example.cabinetmedical.domain.model.Medecin.EditSecretaire;
+import com.example.cabinetmedical.domain.model.Medecin.*;
 import com.example.cabinetmedical.domain.model.Offre.Offre;
+import com.example.cabinetmedical.domain.model.Stats.StatsFunctionality;
 import com.example.cabinetmedical.domain.model.behaviorPack.BehaviorPack;
-import com.example.cabinetmedical.domain.model.Medecin.AddSecretaire;
 import com.example.cabinetmedical.domain.model.functionnalities.CreerConsultation;
 import com.example.cabinetmedical.domain.model.functionnalities.Functionnalitie;
 import com.example.cabinetmedical.domain.model.functionnalities.FunctionnalitieTest;
@@ -29,27 +28,30 @@ public class BehaviorPackBuilder {
     // * registry contient les associations entre les Featurekey et les fournisseurs
     // de Functionnalitie correspondants */
     private static Map<Featurekey, Supplier<Functionnalitie>> featureRegistry = Map.of(
-            Featurekey.TEST, FunctionnalitieTest::new,
-            Featurekey.ADD_SECRETAIRE, AddSecretaire::new,
             Featurekey.EDIT_SECRETAIRE, EditSecretaire::new,
             Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new,
-            Featurekey.GET_RDV_INFO, GetRDVInfo::new,
-            Featurekey.CREE_CONSULTATION, CreerConsultation::new  ,
+            Featurekey.EDIT_DEPENCE, EditDepence::new,
+            Featurekey.ADD_DEPENCE, AddDepence::new  ,
             Featurekey.GET_RDV_LIST , GetRendezVous::new ,
             Featurekey.SET_RDV_ONGOING , SetStateRdvOngoing::new,
-            Featurekey.CREE_RENDEZ_VOUS, CheckAddRendezVous::new
-
+            Featurekey.CREE_RENDEZ_VOUS, CheckAddRendezVous::new,
+            Featurekey.EDIT_RENDEZ_VOUS , EditSecretaire::new,
+            Featurekey.VIEW_STATS , StatsFunctionality::new,
+            Featurekey.DELETE_DEPENCE, DeleteDepence::new
     );
 
 
     private static Map<PackKey, List<Featurekey>> packRegistry = Map.of(
         PackKey.Pack_TEST, List.of(Featurekey.TEST  ),
         PackKey.BASIC , List.of(
-            Featurekey.GET_RDV_LIST  , 
-            Featurekey.SET_RDV_ONGOING ,
-            Featurekey.GET_RDV_INFO  ,
-            Featurekey.CREE_CONSULTATION,
-                    Featurekey.EDIT_SECRETAIRE
+                    Featurekey.GET_RDV_LIST  ,
+                    Featurekey.SET_RDV_ONGOING ,
+                    Featurekey.EDIT_SECRETAIRE,
+                    Featurekey.ADD_DEPENCE,
+                    Featurekey.EDIT_RENDEZ_VOUS,
+                    Featurekey.VIEW_STATS,
+                    Featurekey.DELETE_DEPENCE,
+                    Featurekey.EDIT_DEPENCE
         )
     );
 

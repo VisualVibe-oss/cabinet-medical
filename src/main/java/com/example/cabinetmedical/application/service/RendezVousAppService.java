@@ -106,7 +106,7 @@ public class RendezVousAppService {
         rendezVousRepository.save(rve);
         RendezVousDTO rvdto = rvm.toDTO(rve);
         rvdto.setIdCabinet(idCabinet);
-        rvdto.setPatient(rv.getPatient());
+        rvdto.setPatient(pm.toDTO(rv.getPatient()));
 
 
         return rvdto;
@@ -120,7 +120,7 @@ public class RendezVousAppService {
             RendezVousDTO dto = rvs.get(i);
 
             if (entity.getPatient() != null) {
-                dto.setPatient(pm.toDomain(entity.getPatient()));
+                dto.setPatient(pm.toDTO(entity.getPatient()));
             }
         }
         System.out.println("getAllRendezVous "+rvs);
@@ -215,7 +215,7 @@ public class RendezVousAppService {
         FeatureResponce<RendezVous> response = behaviorPack.performWork(parameter);
 
         RendezVousDTO rendezVousDTO =  RendezVousMapper.toDTO(rendezVous)  ;
-        Patient patient =  PatientMapper.toDomain(patientEntity) ;
+        PatientDTO patient =  PatientMapper.toDTO(patientEntity) ;
 
         rendezVousDTO.setPatient(patient);
 
@@ -247,7 +247,7 @@ public class RendezVousAppService {
         FeatureResponce<RendezVous> response = behaviorPack.performWork(parameter);
 
         RendezVousDTO rendezVousDTO =  RendezVousMapper.toDTO(rendezVous)  ;
-        Patient patient =  PatientMapper.toDomain(patientEntity) ;
+        PatientDTO patient =  PatientMapper.toDTO(patientEntity) ;
 
         rendezVousDTO.setPatient(patient);
 

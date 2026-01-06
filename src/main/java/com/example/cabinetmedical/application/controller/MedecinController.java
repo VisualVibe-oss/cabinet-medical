@@ -109,41 +109,47 @@ public class MedecinController {
         return new ApiResponse<>(status, message, secretaire);
     }
     @DeleteMapping("/deleteSecretary/{idsecretaire}")
-    public ApiResponse<SecretaireDTO> deleteSecretaire(@PathVariable int idsecretaire) {
+    public ApiResponse<SecretaireDTO> deleteSecretaire(@PathVariable int idsecretaire, Authentication aut) {
+        UserDTO user = authService.getUserDto(aut);
         System.out.println("received id:  " + idsecretaire);
-        medecinAppService.deleteSecretaire(idsecretaire);
+        medecinAppService.deleteSecretaire(idsecretaire, user);
         String message = "deleted secretary: " + idsecretaire;
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, null);
     }
 
-    @GetMapping("/rendezvous/{idCabinet}")
-    public ApiResponse<List<RendezVousDTO>> getAllRendezVous(@PathVariable int idCabinet) {
-        List<RendezVousDTO> data = medecinAppService.getAllRendezVous(idCabinet);
+    @GetMapping("/rendezvous")
+    public ApiResponse<List<RendezVousDTO>> getAllRendezVous(Authentication aut) {
+        UserDTO user = authService.getUserDto(aut);
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
+        int idCabinet = cabinet.getIdCabinet() ;
+        List<RendezVousDTO> data = medecinAppService.getAllRendezVous(user);
         String message = "Appointments retrieved by" + idCabinet;
         int status = HttpStatus.OK.value();
         return new ApiResponse<>(status, message, data);
     }
 
     @PutMapping("/editRendezVous")
-    public ApiResponse<RendezVousDTO> updateRendezVous(@RequestBody RendezVousDTO rendezVousDTO) {
-
-        RendezVousDTO rv = medecinAppService.editRendezVous(rendezVousDTO);
-        String message = "Appointment: "+ rendezVousDTO.getIdRendezVous() + " updated for: " + rendezVousDTO.getIdCabinet();
+    public ApiResponse<RendezVousDTO> updateRendezVous(@RequestBody RendezVousDTO rendezVousDTO, Authentication aut) {
+        System.out.println("RECEIVED DTO: "+ rendezVousDTO);
+        UserDTO user = authService.getUserDto(aut);
+        int idCabinet = cabinetAppService.getCabinetByEmail(user).getIdCabinet() ;
+        RendezVousDTO rv = medecinAppService.editRendezVous(rendezVousDTO, user);
+        String message = "Appointment: "+ rendezVousDTO.getIdRendezVous() + " Has been updated";
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, rv);
     }
 
-    @GetMapping("/getStats/{idCabinet}")
+    @GetMapping("/getStats")
     public ApiResponse<StatsDTO>  getStats(
-        @PathVariable int idCabinet ,
         Authentication aut 
     ) {
 
         UserDTO user  = authService.getUserDto(aut) ;
         StatsDTO stats = medecinAppService.getStats(user);
+        int idCabinet = cabinetAppService.getCabinetByEmail(user).getIdCabinet();
         String message = "Stats retrieved by" + idCabinet;
         int status = HttpStatus.OK.value();
 
@@ -151,35 +157,47 @@ public class MedecinController {
 
     }
     @PostMapping("/addDepence")
-    public ApiResponse<DepenceDTO> addDepence(@RequestBody DepenceDTO dto) {
+    public ApiResponse<DepenceDTO> addDepence(@RequestBody DepenceDTO dto, Authentication aut) {
 
         System.out.println("received dto" + dto);
+        UserDTO user = authService.getUserDto(aut);
+        int idCabinet = cabinetAppService.getCabinetByEmail(user).getIdCabinet();
+        dto.setIdCabinet(idCabinet);
 
-        DepenceDTO depence = medecinAppService.addDepence(dto);
-        String message = "Depence added for" + dto.getIdCabinet();
+        DepenceDTO depence = medecinAppService.addDepence(dto, user);
+        String message = "Depence added for" + idCabinet;
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, depence);
 
     }
     @DeleteMapping("/deleteDepence")
-    public ApiResponse<DepenceDTO> deleteDepence(@RequestBody DepenceDTO dto) {
+    public ApiResponse<DepenceDTO> deleteDepence(@RequestBody DepenceDTO dto, Authentication aut) {
         System.out.println("received dto" + dto);
 
-        medecinAppService.deleteDepence(dto);
-        String message = "Depence deleted for" + dto.getIdCabinet();
+        UserDTO user = authService.getUserDto(aut);
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
+        int idCabinet = cabinet.getIdCabinet() ;
+        dto.setIdCabinet(idCabinet);
+
+        medecinAppService.deleteDepence(dto, user);
+        String message = "Depence deleted for" + idCabinet;
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, null);
 
     }
     @PutMapping("/editDepence")
-    public ApiResponse<DepenceDTO> editDepence(@RequestBody DepenceDTO dto) {
+    public ApiResponse<DepenceDTO> editDepence(@RequestBody DepenceDTO dto, Authentication aut) {
 
+        UserDTO user = authService.getUserDto(aut);
+        Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
+        int idCabinet = cabinet.getIdCabinet() ;
+        dto.setIdCabinet(idCabinet);
         System.out.println("Received Depence" + dto);
 
-        DepenceDTO depence = medecinAppService.updateDepence(dto);
-        String message = "Depence updated for" + dto.getIdCabinet();
+        DepenceDTO depence = medecinAppService.updateDepence(dto, user);
+        String message = "Depence updated for" + idCabinet;
         int status = HttpStatus.OK.value();
 
         return new ApiResponse<>(status, message, depence);

@@ -98,4 +98,37 @@ public class PatientMapper {
 
         return dto;
     }
+    public static Patient toDomain(PatientDTO dto) {
+        if (dto == null) return null;
+
+        Patient p = new Patient();
+
+        p.setIdPatient(dto.getIdPatient());
+        p.setNom(dto.getNom());
+        p.setPrenom(dto.getPrenom());
+        p.setCin(dto.getCin());
+        p.setTelephone(dto.getTelephone());
+        p.setSexe(dto.getSexe());
+        p.setDateNaissance(dto.getDateNaissance());
+        p.setTypeMutuelle(dto.getTypeMutuelle());
+
+        // Don't set rendezvous or cabinet unless needed (to avoid lazy-loading issues)
+        return p;
+    }
+    public static PatientDTO toDTO(Patient p) {
+        if (p == null) return null;
+
+        PatientDTO dto = new PatientDTO();
+        dto.setIdPatient(p.getIdPatient());
+        dto.setNom(p.getNom());
+        dto.setPrenom(p.getPrenom());
+        dto.setCin(p.getCin());
+        dto.setTelephone(p.getTelephone());
+        dto.setSexe(p.getSexe());
+        dto.setDateNaissance(p.getDateNaissance());
+        dto.setTypeMutuelle(p.getTypeMutuelle());
+
+
+        return dto;
+    }
 }
