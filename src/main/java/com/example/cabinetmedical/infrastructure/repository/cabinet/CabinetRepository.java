@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.infrastructure.repository;
+package com.example.cabinetmedical.infrastructure.repository.cabinet;
 
 import java.sql.Date;
 
@@ -38,4 +38,8 @@ public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer>
     boolean findEtatByMedecin(MedecinEntity medecin);
 
     CabinetEntity findByIdCabinet(int idCabinet);
+
+
+    List<CabinetEntity> findByEtatTrue();
+    List<CabinetEntity> findByEtatFalse();
 }

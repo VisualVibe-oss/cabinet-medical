@@ -2,4 +2,20 @@ package com.example.cabinetmedical.domain.utils;
 
 public enum PermissionKey {
     CREE_RENDEZ_VOUS,
+    // Patients
+    CREE_PATIENT,
+    MODIFIER_PATIENT,
+    SUPPRIMER_PATIENT,
+    CONSULTER_PATIENT,
+    RECHERCHER_PATIENT,
+
+    // Dossiers médicaux
+    CREE_DOSSIER_MEDICAL,
+    MODIFIER_DOSSIER_MEDICAL,
+    CONSULTER_DOSSIER_MEDICAL,
+
+    CREER_RENDEZ_VOUS,
+    MODIFIER_RENDEZ_VOUS,
+    SUPPRIMER_RENDEZ_VOUS,
+    CONSULTER_RENDEZ_VOUS,
 }

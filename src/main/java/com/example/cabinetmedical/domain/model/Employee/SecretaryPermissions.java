@@ -19,4 +19,9 @@ public class SecretaryPermissions {
         }
         return  registry.get(param.getKey()).doWork(param);
     }
+
+    
+
 }
+
+

@@ -84,13 +84,7 @@ public class CabinetEntity {
         this.pays = pays;
     }
 
-    public void setEtat(boolean etat ){
-        this.etat = etat ; 
-    }
-
-    public boolean getEtat(){
-        return this.etat ;
-    }
+   
 
     public String getSignatureBase64() {
         return signatureBase64;
@@ -151,6 +145,9 @@ public class CabinetEntity {
     public MedecinEntity getMedecin() {
         return medecin;
     }
+
+    public boolean getEtat(){ return etat; }
+    public void setEtat(boolean etat) { this.etat = etat; }
 
     public void setMedecin(MedecinEntity medecin) {
         this.medecin = medecin;

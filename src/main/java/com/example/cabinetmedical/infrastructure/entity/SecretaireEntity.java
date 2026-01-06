@@ -2,6 +2,9 @@ package com.example.cabinetmedical.infrastructure.entity;
 
 import com.example.cabinetmedical.domain.utils.PermissionKey;
 import jakarta.persistence.*;
+import com.example.cabinetmedical.domain.utils.PermissionKey;
+import java.util.HashSet;
+import java.util.Set;
 
 import java.util.HashSet;
 import java.util.Set;

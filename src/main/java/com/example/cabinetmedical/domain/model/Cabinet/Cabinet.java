@@ -29,6 +29,8 @@ public class Cabinet {
     private String adresse;
     private String telephone;
 
+    private boolean etat;
+
     private Medecin medecin;
     private List<Secretaire> secretaire;
     private List<Depence> depence; //NEEDS TO BE ADDED
@@ -40,12 +42,13 @@ public class Cabinet {
 
     BehaviorPack behaviorPack ;
 
-    public Cabinet(int idCabinet, String logo, String nom, String specialite, String adresse, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
+    public Cabinet(int idCabinet, boolean etat ,String logo, String nom, String specialite, String adresse, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
         this.idCabinet = idCabinet;
         this.logo = logo;
         this.nom = nom;
         this.specialite = specialite;
         this.adresse = adresse;
+        this.etat = etat ;
         this.telephone = telephone;
         this.medecin = medecin;
         this.secretaire = secretaire;
@@ -59,4 +62,76 @@ public class Cabinet {
     }
     public Cabinet (){}
 
+    public Cabinet(int idCabinet, String logo, String nom, String specialite,
+                   String adresse, String telephone, boolean etat) {
+        this.idCabinet = idCabinet;
+        this.logo = logo;
+        this.nom = nom;
+        this.specialite = specialite;
+        this. adresse = adresse;
+        this.telephone = telephone;
+        this.etat = etat;
+    }
+
+
+    FeatureResponce performWork(FeatureParameter parameter) {
+         return behaviorPack.performWork(parameter) ;
+
+    }
+
+    public int getIdCabinet() {
+        return idCabinet;
+    }
+
+    public void setIdCabinet(int idCabinet) {
+        this.idCabinet = idCabinet;
+    }
+
+    public boolean getEtat() {
+        return etat;
+    }
+
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 }

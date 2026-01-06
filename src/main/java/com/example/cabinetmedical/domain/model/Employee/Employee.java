@@ -106,9 +106,8 @@ public abstract class Employee {
     public PermissionResponce<?> doWork(PermissionParameter<?> param) {
 
         if (!PermissionKeys.contains(param.getKey())) {
-            throw new AbsentSecretaryPermissionError(param.getKey());
+            throw new IllegalArgumentException("secretary does not have the permission " +param.getKey());
         }
-
         return secretaryPermissions.doWork(param);
     }
     public void grantPermission(PermissionKey key) {
@@ -117,5 +116,14 @@ public abstract class Employee {
 
     public void revokePermission(PermissionKey key) {
         this.PermissionKeys.remove(key);
+    }
+
+
+    public SecretaryPermissions getSecretaryPermissions() {
+        return secretaryPermissions;
+    }
+
+    public void setSecretaryPermissions(SecretaryPermissions secretaryPermissions) {
+        this.secretaryPermissions = secretaryPermissions;
     }
 }

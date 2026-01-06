@@ -62,6 +62,5 @@ public class AddSecretairePayload {
     public void setExistingMedecinEmails(List<String> existingMedecinEmails) {
         this.existingMedecinEmails = existingMedecinEmails;
     }
-
 }
 
