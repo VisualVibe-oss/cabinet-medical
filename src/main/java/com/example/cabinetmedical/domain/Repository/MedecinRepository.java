@@ -15,6 +15,7 @@ public interface MedecinRepository {
     MedecinEntity find(int id);
 
 
+
     List<MedecinEntity> findAll();
     Optional<MedecinEntity> findByEmail(String email);
      public CabinetEntity findCabinetByMedecin(int idMedecin);
