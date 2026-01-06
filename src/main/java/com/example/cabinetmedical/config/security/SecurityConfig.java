@@ -1,20 +1,11 @@
 package com.example.cabinetmedical.config.security;
 
-import com.example.cabinetmedical.infrastructure.entity.AdminEntity;
-import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
-import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
-import com.example.cabinetmedical.infrastructure.repository.AdminRepository;
-import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
-import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,10 +18,9 @@ import java.util.Optional;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AdminRepository adminRepository;
-    private final MedecinRepository medecinRepository;
-    private final SecretaireRepository secretaireRepository;
+   
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
     private final CorsConfigurationSource corsConfigurationSource;
 
@@ -63,47 +53,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return email -> {
-            String emailLower = email.toLowerCase().trim();
-
-            Optional<AdminEntity> admin = adminRepository.findByEmail(emailLower);
-            if (admin.isPresent()) {
-                AdminEntity a = admin.get();
-                return User.builder()
-                        .username(a.getEmail())
-                        .password(a.getPassword())
-                        .roles("ADMIN")
-                        .build();
-            }
-
-            Optional<MedecinEntity> medecin = medecinRepository.findByEmail(emailLower);
-            if (medecin.isPresent()) {
-                MedecinEntity m = medecin.get();
-                return User.builder()
-                        .username(m.getEmail())
-                        .password(m.getPassword())
-                        .roles("MEDECIN")
-                        .build();
-            }
-
-            Optional<SecretaireEntity> secretaire = secretaireRepository.findByEmail(emailLower);
-            if (secretaire.isPresent()) {
-                SecretaireEntity s = secretaire.get();
-                return User.builder()
-                        .username(s.getEmail())
-                        .password(s.getPassword())
-                        .roles("SECRETAIRE")
-                        .build();
-            }
-
-            throw new UsernameNotFoundException("Utilisateur non trouvé : " + email);
-        };
-    }
-
-
-
+    
     
     
 
