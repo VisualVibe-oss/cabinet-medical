@@ -1,6 +1,7 @@
 package com.example.cabinetmedical.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,13 @@ public class AuthService {
     
     public static final String medecinRole = "MEDECIN" ;
     public static final String secretaireRole = "SECRETAIRE" ;
+    public static final String adminRole = "ADMIN" ;
+
+     @Value("${MY_APP_ADMIN_USER}")
+    private String adminUsername;
+
+    @Value("${MY_APP_ADMIN_PASSWORD}")
+    private String adminPassword;
 
     
     PasswordEncoder passwordEncoder;
@@ -77,38 +85,38 @@ public class AuthService {
         
     }   
 
-
     public UserDTO login(LoginDTO loginData) {
-    String email = loginData.getEmail().toUpperCase();
+        String email = loginData.getEmail().toUpperCase();
 
-    UserDTO user = new UserDTO();
-    user.setEmail(email);
+        UserDTO user = new UserDTO();
+        user.setEmail(email);
 
-    // Vérifier si c'est une secrétaire
-    secretaireRepository.findByEmail(email).ifPresent(secretaire -> {
-        if (passwordEncoder.matches(loginData.getPassword(), secretaire.getPassword())) {
-            user.setRole(secretaireRole);
-            
-        } else {
+        // Vérifier si c'est une secrétaire
+        secretaireRepository.findByEmail(email).ifPresent(secretaire -> {
+            if (passwordEncoder.matches(loginData.getPassword(), secretaire.getPassword())) {
+                user.setRole(secretaireRole);
+
+            } else {
+                throw new CredentialNotValidError("Email ou mot de passe incorrect");
+            }
+        });
+
+        // Vérifier si c'est un médecin
+        medecinRepository.findByEmail(email).ifPresent(medecin -> {
+            if (passwordEncoder.matches(loginData.getPassword(), medecin.getPassword())) {
+                user.setRole(medecinRole);
+            } else {
+                throw new CredentialNotValidError("Email ou mot de passe incorrect");
+            }
+        });
+
+        if (user.getRole() == null) {
             throw new CredentialNotValidError("Email ou mot de passe incorrect");
         }
-    });
 
-    // Vérifier si c'est un médecin
-    medecinRepository.findByEmail(email).ifPresent(medecin -> {
-        if (passwordEncoder.matches(loginData.getPassword(), medecin.getPassword())) {
-            user.setRole(medecinRole);
-        } else {
-            throw new CredentialNotValidError("Email ou mot de passe incorrect");
-        }
-    });
-
-    if (user.getRole() == null) {
-        throw new CredentialNotValidError("Email ou mot de passe incorrect");
+        return user;
     }
 
-    return user;
-}
 
 
 
@@ -125,6 +133,25 @@ public UserDTO getUserDto(Authentication authentication) {
         user.setEmail(email);
         user.setRole(role);
         return user ; 
+    }
+
+
+       public UserDTO loginAdmin(LoginDTO loginData) {
+        String email = loginData.getEmail();
+        String password = loginData.getPassword() ;
+
+
+        if(!password.equals(adminPassword) || !email.equals(adminUsername)){
+            
+            throw new CredentialNotValidError("Les credentiel que vous avez fournis ne sont pas juste") ;
+        }
+
+        UserDTO user = new UserDTO();
+            user.setEmail(email);
+            user.setRole(adminRole);
+            
+
+        return user ;
     }
 
 }

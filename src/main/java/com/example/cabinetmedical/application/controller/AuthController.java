@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ public class AuthController {
     private AuthService authService;
     @Autowired
     private JwtService jwtService;
+
+   
 
     private void setHeaders(String accessToken, String refreshToken, HttpServletResponse response) {
         // 1. Configuration du cookie d'accès (Access Token)
@@ -56,6 +59,21 @@ public class AuthController {
         response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, accessCookie.toString());
         response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
+
+
+    private void setAccessHeader(String accessToken, HttpServletResponse response) {
+    // 1. Configuration du cookie d'accès uniquement
+    ResponseCookie accessCookie = ResponseCookie.from("accessToken", accessToken)
+            .httpOnly(true)    // Sécurité XSS
+            .secure(false)      // FALSE pour le développement local (HTTP)
+            .path("/")          // Accessible partout
+            .maxAge(60 * 15)    // Durée de vie : 15 minutes
+            .sameSite("Lax")    // Permet la transmission entre ports différents (ex: 3000 vers 8080)
+            .build();
+
+    // 2. Envoi du header Set-Cookie unique
+    response.setHeader(org.springframework.http.HttpHeaders.SET_COOKIE, accessCookie.toString());
+}
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody Map<String, Object> object,
@@ -91,6 +109,25 @@ public class AuthController {
         String accessToken = jwtService.generateAccesToken(user);
         String refreshToken = jwtService.generateAndSaveRefreshToken(user);
         setHeaders(accessToken, refreshToken, res);
+        ApiResponse<UserDTO> apiResponse = ApiResponse.<UserDTO>builder()
+                .data(user)
+                .message("User registered successfully")
+                .status(HttpStatus.CREATED.value())
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+
+     @PostMapping("/login/admin")
+    public ResponseEntity<ApiResponse<UserDTO>> loginAdmin(@RequestBody LoginDTO loginData, HttpServletResponse res) {
+
+        UserDTO user = authService.loginAdmin(loginData);
+
+        String accessToken = jwtService.generateAccesToken(user);
+    
+        setAccessHeader(accessToken, res);
         ApiResponse<UserDTO> apiResponse = ApiResponse.<UserDTO>builder()
                 .data(user)
                 .message("User registered successfully")
@@ -142,23 +179,11 @@ public class AuthController {
 
 
 
-     @PostMapping("/login/admin")
-    public ResponseEntity<ApiResponse<UserDTO>> loginAdmin(@RequestBody LoginDTO loginData, HttpServletResponse res) {
+     
 
-        UserDTO user = authService.login(loginData);
 
-        String accessToken = jwtService.generateAccesToken(user);
-        String refreshToken = jwtService.generateAndSaveRefreshToken(user);
-        setHeaders(accessToken, refreshToken, res);
-        ApiResponse<UserDTO> apiResponse = ApiResponse.<UserDTO>builder()
-                .data(user)
-                .message("User registered successfully")
-                .status(HttpStatus.CREATED.value())
-                .build();
 
-        return ResponseEntity.ok(apiResponse);
 
-    }
 
 
 
