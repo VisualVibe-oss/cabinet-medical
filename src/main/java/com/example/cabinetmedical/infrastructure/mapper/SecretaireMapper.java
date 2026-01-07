@@ -19,7 +19,7 @@ public class SecretaireMapper {
 
 
 
-    public SecretaireEntity toEntity(Secretaire s){
+    public  static  SecretaireEntity toEntity(Secretaire s){
 
         SecretaireEntity se = new SecretaireEntity();
 
@@ -39,12 +39,12 @@ public class SecretaireMapper {
 
         return se;
     }
-    public Secretaire toDomain(SecretaireEntity se){
+    public static Secretaire toDomain(SecretaireEntity se){
 
         Secretaire s = new Secretaire(se.getIdSecretaire(), se.getNom(), se.getPrenom(), se.getEmail(), se.getPassword(), se.getSalaire(), se.getTelephone(),CabinetMapper.toDomain(se.getCabinet()), se.getPermissionKeys());
         return s;
     }
-    public Secretaire toDomain(SecretaireDTO sdto) {
+    public  static Secretaire toDomain(SecretaireDTO sdto) {
         Secretaire s = new Secretaire();
 
         s.setIdSecretaire(sdto.getIdSecretaire());
@@ -59,7 +59,7 @@ public class SecretaireMapper {
 
         return s;
     }
-    public Secretaire toDomain(CreateSecretaireDTO dto) {
+    public  static Secretaire toDomain(CreateSecretaireDTO dto) {
         Secretaire s = new Secretaire();
 
         s.setNom(dto.getSecretaire().getNom());
@@ -77,7 +77,7 @@ public class SecretaireMapper {
         return s;
     }
 
-    public SecretaireDTO toDTO(SecretaireEntity se) {
+    public static SecretaireDTO toDTO(SecretaireEntity se) {
         SecretaireDTO sdto = new SecretaireDTO();
 
         sdto.setIdSecretaire(se.getIdSecretaire());
@@ -93,7 +93,7 @@ public class SecretaireMapper {
     }
 
 
-    public SecretaireDTO toDTO(Secretaire s) {
+    public static SecretaireDTO toDTO(Secretaire s) {
         SecretaireDTO sdto = new SecretaireDTO();
 
         sdto.setIdSecretaire(s.getIdSecretaire());
@@ -111,12 +111,12 @@ public class SecretaireMapper {
 
 
     public List<Secretaire> toDomainList(List<SecretaireEntity> se){
-        return se.stream().map(this::toDomain).toList();
+        return se.stream().map(SecretaireMapper::toDomain).toList();
     }
 
-    public List<Secretaire> toDomainListFromDto(List<SecretaireDTO> sdto){return sdto.stream().map(this::toDomain).toList();}
+    public List<Secretaire> toDomainListFromDto(List<SecretaireDTO> sdto){return sdto.stream().map(SecretaireMapper::toDomain).toList();}
 
     public List<SecretaireDTO> toDTOList(List<Secretaire> s){
-        return s.stream().map(this::toDTO).toList();
+        return s.stream().map(SecretaireMapper::toDTO).toList();
     }
 }

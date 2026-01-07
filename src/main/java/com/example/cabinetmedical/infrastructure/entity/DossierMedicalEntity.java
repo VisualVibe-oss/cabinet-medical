@@ -50,11 +50,11 @@ public class DossierMedicalEntity {
 
     public DossierMedicalEntity() {}
 
-    public int getIdDossier() {
+    public Integer getIdDossier() {
         return idDossier;
     }
 
-    public void setIdDossier(int idDossier) {
+    public void setIdDossier(Integer idDossier) {
         this.idDossier = idDossier;
     }
 

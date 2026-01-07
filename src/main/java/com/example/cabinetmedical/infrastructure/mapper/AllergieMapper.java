@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AllergieMapper {
+
+    
     public static Allergie toDomain(AllergieEntity entity) {
         if (entity == null) {
             return null;

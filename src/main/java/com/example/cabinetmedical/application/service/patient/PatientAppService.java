@@ -1,9 +1,10 @@
 package com.example.cabinetmedical.application.service.patient;
 
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
 import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.model.Employee.SecretaryPermissions;
-import com.example.cabinetmedical.domain.model.dossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.domain.service.dossierMedical.DossierMedicalDomainService;
@@ -15,14 +16,21 @@ import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.DossierMedicalEntity;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
+import com.example.cabinetmedical.infrastructure.mapper.AllergieMapper;
+import com.example.cabinetmedical.infrastructure.mapper.AntecedentChirurgicalMapper;
+import com.example.cabinetmedical.infrastructure.mapper.AntecedentMedicalMapper;
+import com.example.cabinetmedical.infrastructure.mapper.HabitudeVieMapper;
+import com.example.cabinetmedical.infrastructure.mapper.SecretaireMapper;
+import com.example.cabinetmedical.infrastructure.mapper.TraitementChroniqueMapper;
 import com.example.cabinetmedical.infrastructure.mapper.dossierMedical.DossierMedicalMapper;
 import com.example.cabinetmedical.infrastructure.mapper.patient.PatientMapper;
-import com.example.cabinetmedical.infrastructure.mapper.secretaire.SecretaireMapper;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.dossierMedical.DossierMedicalRepository;
 import com.example.cabinetmedical.infrastructure.repository.patient.PatientRepository;
 import jakarta.transaction.Transactional;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -66,9 +74,9 @@ public class PatientAppService {
     }
 
     //creer
-    public PatientDTO createPatient(int idSecretaire, PatientDTO patientDTO) {
+    public PatientDTO createPatient(UserDTO user, PatientDTO patientDTO) {
         // Récupérer la secrétaire avec ses permissions
-        Secretaire secretaire = findSecretaireById(idSecretaire);
+        Secretaire secretaire ;
 
         // Vérifier que le cabinet existe
         CabinetEntity cabinet = cabinetRepository.findById(patientDTO.getIdCabinet())
@@ -136,7 +144,7 @@ public class PatientAppService {
     public void deletePatient(int idSecretaire, int idPatient) {
         // Récupérer la secrétaire
         Secretaire secretaire = findSecretaireById(idSecretaire);
-
+        
         // Vérifier que le patient existe
         PatientEntity patient = patientRepository.findById(idPatient)
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'ID : " + idPatient));
@@ -149,12 +157,27 @@ public class PatientAppService {
         patientRepository. delete(patient);
     }
 
+
+
+
+
+
+
+
+
+
+
+
     // ============ GESTION DES DOSSIERS MÉDICAUX AVEC PERMISSIONS ============
 
     //assosier un dossier
-    public DossierMedicalDTO associateDossierMedical(int idSecretaire, int idPatient, DossierMedicalDTO dossierDTO) {
+    public DossierMedicalDTO associateDossierMedical(UserDTO userDTO, int idPatient, DossierMedicalDTO dossierDTO) {
         // Récupérer la secrétaire
-        Secretaire secretaire = findSecretaireById(idSecretaire);
+
+        SecretaireEntity secretaireEntity =secretaireRepository.findByEmail(userDTO.getEmail() );
+
+
+        Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
         // Vérifier que le patient existe
         PatientEntity patient = patientRepository.findById(idPatient)
@@ -164,7 +187,7 @@ public class PatientAppService {
         validateNoDossierExists(idPatient);
 
         // Créer l'objet domaine DossierMedical
-        DossierMedical dossierDomain = dossierMedicalMapper.toDomain(dossierDTO);
+        DossierMedical dossierDomain = DossierMedicalMapper.toDomain(dossierDTO);
 
         // ✅ Exécuter avec permission
         PermissionResponce<DossierMedical> response = (PermissionResponce<DossierMedical>)
@@ -173,7 +196,8 @@ public class PatientAppService {
         DossierMedical processedDossier = response.getPayload();
 
         // Convertir en entité
-        DossierMedicalEntity dossierEntity = dossierMedicalMapper.toEntity(dossierDTO);
+        DossierMedicalEntity dossierEntity = DossierMedicalMapper.toEntity(dossierDTO);
+
         dossierEntity. setDateCreation(processedDossier.getDateCreation());
         dossierEntity.setPatient(patient);
 
@@ -184,15 +208,17 @@ public class PatientAppService {
         patient.setDossierMedical(savedDossier);
         patientRepository.save(patient);
 
-        return dossierMedicalMapper.toDTO(savedDossier);
+        return DossierMedicalMapper.toDTO(savedDossier);
     }
 
     /**
      * Mettre à jour le dossier médical avec vérification des permissions
      */
-    public DossierMedicalDTO updateDossierMedical(int idSecretaire, int idPatient, DossierMedicalDTO dossierDTO) {
+    public DossierMedicalDTO updateDossierMedical(UserDTO user, int idPatient, DossierMedicalDTO dossierDTO) {
+
         // Récupérer la secrétaire
-        Secretaire secretaire = findSecretaireById(idSecretaire);
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail()) ;
+        Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
         // Vérifier que le patient existe
         PatientEntity patient = patientRepository.findById(idPatient)
@@ -204,23 +230,24 @@ public class PatientAppService {
         }
 
         // Créer l'objet domaine DossierMedical
-        DossierMedical dossierDomain = dossierMedicalMapper.toDomain(dossierDTO);
+        DossierMedical dossierDomain = DossierMedicalMapper.toDomain(dossierDTO);
+
         dossierDomain.setIdDossier(dossier.getIdDossier());
 
         // ✅ Exécuter avec permission
         PermissionResponce<DossierMedical> response = (PermissionResponce<DossierMedical>)
                 secretaire.doWork(new PermissionParameter<>(PermissionKey.MODIFIER_DOSSIER_MEDICAL, dossierDomain));
 
-        DossierMedical processedDossier = response.getPayload();
+        DossierMedical processedDossier = response.getPayload() ;
 
-        // Mise à jour
-        dossier.setAntMedicaux(processedDossier.getAntMedicaux());
-        dossier.setAnprocessedDossiertChirug(processedDossier.getAntChirug());
-        dossier.setAllergies(processedDossier.getAllergies());
-        dossier.setTraitement(processedDossier.getTraitement());
-        dossier.setHabitudes(processedDossier. getHabitudes());
-        dossier.setHistoriqueConsultations(processedDossier.getHistoriqueConsultations());
-        dossier.setDocumentsMedicaux(processedDossier.getDocumentsMedicaux());
+        dossier.setAllergies(processedDossier.getAllergies().stream().map(AllergieMapper::toEntity).toList());
+        dossier.setAntecedentsChirurgicaux(processedDossier.getAntecedentChirurgicals().stream().map(AntecedentChirurgicalMapper::toEntity).toList());
+        dossier.setAntecedentsMedicaux(processedDossier.getAntecedentMedicals().stream().map(AntecedentMedicalMapper::toEntity).toList());
+        dossier.setTraitementsChroniques(processedDossier.getTraitementChroniques().stream().map(TraitementChroniqueMapper::toEntity).toList());
+        dossier.setHabitudesVie(HabitudeVieMapper.toEntity(processedDossier.getHabitudeVie()));
+
+    
+
 
         DossierMedicalEntity updatedDossier = dossierMedicalRepository.save(dossier);
         return dossierMedicalMapper. toDTO(updatedDossier);
@@ -273,12 +300,5 @@ public class PatientAppService {
         }
     }
 
-    //recuperer sec
-    private Secretaire findSecretaireById(int idSecretaire) {
-        var secretaireEntity = secretaireRepository.findById(idSecretaire)
-                .orElseThrow(() -> new RuntimeException("Secrétaire non trouvée avec l'ID : " + idSecretaire));
-
-        // ✅ Le mapper injecte automatiquement SecretaryPermissions
-        return secretaireMapper.toDomain(secretaireEntity);
-    }
+   
 }

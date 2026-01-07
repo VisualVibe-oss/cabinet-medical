@@ -1,12 +1,13 @@
 package com.example.cabinetmedical.application.controller.patient;
-
+import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
 import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
 import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.patient.PatientAppService;
-import com.example.cabinetmedical.infrastructure.repository.patient.PatientRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +17,12 @@ import java.util.List;
 public class PatientController {
     private final PatientAppService patientAppService;
 
-    public PatientController(PatientAppService patientAppService) {
+
+    private final AuthService authService ; 
+    public PatientController(PatientAppService patientAppService ,     AuthService authService  ) {
         this.patientAppService = patientAppService;
+        this.authService =  authService ; 
+
     }
 
     // ============ OPÉRATIONS NÉCESSITANT DES PERMISSIONS ============
@@ -27,10 +32,11 @@ public class PatientController {
      */
     @PostMapping
     public ResponseEntity<ApiResponse<PatientDTO>> createPatient(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
-            @RequestBody PatientDTO patientDTO) {
+            @RequestBody PatientDTO patientDTO ,Authentication auth ) {
 
-        PatientDTO createdPatient = patientAppService.createPatient(idSecretaire, patientDTO);
+                
+        UserDTO user = authService.getUserDto(auth) ;
+        PatientDTO createdPatient = patientAppService.createPatient( user ,  patientDTO);
         ApiResponse<PatientDTO> response = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
                 "Patient créé avec succès",
@@ -44,9 +50,12 @@ public class PatientController {
      */
     @PutMapping("/{idPatient}")
     public ResponseEntity<ApiResponse<PatientDTO>> updatePatient(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
             @PathVariable int idPatient,
-            @RequestBody PatientDTO patientDTO) {
+            @RequestBody PatientDTO patientDTO ,
+            Authentication auth ) {
+
+                
+        UserDTO user = authService.getUserDto(auth) ;
 
         PatientDTO updatedPatient = patientAppService.updatePatient(idSecretaire, idPatient, patientDTO);
         ApiResponse<PatientDTO> response = new ApiResponse<>(
@@ -60,9 +69,10 @@ public class PatientController {
     //supp
     @DeleteMapping("/{idPatient}")
     public ResponseEntity<ApiResponse<Void>> deletePatient(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
-            @PathVariable int idPatient) {
+         Authentication auth ) {
 
+                
+        UserDTO user = authService.getUserDto(auth) ;
         patientAppService.deletePatient(idSecretaire, idPatient);
         ApiResponse<Void> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
@@ -77,11 +87,14 @@ public class PatientController {
      */
     @PostMapping("/{idPatient}/dossier")
     public ResponseEntity<ApiResponse<DossierMedicalDTO>> associateDossierMedical(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
+             
             @PathVariable int idPatient,
-            @RequestBody DossierMedicalDTO dossierDTO) {
+            @RequestBody DossierMedicalDTO dossierDTO , 
+         Authentication auth ) {
 
-        DossierMedicalDTO dossier = patientAppService.associateDossierMedical(idSecretaire, idPatient, dossierDTO);
+
+        UserDTO user = authService.getUserDto(auth) ;
+        DossierMedicalDTO dossier = patientAppService.associateDossierMedical(user, idPatient, dossierDTO);
         ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
                 "Dossier médical créé avec succès",
@@ -95,11 +108,14 @@ public class PatientController {
      */
     @PutMapping("/{idPatient}/dossier")
     public ResponseEntity<ApiResponse<DossierMedicalDTO>> updateDossierMedical(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
             @PathVariable int idPatient,
-            @RequestBody DossierMedicalDTO dossierDTO) {
+            @RequestBody DossierMedicalDTO dossierDTO ,
+        Authentication auth ) {
 
-        DossierMedicalDTO dossier = patientAppService. updateDossierMedical(idSecretaire, idPatient, dossierDTO);
+                
+        UserDTO user = authService.getUserDto(auth) ;
+
+        DossierMedicalDTO dossier = patientAppService. updateDossierMedical(user, idPatient, dossierDTO);
         ApiResponse<DossierMedicalDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Dossier médical mis à jour avec succès",
@@ -114,8 +130,10 @@ public class PatientController {
      * Récupérer un patient par son ID
      */
     @GetMapping("/{idPatient}")
-    public ResponseEntity<ApiResponse<PatientDTO>> getPatientById(@PathVariable int idPatient) {
-        PatientDTO patient = patientAppService.getPatientById(idPatient);
+    public ResponseEntity<ApiResponse<PatientDTO>> getPatientById(@PathVariable int idPatient , Authentication authentication) {
+
+        UserDTO user = authService.getUserDto(authentication) ;
+        PatientDTO patient = patientAppService.getPatientById(idPatient , user );
         ApiResponse<PatientDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Patient récupéré avec succès",
@@ -128,7 +146,9 @@ public class PatientController {
      * Récupérer tous les patients d'un cabinet
      */
     @GetMapping("/cabinet/{idCabinet}")
-    public ResponseEntity<ApiResponse<List<PatientDTO>>> getAllPatientsByCabinet(@PathVariable int idCabinet) {
+    public ResponseEntity<ApiResponse<List<PatientDTO>>> getAllPatientsByCabinet(@PathVariable int idCabinet  , Authentication authentication) {
+
+        UserDTO user = authService.getUserDto(authentication) ;
         List<PatientDTO> patients = patientAppService.getAllPatientsByCabinet(idCabinet);
         ApiResponse<List<PatientDTO>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
