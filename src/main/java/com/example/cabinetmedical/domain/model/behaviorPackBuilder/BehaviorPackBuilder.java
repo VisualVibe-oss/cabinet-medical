@@ -32,26 +32,27 @@ public class BehaviorPackBuilder {
             Featurekey.DELETE_SECRETAIRE, DeleteSecretaire::new,
             Featurekey.EDIT_DEPENCE, EditDepence::new,
             Featurekey.ADD_DEPENCE, AddDepence::new  ,
-            Featurekey.GET_RDV_LIST , GetRendezVous::new ,
-            Featurekey.SET_RDV_ONGOING , SetStateRdvOngoing::new,
-            Featurekey.CREE_RENDEZ_VOUS, CheckAddRendezVous::new,
+            Featurekey.ADD_SECRETAIRE , AddSecretaire::new ,
+            Featurekey.DELETE_DEPENCE , DeleteDepence::new,
             Featurekey.EDIT_RENDEZ_VOUS , EditSecretaire::new,
             Featurekey.VIEW_STATS , StatsFunctionality::new,
-            Featurekey.DELETE_DEPENCE, DeleteDepence::new
+            Featurekey.CREE_CONSULTATION, CreerConsultation::new
+
     );
 
 
     private static Map<PackKey, List<Featurekey>> packRegistry = Map.of(
         PackKey.Pack_TEST, List.of(Featurekey.TEST  ),
         PackKey.BASIC , List.of(
-                    Featurekey.GET_RDV_LIST  ,
-                    Featurekey.SET_RDV_ONGOING ,
                     Featurekey.EDIT_SECRETAIRE,
                     Featurekey.ADD_DEPENCE,
                     Featurekey.EDIT_RENDEZ_VOUS,
                     Featurekey.VIEW_STATS,
-                    Featurekey.DELETE_DEPENCE,
-                    Featurekey.EDIT_DEPENCE
+                    Featurekey.EDIT_DEPENCE,
+                    Featurekey.CREE_CONSULTATION,
+                    Featurekey.DELETE_SECRETAIRE,
+                    Featurekey.ADD_SECRETAIRE,
+                    Featurekey.DELETE_DEPENCE
         )
     );
 

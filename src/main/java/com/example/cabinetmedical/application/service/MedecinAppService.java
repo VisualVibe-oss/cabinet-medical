@@ -146,7 +146,7 @@ public class MedecinAppService {
         else return null;
     }
 
-    public SecretaireDTO updateSecretaire(EditSecretaireDTO dto, UserDTO user) {
+    public Object updateSecretaire(EditSecretaireDTO dto, UserDTO user) {
 
         //Cabinet actualCabinet = cabinetAppService.getCurrentCabinet();
         //int actuatidCabinet = actualCabinet.getIdCabinet();
@@ -160,21 +160,42 @@ public class MedecinAppService {
         Secretaire current = secretaireAppService.findByidSecretaire(dto.getSecretaire().getIdSecretaire());
         current.setCabinet(cabinet);
 
+        List<String> allSecretaryEmails = Optional.ofNullable(secretaireAppService.findAll())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(Secretaire::getEmail)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        List<String> allDoctorEmails = Optional.ofNullable(this.findAll())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(Medecin::getEmail)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
         EditSecretairePayload payload = new EditSecretairePayload(
                 current,
                 dto.getSecretaire().getNom(),
                 dto.getSecretaire().getPrenom(),
-                dto.getSecretaire().getEmail(),
+                dto.getSecretaire().getEmail().toUpperCase(),
                 dto.getSecretaire().getTelephone(),
                 dto.getSecretaire().getSalaire(),
+                allSecretaryEmails,
+                allDoctorEmails,
                 dto.getSecretaire().getPermissionKeys()
         );
 
-        FeatureResponce<Secretaire> responce = behaviorPack.performWork(new FeatureParameter(Featurekey.EDIT_SECRETAIRE, payload));
+        FeatureResponce<?> responce = behaviorPack.performWork(new FeatureParameter(Featurekey.EDIT_SECRETAIRE, payload));
+        if(responce.getPayload() instanceof Secretaire processedSecretaire) {
+            return sm.toDTO(secretaireAppService.saveSecretaire(processedSecretaire, idCabinet));
+        }
+        else{
+            return responce.getPayload().toString();
+        }
 
-        Secretaire processedSecretaire = responce.getPayload();
 
-        return sm.toDTO(secretaireAppService.saveSecretaire(processedSecretaire, idCabinet));
+
     }
 
 

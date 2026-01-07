@@ -29,6 +29,20 @@ public class EditSecretaire implements Functionnalitie {
         if (p.getSalaire() < 0) {
             throw new IllegalArgumentException("invalid salary");
         }
+        String email=p.getSecretaire().getEmail();
+
+        if (p.getExistingSecretaireEmails()!=null){
+            boolean isEmilExists = p.getExistingSecretaireEmails().stream().anyMatch(existingEmail->existingEmail!=null && existingEmail.equals(email));
+            if (isEmilExists){
+                return new FeatureResponce(param.getKey(), "the email already exists");
+            }
+        }
+        if (p.getExistingMedecinEmails()!=null) {
+            boolean isEmilExists = p.getExistingMedecinEmails().stream().anyMatch(existingEmail -> existingEmail != null && existingEmail.equals(email));
+            if (isEmilExists) {
+                return new FeatureResponce(param.getKey(), "the email already exists");
+            }
+        }
 
 
         s.setNom(p.getNom());

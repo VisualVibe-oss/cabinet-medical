@@ -11,6 +11,7 @@ import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,7 @@ public class MedecinController {
     }
 
     @PostMapping("/addSecretary")
-    public ApiResponse<SecretaireDTO> addSecretary(Authentication aut,@RequestBody CreateSecretaireDTO DTO) {
+    public ResponseEntity<ApiResponse<SecretaireDTO>> addSecretary(Authentication aut,@RequestBody CreateSecretaireDTO DTO) {
 
         System.out.println("RECEVIED SECRETAIRE: "+DTO );
 
@@ -54,12 +55,23 @@ public class MedecinController {
         Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet =  cabinet.getIdCabinet() ;
         if (result instanceof SecretaireDTO secretaire) {
-            String message = "Secretary: " + secretaire.getIdSecretaire() + " added for: " + idCabinet;
-            return new ApiResponse<>(HttpStatus.OK.value(), message, secretaire);
-        } else if (result instanceof String msg) {
-            return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), msg, null);
-        } else {
-            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown error", null);
+            return ResponseEntity.ok(
+                    new ApiResponse<>(HttpStatus.OK.value(),
+                            "Secretary updated",
+                            secretaire)
+            );
+        }
+        else if (result instanceof String msg) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(),
+                            msg,
+                            null));
+        }
+        else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(500, "Unknown error", null));
         }
     }
     @GetMapping("/secretaires")
@@ -93,7 +105,7 @@ public class MedecinController {
 
 
     @PutMapping("/editSecretary")
-    public ApiResponse<SecretaireDTO> updateSecretaire(@RequestBody EditSecretaireDTO DTO, Authentication aut) {
+    public ResponseEntity<ApiResponse<SecretaireDTO>> updateSecretaire(@RequestBody EditSecretaireDTO DTO, Authentication aut) {
 
         System.out.println("received dto" + DTO);
         UserDTO user = authService.getUserDto(aut);
@@ -102,11 +114,27 @@ public class MedecinController {
         Cabinet cabinet = cabinetAppService.getCabinetByEmail(user) ;
         int idCabinet =  cabinet.getIdCabinet() ;
 
-        SecretaireDTO secretaire = medecinAppService.updateSecretaire(DTO, user);
-        String message = "Secretary: " + secretaire.getIdSecretaire() + "updated for : " + idCabinet;
-        int status = HttpStatus.OK.value();
+        Object result = medecinAppService.updateSecretaire(DTO, user);
+        if (result instanceof SecretaireDTO secretaire) {
+            return ResponseEntity.ok(
+                    new ApiResponse<>(HttpStatus.OK.value(),
+                            "Secretary updated",
+                            secretaire)
+            );
+        }
+        else if (result instanceof String msg) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(),
+                            msg,
+                            null));
+        }
+        else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(500, "Unknown error", null));
+        }
 
-        return new ApiResponse<>(status, message, secretaire);
     }
     @DeleteMapping("/deleteSecretary/{idsecretaire}")
     public ApiResponse<SecretaireDTO> deleteSecretaire(@PathVariable int idsecretaire, Authentication aut) {
