@@ -31,7 +31,6 @@ import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
 import com.example.cabinetmedical.infrastructure.entity.TraitementChroniqueEntity;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.ConsultationRepositroy;
 import com.example.cabinetmedical.infrastructure.repository.DossierMedicalRepository;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
@@ -39,6 +38,7 @@ import com.example.cabinetmedical.infrastructure.repository.OffreRepository;
 import com.example.cabinetmedical.infrastructure.repository.PatientRepository;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 ;
 
@@ -110,7 +110,6 @@ public PatientEntity createPatient(CabinetEntity cabinet, String nom) {
     patient.setNom(nom);
     patient.setPrenom("PrénomTest");
     patient.setCin("B123456"); // Obligatoire
-    patient.setPassword("password123"); // Obligatoire
     patient.setTelephone("0611223344"); // Obligatoire
     patient.setSexe("M"); // Obligatoire
     patient.setDateNaissance(new java.util.Date()); // Obligatoire

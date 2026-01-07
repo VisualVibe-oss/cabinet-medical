@@ -6,6 +6,7 @@ import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,7 +28,7 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     @Query("UPDATE RendezVousEntity r SET r.statut = :#{#rendezVous.statut} WHERE r.idRendezVous = :#{#rendezVous.idRendezVous}")
     int setSateRendezVous(@Param("rendezVous") RendezVousEntity rendezVous);
 
-    RendezVousEntity findByPatient_IdPatient(int idPatient);
+  
 
     RendezVousEntity findByIdRendezVous(int idRendezVous);
    // Méthode personnalisée pour récupérer le Patient via l'ID du RendezVous
@@ -35,4 +36,25 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
     Optional<PatientEntity> findPatientByIdRendezVous(@Param("id") int idRendezVous);
 
     List<RendezVousEntity> findAllByCabinet_idCabinet(int idCabinet);
+
+
+    RendezVousEntity findFirstByPatient_IdPatientOrderByDateDebutRendezVousDesc(int idPatient);
+
+    List<RendezVousEntity> findByPatient_IdPatient(int idPatient);
+
+    @Query("SELECT r FROM RendezVousEntity r WHERE DATE(r.dateRendezVous) = DATE(:date) AND r.cabinet.idCabinet = :idCabinet")
+    List<RendezVousEntity> findByDateAndCabinet(@Param("date") LocalDate date, @Param("idCabinet") int idCabinet);
+
+    @Query("SELECT r FROM RendezVousEntity r WHERE r. dateRendezVous BETWEEN :dateDebut AND :dateFin AND r.cabinet.idCabinet = :idCabinet")
+    List<RendezVousEntity> findByDateRangeAndCabinet(
+            @Param("dateDebut") LocalDate dateDebut,
+            @Param("dateFin") LocalDate dateFin,
+            @Param("idCabinet") int idCabinet);
+
+    List<RendezVousEntity> findByStatutAndCabinet_IdCabinet(String statut, int idCabinet);
+
+
+    @Query("SELECT COUNT(r) > 0 FROM RendezVousEntity r WHERE DATE(r.dateRendezVous) = DATE(:date) AND r.cabinet.idCabinet = :idCabinet")
+    boolean existsByDateAndCabinet(@Param("date") LocalDate date, @Param("idCabinet") int idCabinet);
+
 }

@@ -32,6 +32,8 @@ public class CabinetEntity {
 
     private boolean etat = true ; 
 
+    @Column(nullable = true)
+    private String logo ; 
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="idMedecin" , unique = true )
@@ -77,6 +79,13 @@ public class CabinetEntity {
         return idCabinet;
     }
 
+    public void setLogo(String logo ){
+        this.logo = logo ; 
+    }
+
+    public String getLogo(){
+        return logo ; 
+    }
     public String getPays() {
         return pays;
     }

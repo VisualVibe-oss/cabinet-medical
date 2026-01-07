@@ -7,10 +7,11 @@ import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
+
 import com.example.cabinetmedical.infrastructure.repository.Medecin.MedecinRepositoryImpl;
 import com.example.cabinetmedical.infrastructure.repository.Medecin.SpringMedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSecretaireRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

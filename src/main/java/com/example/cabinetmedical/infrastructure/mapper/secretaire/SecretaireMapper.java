@@ -4,7 +4,8 @@ import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.Employee.SecretaryPermissions;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
-import com.example.cabinetmedical.infrastructure.mapper.cabinet.CabinetMapper;
+import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
+
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -31,7 +32,7 @@ public class SecretaireMapper {
         // Convertir le cabinet
         Cabinet cabinet = null;
         if (entity.getCabinet() != null) {
-            cabinet = cabinetMapper. toDomain(entity.getCabinet());
+            cabinet = cabinetMapper.toDomain(entity.getCabinet());
         }
 
         // Récupérer les permissions (ou créer un set vide si null)

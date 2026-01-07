@@ -29,7 +29,11 @@ public class MedicamentMapper {
         if(medicament == null){
             return null;
         }
-        return new MedicamentEntity(medicament.getId(), medicament.getNom());
+        MedicamentEntity entity = new MedicamentEntity();
+        entity.setIdMedicament(medicament.getId());
+        entity.setNom(medicament.getNom());
+
+        return entity;
     }
     //entity to domain
     public Medicament toDomain(MedicamentEntity medicament) {
@@ -46,7 +50,11 @@ public class MedicamentMapper {
     //dto to entity
     public MedicamentEntity toEntity(MedicamentDTO medicament) {
         if(medicament==null){return null;}
-        return new MedicamentEntity(medicament.getId(), medicament.getNom());
+        MedicamentEntity entity = new MedicamentEntity();
+        entity.setIdMedicament(medicament.getId());
+        entity.setNom(medicament.getNom());
+
+        return entity;
     }
 
     //list entities to list dto

@@ -3,6 +3,8 @@ package com.example.cabinetmedical.config.springConfig;
 import com.example.cabinetmedical.config.dev_sql.DataTestLoader;
 import com.example.cabinetmedical.infrastructure.entity.*;
 import com.example.cabinetmedical.infrastructure.repository.*;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

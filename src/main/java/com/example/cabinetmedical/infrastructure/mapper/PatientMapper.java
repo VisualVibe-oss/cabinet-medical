@@ -27,14 +27,13 @@ public class PatientMapper {
             rendezVousEntities = p.getRendezVous()
                     .stream()
                     .map(RendezVousMapper::toEntity)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()); 
         }
 
         pe.setIdPatient(p.getIdPatient());
         pe.setNom(p.getNom());
         pe.setPrenom(p.getPrenom());
         pe.setCin(p.getCin());
-        pe.setPassword(p.getPassword());
         pe.setTelephone(p.getTelephone());
         pe.setSexe(p.getSexe());
         pe.setDateNaissance(p.getDateNaissance());
@@ -61,7 +60,6 @@ public class PatientMapper {
         p.setNom(pe.getNom());
         p.setPrenom(pe.getPrenom());
         p.setCin(pe.getCin());
-        p.setPassword(pe.getPassword());
         p.setTelephone(pe.getTelephone());
         p.setSexe(pe.getSexe());
         p.setDateNaissance(pe.getDateNaissance());

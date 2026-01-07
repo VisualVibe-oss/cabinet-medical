@@ -14,9 +14,9 @@ import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.exception.CredentialNotValidError;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 @Service
 public class AuthService {

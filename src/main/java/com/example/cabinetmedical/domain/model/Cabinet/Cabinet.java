@@ -27,7 +27,9 @@ public class Cabinet {
     private String nom;
     private String specialite;
     private String adresse;
-    private String telephone;
+
+    private String signatureBase64 ;
+    
 
     private boolean etat;
 
@@ -42,14 +44,17 @@ public class Cabinet {
 
     BehaviorPack behaviorPack ;
 
-    public Cabinet(int idCabinet, boolean etat ,String logo, String nom, String specialite, String adresse, Medecin medecin, List<Secretaire> secretaire, List<Depence> depence, List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient, Offre offre, List<Action> action, BehaviorPack behaviorPack) {
+    public Cabinet(int idCabinet, boolean etat ,String 
+        logo, String nom, String specialite, String adresse, 
+        Medecin medecin, List<Secretaire> secretaire, List<Depence> depence,
+         List<Facture> facture, List<RendezVous> rendezVous, List<Patient> patient,
+          Offre offre, List<Action> action, BehaviorPack behaviorPack) {
         this.idCabinet = idCabinet;
         this.logo = logo;
         this.nom = nom;
         this.specialite = specialite;
         this.adresse = adresse;
         this.etat = etat ;
-        this.telephone = telephone;
         this.medecin = medecin;
         this.secretaire = secretaire;
         this.depence = depence;
@@ -69,10 +74,17 @@ public class Cabinet {
         this.nom = nom;
         this.specialite = specialite;
         this. adresse = adresse;
-        this.telephone = telephone;
         this.etat = etat;
     }
 
+
+    public String getSignatureBase64(){
+        return this.signatureBase64 ; 
+    }
+
+    public void setSignatureBase64 (String sig){
+        this.signatureBase64 = sig ; 
+    }
 
     FeatureResponce performWork(FeatureParameter parameter) {
          return behaviorPack.performWork(parameter) ;
@@ -95,13 +107,7 @@ public class Cabinet {
         this.etat = etat;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+   
 
     public String getAdresse() {
         return adresse;

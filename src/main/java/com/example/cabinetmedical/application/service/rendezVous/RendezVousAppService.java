@@ -105,7 +105,7 @@ public class RendezVousAppService {
         RendezVous processedRendezVous = response.getPayload();
 
         // ✅ Mettre à jour les champs qui existent dans l'entité
-        existingRendezVous.setDateRendezVous(processedRendezVous.getDateRendezVous());
+        existingRendezVous.setDateDebutRendezVous(processedRendezVous.getDateRendezVous());
         existingRendezVous.setMotif(processedRendezVous.getMotif());
         existingRendezVous.setStatut(processedRendezVous.getStatut());
         existingRendezVous.setNotes(processedRendezVous.getNotes());

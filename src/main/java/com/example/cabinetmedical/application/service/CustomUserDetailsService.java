@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import com.example.cabinetmedical.exception.CabinetBlockedExecption;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSecretaireRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 import lombok.RequiredArgsConstructor;
 

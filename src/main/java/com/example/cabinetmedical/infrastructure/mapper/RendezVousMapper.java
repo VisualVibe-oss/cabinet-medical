@@ -39,11 +39,11 @@ public class RendezVousMapper {
 
 
         // Vérification pour le Cabinet
-        if (rv.getCabinet() != null) {
-            rve.setCabinet(CabinetMapper.toEntity(rv.getCabinet()));
-        } else {
+        //if (rv.getCabinet() != null) {
+        //    rve.setCabinet(CabinetMapper.toEntity(rv.getCabinet()));
+      //  } else {
             rve.setCabinet(null);
-        }
+        //}
         return rve;
     }
 
@@ -110,6 +110,15 @@ public class RendezVousMapper {
         domain.setStatut(entity.getStatut());
         domain.setPrix(entity.getPrix());
         domain.setNotes(entity.getNotes());
+
+
+        if (entity.getCabinet() != null) {
+            domain.setCabinet(CabinetMapper. toDomain(entity.getCabinet()));
+        }
+
+        if (entity.getPatient() != null) {
+            domain.setPatient(PatientMapper.toDomain(entity.getPatient()));
+        }
 
         // Mappage des relations complexes
         // On vérifie si l'entité n'est pas nulle avant d'appeler les autres mappers

@@ -8,11 +8,11 @@ import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.DepenceEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.DepenceMapper;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Depence.DepenceRepositoryImpl;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
+
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;

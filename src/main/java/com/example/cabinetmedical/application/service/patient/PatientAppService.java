@@ -215,7 +215,7 @@ public class PatientAppService {
 
         // Mise à jour
         dossier.setAntMedicaux(processedDossier.getAntMedicaux());
-        dossier.setAntChirug(processedDossier.getAntChirug());
+        dossier.setAnprocessedDossiertChirug(processedDossier.getAntChirug());
         dossier.setAllergies(processedDossier.getAllergies());
         dossier.setTraitement(processedDossier.getTraitement());
         dossier.setHabitudes(processedDossier. getHabitudes());

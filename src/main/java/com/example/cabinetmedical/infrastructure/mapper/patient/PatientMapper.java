@@ -91,7 +91,7 @@ public class PatientMapper {
     /**
      * Entity -> DTO
      */
-    public PatientDTO toDTO(PatientEntity entity) {
+    public  PatientDTO toDTO(PatientEntity entity) {
         if (entity == null) {
             return null;
         }

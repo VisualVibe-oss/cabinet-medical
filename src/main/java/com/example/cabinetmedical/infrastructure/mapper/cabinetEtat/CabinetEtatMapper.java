@@ -29,7 +29,7 @@ public class CabinetEtatMapper {
                 .nom(entity.getNom())
                 .specialite(entity.getSpecialite())
                 .adresse(entity.getAdresse())
-                .telephone(entity.getTelephone())
+    
                 .estActif(entity.getEtat())
                 .build();
     }

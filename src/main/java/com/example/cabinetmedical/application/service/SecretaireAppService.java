@@ -14,10 +14,10 @@ import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
 import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
 import com.example.cabinetmedical.infrastructure.mapper.SecretaireMapper;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SecretaireRepositoryImpl;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
+
 import jakarta.transaction.Transactional;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -22,8 +22,8 @@ import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 import com.example.cabinetmedical.infrastructure.mapper.*;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SecretaireRepositoryImpl;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.core.Authentication;

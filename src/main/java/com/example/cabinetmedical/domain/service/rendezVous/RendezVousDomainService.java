@@ -1,8 +1,11 @@
 package com.example.cabinetmedical.domain.service.rendezVous;
 
-import com.example.cabinetmedical.domain.model.rendezVous.RendezVous;
 import org.springframework.stereotype.Service;
 
+import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -14,11 +17,11 @@ public class RendezVousDomainService {
         }
 
         // Vérifier la date
-        if (rendezVous. getDateRendezVous() == null) {
+        if (rendezVous. getDateDebutRendezVous() == null) {
             throw new IllegalArgumentException("La date du rendez-vous est obligatoire");
         }
 
-        if (rendezVous.getDateRendezVous().before(new Date())) {
+if (rendezVous.getDateDebutRendezVous().toLocalDate().atStartOfDay().isBefore(LocalDateTime.now())){ 
             throw new IllegalArgumentException("La date du rendez-vous ne peut pas être dans le passé");
         }
 
@@ -37,9 +40,6 @@ public class RendezVousDomainService {
             throw new IllegalArgumentException("Le cabinet est obligatoire");
         }
 
-        // Vérifier le statut
-        if (rendezVous.getStatut() == null || rendezVous.getStatut().trim().isEmpty()) {
-            throw new IllegalArgumentException("Le statut est obligatoire");
-        }
+        
     }
 }

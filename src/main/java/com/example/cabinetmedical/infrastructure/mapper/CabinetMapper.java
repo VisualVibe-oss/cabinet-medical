@@ -70,9 +70,11 @@ public final class CabinetMapper {
         domain.setNom(entity.getNom());
         domain.setSpecialite(entity.getSpecialite());
         domain.setAdresse(entity.getAdresse());
+        domain.setEtat(entity.getEtat());
         // Note: L'entité n'a pas de champ 'telephone', mais le domaine oui. 
         // L'entité a 'signatureBase64' qui pourrait correspondre au 'logo'.
-        domain.setLogo(entity.getSignatureBase64()); 
+        domain.setSignatureBase64(entity.getSignatureBase64()); 
+        domain.setLogo(entity.getLogo());
 
         
         if (entity.getOffre() != null) {
@@ -85,10 +87,25 @@ public final class CabinetMapper {
     }
 
 
-    public static CabinetEntity toEntity(Cabinet cabinet) {
-        CabinetEntity cabinetEntity = new CabinetEntity();
-        return cabinetEntity;
+
+     public CabinetEntity toEntity(Cabinet domain) {
+        if (domain == null) {
+            return null;
+        }
+
+        CabinetEntity entity = new CabinetEntity();
+        entity.setIdCabinet(domain.getIdCabinet());
+        entity.setLogo(domain.getLogo());
+        entity.setNom(domain.getNom());
+        entity.setSpecialite(domain.getSpecialite());
+        entity.setAdresse(domain. getAdresse());
+        entity.setEtat(domain.getEtat());
+
+        return entity;
     }
+
+
+    
     
 }
 

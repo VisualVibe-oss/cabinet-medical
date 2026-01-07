@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.example.cabinetmedical.domain.utils.PackKey;
 import com.example.cabinetmedical.infrastructure.entity.OffreEntity;
-import com.example.cabinetmedical.infrastructure.repository.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.OffreRepository;
+import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 
 @Component
 @Order(1) // S'exécute en premier
