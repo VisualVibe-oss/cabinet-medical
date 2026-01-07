@@ -1,6 +1,5 @@
 package com.example.cabinetmedical.application.service;
 
-import com.example.cabinetmedical.application.DTO.PatientDTO;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;

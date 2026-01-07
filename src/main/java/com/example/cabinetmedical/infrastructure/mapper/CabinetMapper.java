@@ -2,10 +2,8 @@ package com.example.cabinetmedical.infrastructure.mapper;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
-
 import com.example.cabinetmedical.application.DTO.CabinetDTO;
 import com.example.cabinetmedical.application.DTO.MedecinDTO;
-import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 
 import java.util.stream.Collectors;
 
@@ -88,7 +86,7 @@ public final class CabinetMapper {
 
 
 
-     public CabinetEntity toEntity(Cabinet domain) {
+     public static  CabinetEntity toEntity(Cabinet domain) {
         if (domain == null) {
             return null;
         }
@@ -102,6 +100,21 @@ public final class CabinetMapper {
         entity.setEtat(domain.getEtat());
 
         return entity;
+    }
+
+
+
+    public static  Cabinet toDomain(CabinetDTO cabinetDTO  ){
+        Cabinet cabinet = new Cabinet() ; 
+
+        cabinet.setIdCabinet(cabinetDTO.getIdCabinet());
+        cabinet.setLogo(cabinetDTO.getLogo());
+        cabinet.setNom(cabinetDTO.getNom());
+        cabinet.setSpecialite(cabinetDTO.getSpecialite());
+        cabinet.setAdresse(cabinetDTO. getAdresse());
+        cabinet.setEtat(cabinetDTO.isEtat());      
+        
+        return cabinet ;
     }
 
 

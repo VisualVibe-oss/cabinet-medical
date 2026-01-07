@@ -13,6 +13,8 @@ import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 import com.example.cabinetmedical.infrastructure.entity.MedecinEntity;
 
 public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer> {
@@ -42,4 +44,5 @@ public interface CabinetRepository extends JpaRepository<CabinetEntity, Integer>
 
     List<CabinetEntity> findByEtatTrue();
     List<CabinetEntity> findByEtatFalse();
+
 }

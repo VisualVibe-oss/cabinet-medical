@@ -11,7 +11,7 @@ import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.infrastructure.entity.DossierMedicalEntity;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
-import com.example.cabinetmedical.infrastructure.mapper.DossierMedicalMapper;
+import com.example.cabinetmedical.infrastructure.mapper.dossierMedical.DossierMedicalMapper;
 import com.example.cabinetmedical.infrastructure.repository.DossierMedicalRepository;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.RendezVousRepositoryImpl;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;

@@ -3,6 +3,7 @@ package com.example.cabinetmedical.application.service.patient;
 import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
 import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.model.Employee.SecretaryPermissions;
 import com.example.cabinetmedical.domain.model.patient.Patient;
@@ -19,11 +20,12 @@ import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
 import com.example.cabinetmedical.infrastructure.mapper.AllergieMapper;
 import com.example.cabinetmedical.infrastructure.mapper.AntecedentChirurgicalMapper;
 import com.example.cabinetmedical.infrastructure.mapper.AntecedentMedicalMapper;
+import com.example.cabinetmedical.infrastructure.mapper.CabinetMapper;
 import com.example.cabinetmedical.infrastructure.mapper.HabitudeVieMapper;
+import com.example.cabinetmedical.infrastructure.mapper.PatientMapper;
 import com.example.cabinetmedical.infrastructure.mapper.SecretaireMapper;
 import com.example.cabinetmedical.infrastructure.mapper.TraitementChroniqueMapper;
 import com.example.cabinetmedical.infrastructure.mapper.dossierMedical.DossierMedicalMapper;
-import com.example.cabinetmedical.infrastructure.mapper.patient.PatientMapper;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.dossierMedical.DossierMedicalRepository;
@@ -38,6 +40,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.management.RuntimeErrorException;
 
 @Service
 @Transactional
@@ -76,15 +80,18 @@ public class PatientAppService {
     //creer
     public PatientDTO createPatient(UserDTO user, PatientDTO patientDTO) {
         // Récupérer la secrétaire avec ses permissions
-        Secretaire secretaire ;
-
+        SecretaireEntity  secretaireEntity = secretaireRepository.findByEmail(user.getEmail())
+    .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
         // Vérifier que le cabinet existe
-        CabinetEntity cabinet = cabinetRepository.findById(patientDTO.getIdCabinet())
-                .orElseThrow(() -> new RuntimeException("Cabinet non trouvé avec l'ID : " + patientDTO.getIdCabinet()));
+        CabinetEntity cabinet = cabinetRepository.findByIdCabinet(patientDTO.getCabinet().getIdCabinet()) ;
 
         // Créer l'objet domaine Patient
-        Patient patientDomain = patientMapper. toDomain(patientDTO);
+        Cabinet  cabinetDomaine = CabinetMapper.toDomain(patientDTO.getCabinet());
+        Patient patientDomain = PatientMapper.toDomain(patientDTO);
 
+        patientDomain.setCabinet(cabinetDomaine);
+
+        Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
         // ✅ Exécuter avec permission
         PermissionResponce<Patient> response = (PermissionResponce<Patient>)
                 secretaire.doWork(new PermissionParameter<>(PermissionKey.CREE_PATIENT, patientDomain));
@@ -105,7 +112,7 @@ public class PatientAppService {
         // Sauvegarder
         PatientEntity savedPatient = patientRepository.save(patientEntity);
 
-        return patientMapper.toDTO(savedPatient);
+        return PatientMapper.toDTO(savedPatient);
     }
 
     //mise a jour
@@ -132,7 +139,7 @@ public class PatientAppService {
         // Mise à jour des champs
         existingPatient. setNom(processedPatient.getNom());
         existingPatient.setPrenom(processedPatient.getPrenom());
-        existingPatient.setCin(processedPatient.getCin());
+        existingPatient.setCin(processedP.getEmaatient.getCin());
         existingPatient.setTelephone(processedPatient.getTelephone());
         existingPatient.setSexe(processedPatient.getSexe());
         existingPatient.setDateNaissance(processedPatient.getDateNaissance());
@@ -177,9 +184,8 @@ public class PatientAppService {
     //assosier un dossier
     public DossierMedicalDTO associateDossierMedical(UserDTO userDTO, int idPatient, DossierMedicalDTO dossierDTO) {
         // Récupérer la secrétaire
-
-        SecretaireEntity secretaireEntity =secretaireRepository.findByEmail(userDTO.getEmail() );
-
+SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(userDTO.getEmail())
+    .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
 
         Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
@@ -221,7 +227,8 @@ public class PatientAppService {
     public DossierMedicalDTO updateDossierMedical(UserDTO user, int idPatient, DossierMedicalDTO dossierDTO) {
 
         // Récupérer la secrétaire
-        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail()) ;
+        SecretaireEntity secretaireEntity = findByEmail(user.getEmail())
+    .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
         Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
         // Vérifier que le patient existe
@@ -274,14 +281,14 @@ public class PatientAppService {
     public List<PatientDTO> getAllPatientsByCabinet(int idCabinet) {
         List<PatientEntity> patients = patientRepository.findByIdCabinet(idCabinet);
         return patients.stream()
-                .map(patientMapper::toDTO)
+                .map(PatientMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public List<PatientDTO> getPatientsByNomAndCabinet(String nom, int id) {
         List<PatientEntity> patients = patientRepository. findByNomAndCabinet_IdCabinet(nom, id);
         return patients.stream()
-                .map(patientMapper::toDTO)
+                .map(PatientMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

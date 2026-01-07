@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 import com.example.cabinetmedical.domain.model.patient.Patient;
-import com.example.cabinetmedical.application.DTO.PatientDTO;
+import com.example.cabinetmedical.application.dto.patient.PatientDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
@@ -38,7 +38,7 @@ public class PatientMapper {
         pe.setSexe(p.getSexe());
         pe.setDateNaissance(p.getDateNaissance());
         pe.setTypeMutuelle(p.getTypeMutuelle());
-        pe.setCabinet(CabinetMapper .toEntity(p.getCabinet()));
+        pe.setCabinet(CabinetMapper.toEntity(p.getCabinet()));
         pe.setRendezVous(rendezVousEntities);
 
         return pe;
@@ -49,8 +49,9 @@ public class PatientMapper {
 
         Patient p = new Patient();
 
-        List<RendezVous> rendezVousDomains = null;
+       List<RendezVous> rendezVousDomains ;
         if (pe.getRendezVous() != null) {
+             
             rendezVousDomains = pe.getRendezVous()
                     .stream()
                     .map(RendezVousMapper::toDomain)
@@ -72,6 +73,25 @@ public class PatientMapper {
         
         return p;
     }
+
+
+    public static Patient toDomain(PatientDTO p){
+
+        Patient pe = new Patient() ; 
+        pe.setIdPatient(p.getIdPatient());
+        pe.setNom(p.getNom());
+        pe.setPrenom(p.getPrenom());
+        pe.setCin(p.getCin());
+        pe.setTelephone(p.getTelephone());
+        pe.setSexe(p.getSexe());
+        pe.setDateNaissance(p.getDateNaissance());
+        pe.setTypeMutuelle(p.getTypeMutuelle());
+      
+
+        return pe  ; 
+
+    }
+
 
 
 
@@ -96,4 +116,8 @@ public class PatientMapper {
 
         return dto;
     }
+
+
+
+
 }
