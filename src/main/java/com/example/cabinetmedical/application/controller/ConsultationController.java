@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/consultation")
 public class ConsultationController {
 
-    ConsultationService consultationService;
+    private final ConsultationService consultationService;
 
 
 
