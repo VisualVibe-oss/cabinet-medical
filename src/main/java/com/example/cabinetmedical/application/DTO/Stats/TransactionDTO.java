@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.DTO.Stats;
+package com.example.cabinetmedical.application.dto.Stats;
 
 import com.example.cabinetmedical.domain.utils.DepenceType;
 import lombok.Data;

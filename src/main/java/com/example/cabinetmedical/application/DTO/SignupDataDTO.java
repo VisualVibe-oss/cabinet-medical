@@ -1,10 +1,11 @@
-package com.example.cabinetmedical.application.DTO;
+package com.example.cabinetmedical.application.dto;
 
-
+import com.example.cabinetmedical.application.DTO.MedecinDTO;
+import com.example.cabinetmedical.application.DTO.CabinetDTO;
 public class SignupDataDTO {
     // Les noms des variables doivent correspondre aux clés JSON ("medecin", "cabinet")
-    private MedecinDTO medecin;
-    private CabinetDTO cabinet;
+    private com.example.cabinetmedical.application.DTO.MedecinDTO medecin;
+    private com.example.cabinetmedical.application.DTO.CabinetDTO cabinet;
 
     // Getters et setters requis
     public MedecinDTO getMedecin() { return medecin; }

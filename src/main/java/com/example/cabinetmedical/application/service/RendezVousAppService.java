@@ -25,12 +25,12 @@ import com.example.cabinetmedical.infrastructure.mapper.MedecinMapper;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
 import com.example.cabinetmedical.infrastructure.mapper.SecretaireMapper;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
-import com.example.cabinetmedical.infrastructure.repository.RendezVous.RendezVousRepositoryImpl;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSecretaireRepository;
 import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
 import com.example.cabinetmedical.infrastructure.repository.patient.PatientRepository;
 
+import com.example.cabinetmedical.infrastructure.repository.rendezVous.RendezVousRepositoryImpl;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDate;

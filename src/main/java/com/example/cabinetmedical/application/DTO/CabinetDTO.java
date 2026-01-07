@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.DTO;
+package com.example.cabinetmedical.application.dto;
 // src/main/java/com/example/demo/dto/CabinetDTO.java (ou Cabinet.java)
 
 import lombok.Data;

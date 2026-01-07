@@ -1,5 +1,5 @@
 
-package com.example.cabinetmedical.application.DTO;
+package com.example.cabinetmedical.application.dto;
 
 import lombok.Data;
 import lombok.Getter;

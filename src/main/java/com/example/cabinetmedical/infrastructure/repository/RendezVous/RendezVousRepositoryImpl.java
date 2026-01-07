@@ -1,8 +1,9 @@
-package com.example.cabinetmedical.infrastructure.repository.RendezVous;
+package com.example.cabinetmedical.infrastructure.repository.rendezVous;
 
 import com.example.cabinetmedical.domain.Repository.RendezVousRepository;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.RendezVousMapper;
+import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
