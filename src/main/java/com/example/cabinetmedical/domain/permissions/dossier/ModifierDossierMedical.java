@@ -1,8 +1,8 @@
 package com.example.cabinetmedical.domain.permissions.dossier;
 
 
+import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.model.Employee.ExecutePermission;
-import com.example.cabinetmedical.domain.model.dossierMedical.DossierMedical;
 import com.example.cabinetmedical.domain.service.dossierMedical.DossierMedicalDomainService;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
 import com.example.cabinetmedical.domain.utils.PermissionParameter;

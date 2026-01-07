@@ -1,7 +1,8 @@
 package com.example.cabinetmedical.domain.service.dossierMedical;
 
-import com.example.cabinetmedical.domain.model.dossierMedical.DossierMedical;
 import org.springframework.stereotype.Service;
+
+import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 
 @Service
 public class DossierMedicalDomainService {

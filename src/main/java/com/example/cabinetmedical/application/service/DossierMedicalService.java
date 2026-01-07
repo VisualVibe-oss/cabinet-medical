@@ -5,16 +5,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.cabinetmedical.application.DTO.DossierMedicalDetailDTO;
 import com.example.cabinetmedical.application.DTO.UserDTO;
-import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
-import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
-import com.example.cabinetmedical.domain.model.patient.Patient;
+
 import com.example.cabinetmedical.infrastructure.entity.DossierMedicalEntity;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
-import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.mapper.dossierMedical.DossierMedicalMapper;
-import com.example.cabinetmedical.infrastructure.repository.DossierMedicalRepository;
-import com.example.cabinetmedical.infrastructure.repository.RendezVous.RendezVousRepositoryImpl;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
+import com.example.cabinetmedical.infrastructure.repository.dossierMedical.DossierMedicalRepository;
 
 @Service
 public class DossierMedicalService {

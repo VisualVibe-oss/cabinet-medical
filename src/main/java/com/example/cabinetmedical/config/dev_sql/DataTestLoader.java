@@ -32,13 +32,13 @@ import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
 import com.example.cabinetmedical.infrastructure.entity.TraitementChroniqueEntity;
 import com.example.cabinetmedical.infrastructure.repository.ConsultationRepositroy;
-import com.example.cabinetmedical.infrastructure.repository.DossierMedicalRepository;
 import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.OffreRepository;
-import com.example.cabinetmedical.infrastructure.repository.PatientRepository;
 import com.example.cabinetmedical.infrastructure.repository.SecretaireRepository;
 import com.example.cabinetmedical.infrastructure.repository.RendezVous.SpringRendezVousRepository;
 import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepository;
+import com.example.cabinetmedical.infrastructure.repository.dossierMedical.DossierMedicalRepository;
+import com.example.cabinetmedical.infrastructure.repository.patient.PatientRepository;
 
 ;
 

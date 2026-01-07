@@ -118,8 +118,8 @@ public class PatientAppService {
     //mise a jour
     public PatientDTO updatePatient(UserDTO user, int idPatient, PatientDTO patientDTO) {
         // Récupérer la secrétaire
-        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail());
-
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail())
+    .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
         // Vérifier que le patient existe
         PatientEntity existingPatient = patientRepository. findById(idPatient)
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'ID : " + idPatient));
@@ -139,7 +139,7 @@ public class PatientAppService {
         // Mise à jour des champs
         existingPatient. setNom(processedPatient.getNom());
         existingPatient.setPrenom(processedPatient.getPrenom());
-        existingPatient.setCin(processedP.getEmaatient.getCin());
+        existingPatient.setCin(processedPatient.getCin());
         existingPatient.setTelephone(processedPatient.getTelephone());
         existingPatient.setSexe(processedPatient.getSexe());
         existingPatient.setDateNaissance(processedPatient.getDateNaissance());
@@ -152,8 +152,8 @@ public class PatientAppService {
     //supprimer
     public void deletePatient(UserDTO user, int idPatient) {
         // Récupérer la secrétaire
-        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail());
-        
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail())
+    .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
         // Vérifier que le patient existe
         PatientEntity patient = patientRepository.findById(idPatient)
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'ID : " + idPatient));
@@ -227,7 +227,7 @@ SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(userDTO.get
     public DossierMedicalDTO updateDossierMedical(UserDTO user, int idPatient, DossierMedicalDTO dossierDTO) {
 
         // Récupérer la secrétaire
-        SecretaireEntity secretaireEntity = findByEmail(user.getEmail())
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail())
     .orElseThrow(() -> new RuntimeException("Waaaaa33333e wa nari che7ale ghite"));
         Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
@@ -265,8 +265,8 @@ SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(userDTO.get
     }
 
     // ============ MÉTHODES DE CONSULTATION (SANS PERMISSIONS REQUISES) ============
-
-    public PatientDTO getPatientById(int idPatient) {
+ 
+    public PatientDTO getPatientById(int idPatient , UserDTO user ) {
         PatientEntity patient = patientRepository. findById(idPatient)
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'ID : " + idPatient));
         return patientMapper.toDTO(patient);

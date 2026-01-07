@@ -5,6 +5,8 @@ import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalD
 import com.example.cabinetmedical.application.dto.patient.PatientDTO;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.patient.PatientAppService;
+
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -57,7 +59,7 @@ public class PatientController {
                 
         UserDTO user = authService.getUserDto(auth) ;
 
-        PatientDTO updatedPatient = patientAppService.updatePatient(idSecretaire, idPatient, patientDTO);
+        PatientDTO updatedPatient = patientAppService.updatePatient(user, idPatient, patientDTO);
         ApiResponse<PatientDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Patient mis à jour avec succès",
@@ -69,11 +71,12 @@ public class PatientController {
     //supp
     @DeleteMapping("/{idPatient}")
     public ResponseEntity<ApiResponse<Void>> deletePatient(
+        @PathVariable int idPatient , 
          Authentication auth ) {
 
                 
         UserDTO user = authService.getUserDto(auth) ;
-        patientAppService.deletePatient(idSecretaire, idPatient);
+        patientAppService.deletePatient(  user , idPatient);
         ApiResponse<Void> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Patient supprimé avec succès",
