@@ -1,6 +1,9 @@
 package com.example.cabinetmedical.application.dto.patient;
 
+import com.example.cabinetmedical.application.DTO.CabinetDTO;
 import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
+import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +24,6 @@ public class PatientDTO {
     private String sexe;
     private Date dateNaissance;
     private String typeMutuelle;
-    private Integer idCabinet;
     private DossierMedicalDTO dossierMedical;
+    private CabinetDTO cabinet;
 }

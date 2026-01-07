@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,11 +16,6 @@ import java.util.Date;
 public class DossierMedicalDTO {
     private Integer idDossier;
     private String antMedicaux;
-    private String antChirug;
-    private String allergies;
-    private String traitement;
-    private String habitudes;
-    private String historiqueConsultations;
-    private String documentsMedicaux;
-    private Date dateCreation;
+    private PatientDTO patient ; 
+    private Date dateCreation  ; 
 }
