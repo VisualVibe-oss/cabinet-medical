@@ -109,9 +109,9 @@ public class PatientAppService {
     }
 
     //mise a jour
-    public PatientDTO updatePatient(int idSecretaire, int idPatient, PatientDTO patientDTO) {
+    public PatientDTO updatePatient(UserDTO user, int idPatient, PatientDTO patientDTO) {
         // Récupérer la secrétaire
-        Secretaire secretaire = findSecretaireById(idSecretaire);
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail());
 
         // Vérifier que le patient existe
         PatientEntity existingPatient = patientRepository. findById(idPatient)
@@ -120,6 +120,8 @@ public class PatientAppService {
         // Créer l'objet domaine Patient
         Patient patientDomain = patientMapper.toDomain(patientDTO);
         patientDomain.setIdPatient(idPatient);
+
+        Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
         // ✅ Exécuter avec permission
         PermissionResponce<Patient> response = (PermissionResponce<Patient>)
@@ -141,13 +143,15 @@ public class PatientAppService {
     }
 
     //supprimer
-    public void deletePatient(int idSecretaire, int idPatient) {
+    public void deletePatient(UserDTO user, int idPatient) {
         // Récupérer la secrétaire
-        Secretaire secretaire = findSecretaireById(idSecretaire);
+        SecretaireEntity secretaireEntity = secretaireRepository.findByEmail(user.getEmail());
         
         // Vérifier que le patient existe
         PatientEntity patient = patientRepository.findById(idPatient)
                 .orElseThrow(() -> new RuntimeException("Patient non trouvé avec l'ID : " + idPatient));
+
+        Secretaire secretaire = SecretaireMapper.toDomain(secretaireEntity) ;
 
         // ✅ Exécuter avec permission
         PermissionResponce<Long> response = (PermissionResponce<Long>)
