@@ -1,5 +1,6 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
+import com.example.cabinetmedical.application.DTO.CreateSecretaireDTO;
 import com.example.cabinetmedical.application.DTO.SecretaireDTO;
 import com.example.cabinetmedical.domain.model.secretaire.Secretaire;
 import com.example.cabinetmedical.infrastructure.entity.SecretaireEntity;
@@ -29,10 +30,12 @@ public class SecretaireMapper {
         se.setPassword(s.getPassword());
         se.setSalaire(s.getSalaire());
         se.setTelephone(s.getTelephone());
-        se.setCabinet(cm.toEntity(s.getCabinet()));
 
-        se.getPermissionKeys().clear();
-        se.getPermissionKeys().addAll(s.getPermissionKeys());
+
+        if (se.getPermissionKeys()!=null){
+            se.getPermissionKeys().clear();
+            se.getPermissionKeys().addAll(s.getPermissionKeys());
+        };
 
         return se;
     }
@@ -52,6 +55,23 @@ public class SecretaireMapper {
         s.setSalaire(sdto.getSalaire());
         s.setTelephone(sdto.getTelephone());
         s.setPermissionKeys(sdto.getPermissionKeys());
+
+
+        return s;
+    }
+    public Secretaire toDomain(CreateSecretaireDTO dto) {
+        Secretaire s = new Secretaire();
+
+        s.setNom(dto.getSecretaire().getNom());
+        s.setPrenom(dto.getSecretaire().getPrenom());
+        s.setEmail(dto.getEmail());
+        s.setPassword(dto.getPassword());
+        s.setSalaire(dto.getSecretaire().getSalaire());
+        s.setTelephone(dto.getSecretaire().getTelephone());
+        if(dto.getSecretaire().getPermissionKeys()!=null){
+            s.setPermissionKeys(dto.getSecretaire().getPermissionKeys());
+        }
+
 
 
         return s;
@@ -87,6 +107,7 @@ public class SecretaireMapper {
 
         return sdto;
     }
+
 
 
     public List<Secretaire> toDomainList(List<SecretaireEntity> se){

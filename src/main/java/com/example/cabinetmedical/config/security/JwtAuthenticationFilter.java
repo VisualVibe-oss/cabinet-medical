@@ -25,6 +25,7 @@ import com.example.cabinetmedical.infrastructure.repository.MedecinRepository;
 import com.example.cabinetmedical.infrastructure.repository.Secretaire.SpringSecretaireRepository;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -58,6 +59,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+
+        System.out.println("Cookies = " + Arrays.toString(req.getCookies()));
+        System.out.println("Authorization = " + req.getHeader("Authorization"));
+        System.out.println("Path = " + req.getRequestURI());
 
         try{
             String jwt=getTokenFromCookies(req);

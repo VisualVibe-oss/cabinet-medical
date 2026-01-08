@@ -18,7 +18,7 @@ public class RendezVousDTO {
     private RendezVousState statut;
     private String notes;
     private int idCabinet;
-    private Patient patient;
+    private PatientDTO patient;
     private String consultationType;
     private int prix;
 }
