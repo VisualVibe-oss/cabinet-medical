@@ -1,13 +1,12 @@
 package com.example.cabinetmedical.application.controller;
 
-import com.example.cabinetmedical.application.dto.*;
+import com.example.cabinetmedical.application.DTO.*;
 import com.example.cabinetmedical.application.DTO.Stats.StatsDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.CabinetAppService;
 import com.example.cabinetmedical.application.service.MedecinAppService;
 import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
-import com.example.cabinetmedical.domain.model.Depence.Depence;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
 import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.example.cabinetmedical.application.DTO.UserDTO;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/medecin")

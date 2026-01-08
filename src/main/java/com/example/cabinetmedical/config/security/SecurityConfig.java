@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth ->auth
-                        .requestMatchers("/api/login" ,"/api/signup" ,"/api/refresh"  ).permitAll()
+                        .requestMatchers("/api/login" ,"/api/signup" ,"/api/refresh").permitAll()
                         .requestMatchers("/api/logout").authenticated()
                         .requestMatchers("/api/medecin/**").hasRole("MEDECIN")
                         .requestMatchers("/api/consultation/**").hasRole("MEDECIN")

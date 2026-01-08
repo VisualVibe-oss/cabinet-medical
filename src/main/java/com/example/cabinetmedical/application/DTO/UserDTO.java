@@ -1,6 +1,4 @@
-package com.example.cabinetmedical.application.dto;
-
-import lombok.Data;
+package com.example.cabinetmedical.application.DTO;
 
 
 public class UserDTO {

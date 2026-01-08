@@ -1,7 +1,5 @@
-package com.example.cabinetmedical.application.dto;
+package com.example.cabinetmedical.application.DTO;
 
-import com.example.cabinetmedical.application.DTO.MedecinDTO;
-import com.example.cabinetmedical.application.DTO.CabinetDTO;
 public class SignupDataDTO {
     // Les noms des variables doivent correspondre aux clés JSON ("medecin", "cabinet")
     private com.example.cabinetmedical.application.DTO.MedecinDTO medecin;

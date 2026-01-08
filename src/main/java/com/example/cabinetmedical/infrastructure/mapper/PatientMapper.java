@@ -1,13 +1,12 @@
 package com.example.cabinetmedical.infrastructure.mapper;
 
 import com.example.cabinetmedical.domain.model.patient.Patient;
-import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.application.DTO.patient.PatientDTO;
 import com.example.cabinetmedical.domain.model.RendezVous.RendezVous;
 import com.example.cabinetmedical.infrastructure.entity.PatientEntity;
 import com.example.cabinetmedical.infrastructure.entity.RendezVousEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,13 +49,13 @@ public class PatientMapper {
         Patient p = new Patient();
 
        List<RendezVous> rendezVousDomains ;
-        if (pe.getRendezVous() != null) {
-             
-            rendezVousDomains = pe.getRendezVous()
-                    .stream()
-                    .map(RendezVousMapper::toDomain)
-                    .collect(Collectors.toList());
-        }
+//        if (pe.getRendezVous() != null) {
+//
+//            rendezVousDomains = pe.getRendezVous()
+//                    .stream()
+//                    .map(RendezVousMapper::toDomain)
+//                    .collect(Collectors.toList());
+//        }
         p.setIdPatient(pe.getIdPatient());
         p.setNom(pe.getNom());
         p.setPrenom(pe.getPrenom());

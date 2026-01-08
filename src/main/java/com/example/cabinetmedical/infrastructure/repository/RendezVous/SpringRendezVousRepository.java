@@ -51,7 +51,7 @@ public interface SpringRendezVousRepository extends JpaRepository<RendezVousEnti
             @Param("dateFin") LocalDate dateFin,
             @Param("idCabinet") int idCabinet);
 
-    List<RendezVousEntity> findByStatutAndCabinet_IdCabinet(String statut, int idCabinet);
+    List<RendezVousEntity> findByStatutAndCabinet_IdCabinet(RendezVousState statut, int idCabinet);
 
     @Query("SELECT COUNT(r) > 0 FROM RendezVousEntity r WHERE DATE(r.dateDebutRendezVous) = DATE(:date) AND r.cabinet.idCabinet = :idCabinet")
     boolean existsByDateAndCabinet(@Param("date") LocalDate date, @Param("idCabinet") int idCabinet);

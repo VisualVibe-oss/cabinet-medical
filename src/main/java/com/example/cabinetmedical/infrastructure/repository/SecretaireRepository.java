@@ -12,5 +12,7 @@ public interface SecretaireRepository extends JpaRepository<SecretaireEntity,Int
     boolean existsByEmail(String email);
     boolean existsByEmailAndPassword(String email , String password) ;
 
+
+
     
 }

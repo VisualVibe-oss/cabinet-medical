@@ -1,6 +1,5 @@
-package com.example.cabinetmedical.application.dto;
+package com.example.cabinetmedical.application.DTO;
 
-import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
 import com.example.cabinetmedical.domain.model.patient.Patient;
 import com.example.cabinetmedical.domain.utils.RendezVousState;
 
@@ -20,5 +19,6 @@ public class RendezVousDTO {
     private Integer idCabinet;
     private Patient patient;
     private String consultationType;
+    private int idPatient;
     private int prix;
 }

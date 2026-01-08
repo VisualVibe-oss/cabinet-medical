@@ -6,7 +6,7 @@ import com.example.cabinetmedical.application.DTO.AntecedentMedicalDTO;
 import com.example.cabinetmedical.application.DTO.DossierMedicalDetailDTO;
 import com.example.cabinetmedical.application.DTO.HabitudeVieDTO;
 import com.example.cabinetmedical.application.DTO.TraitementChroniqueDTO;
-import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
+import com.example.cabinetmedical.application.DTO.dossierMedical.DossierMedicalDTO;
 import com.example.cabinetmedical.domain.model.DossierMedical.DossierMedical;
 import com.example.cabinetmedical.infrastructure.entity.DossierMedicalEntity;
 import com.example.cabinetmedical.infrastructure.entity.HabitudeVieEntity;

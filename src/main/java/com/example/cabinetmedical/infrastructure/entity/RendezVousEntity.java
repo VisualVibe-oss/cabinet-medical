@@ -27,7 +27,7 @@ public class RendezVousEntity {
     @Column(nullable = true)
     private String notes;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String consultationType;
 
     @Enumerated(EnumType.STRING)

@@ -1,8 +1,7 @@
-package com.example.cabinetmedical.application.dto.patient;
+package com.example.cabinetmedical.application.DTO.patient;
 
 import com.example.cabinetmedical.application.DTO.CabinetDTO;
-import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
-import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+import com.example.cabinetmedical.application.DTO.dossierMedical.DossierMedicalDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

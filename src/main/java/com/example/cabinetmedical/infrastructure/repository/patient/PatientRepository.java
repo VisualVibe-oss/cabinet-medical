@@ -18,6 +18,8 @@ public interface PatientRepository extends JpaRepository<PatientEntity,Integer> 
     @Query("SELECT p from PatientEntity p where p.cabinet.idCabinet = :idCabinet")
     List<PatientEntity> findByIdCabinet(@Param("idCabinet") int idCabinet);
 
+   PatientEntity findByIdPatient(int idPatient);
+
     List<PatientEntity> findByNomAndCabinet_IdCabinet(String nom, int idCabinet);
 
 }

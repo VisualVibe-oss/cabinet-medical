@@ -1,8 +1,8 @@
 package com.example.cabinetmedical.application.service.cabinetEtat;
 
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatDTO;
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatRequestDTO;
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatResponseDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatRequestDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatResponseDTO;
 import com.example.cabinetmedical.domain.model.cabinetEtat.CabinetEtat;
 import com.example.cabinetmedical.domain.service.cabinetEtat.CabinetEtatDomainService;
 import com.example.cabinetmedical.infrastructure.entity.CabinetEntity;
@@ -11,7 +11,6 @@ import com.example.cabinetmedical.infrastructure.repository.cabinet.CabinetRepos
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

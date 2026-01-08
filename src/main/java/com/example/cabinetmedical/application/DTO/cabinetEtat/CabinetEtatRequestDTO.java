@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.dto.cabinetEtat;
+package com.example.cabinetmedical.application.DTO.cabinetEtat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

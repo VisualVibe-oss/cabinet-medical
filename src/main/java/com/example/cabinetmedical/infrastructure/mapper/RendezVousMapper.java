@@ -49,8 +49,9 @@ public class RendezVousMapper {
 
     public static RendezVous toDomain(RendezVousDTO rvDTO) {
         RendezVous rv = new RendezVous();
-
-        rv.setIdRendezVous(rvDTO.getIdRendezVous());
+        if(rvDTO.getIdRendezVous() != null){
+            rv.setIdRendezVous(rvDTO.getIdRendezVous());
+        }
         rv.setDateDebutRendezVous(rvDTO.getDateDebutRendezVous());
         rv.setDateFinRendezVous(rvDTO.getDateFinRendezVous());
         rv.setMotif(rvDTO.getMotif());
@@ -112,9 +113,9 @@ public class RendezVousMapper {
         domain.setNotes(entity.getNotes());
 
 
-        if (entity.getCabinet() != null) {
-            domain.setCabinet(CabinetMapper. toDomain(entity.getCabinet()));
-        }
+        //if (entity.getCabinet() != null) {
+          //  domain.setCabinet(CabinetMapper. toDomain(entity.getCabinet()));
+        //}
 
         if (entity.getPatient() != null) {
             domain.setPatient(PatientMapper.toDomain(entity.getPatient()));

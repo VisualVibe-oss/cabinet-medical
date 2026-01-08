@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.dto.cabinetEtat;
+package com.example.cabinetmedical.application.DTO.cabinetEtat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CabinetEtatResponseDTO {
-    private Integer idCabinet;
+public class CabinetEtatDTO {
+    private Integer id;
     private String nom;
+    private String specialite;
+    private String adresse;
+    private String telephone;
     private Boolean estActif;
 }

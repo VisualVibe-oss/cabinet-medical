@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.application.service.medicament;
 
-import com.example.cabinetmedical.application.dto.Medicament.MedicamentDTO;
+import com.example.cabinetmedical.application.DTO.Medicament.MedicamentDTO;
 import com.example.cabinetmedical.domain.model.medicament.Medicament;
 import com.example.cabinetmedical.domain.service.medicament.MedicamentDomainService;
 import com.example.cabinetmedical.infrastructure.entity.MedicamentEntity;

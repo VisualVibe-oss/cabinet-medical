@@ -1,12 +1,11 @@
 package com.example.cabinetmedical.application.controller.patient;
 import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.dossierMedical.DossierMedicalDTO;
-import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.application.DTO.dossierMedical.DossierMedicalDTO;
+import com.example.cabinetmedical.application.DTO.patient.PatientDTO;
 import com.example.cabinetmedical.application.service.AuthService;
 import com.example.cabinetmedical.application.service.patient.PatientAppService;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -208,4 +207,8 @@ public class PatientController {
         );
         return ResponseEntity.ok(response);
     }
+
+
+
+
 }

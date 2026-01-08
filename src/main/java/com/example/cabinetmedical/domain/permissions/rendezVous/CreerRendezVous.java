@@ -10,10 +10,8 @@ import com.example.cabinetmedical.domain.utils.RendezVousState;
 
 public class CreerRendezVous implements ExecutePermission<RendezVous, RendezVous> {
 
-    private final RendezVousDomainService rendezVousDomainService;
 
-    public CreerRendezVous(RendezVousDomainService rendezVousDomainService) {
-        this.rendezVousDomainService = rendezVousDomainService;
+    public CreerRendezVous() {
     }
 
     @Override
@@ -32,6 +30,11 @@ public class CreerRendezVous implements ExecutePermission<RendezVous, RendezVous
         // ✅ Initialiser le motif si vide
         if (rendezVous.getMotif() == null) {
             rendezVous.setMotif("");
+        }
+        if (rendezVous.getDateDebutRendezVous() != null) {
+            rendezVous.setDateFinRendezVous(
+                    rendezVous.getDateDebutRendezVous().plusHours(1)
+            );
         }
 
         return new PermissionResponce<>(PermissionKey.CREER_RENDEZ_VOUS, rendezVous);

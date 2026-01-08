@@ -1,4 +1,4 @@
-package com.example.cabinetmedical.application.dto.dossierMedical;
+package com.example.cabinetmedical.application.DTO.dossierMedical;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import com.example.cabinetmedical.application.DTO.AntecedentChirurgicalDTO;
 import com.example.cabinetmedical.application.DTO.AntecedentMedicalDTO;
 import com.example.cabinetmedical.application.DTO.HabitudeVieDTO;
 import com.example.cabinetmedical.application.DTO.TraitementChroniqueDTO;
-import com.example.cabinetmedical.application.dto.patient.PatientDTO;
+import com.example.cabinetmedical.application.DTO.patient.PatientDTO;
 
 @Data
 @Builder

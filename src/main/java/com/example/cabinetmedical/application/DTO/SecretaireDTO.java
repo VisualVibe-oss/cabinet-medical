@@ -1,6 +1,4 @@
-package com.example.cabinetmedical.application.dto;
-import com.example.cabinetmedical.application.dto.UserDTO;
-import com.example.cabinetmedical.domain.model.Cabinet.Cabinet;
+package com.example.cabinetmedical.application.DTO;
 import com.example.cabinetmedical.domain.utils.PermissionKey;
 import lombok.Data;
 

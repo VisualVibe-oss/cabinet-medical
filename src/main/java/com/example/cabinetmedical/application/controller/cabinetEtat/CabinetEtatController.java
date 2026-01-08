@@ -1,9 +1,9 @@
 package com.example.cabinetmedical.application.controller.cabinetEtat;
 
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatDTO;
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatRequestDTO;
-import com.example.cabinetmedical.application.dto.cabinetEtat.CabinetEtatResponseDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatRequestDTO;
+import com.example.cabinetmedical.application.DTO.cabinetEtat.CabinetEtatResponseDTO;
 import com.example.cabinetmedical.application.service.cabinetEtat.CabinetEtatAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

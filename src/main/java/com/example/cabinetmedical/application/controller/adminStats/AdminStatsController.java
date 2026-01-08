@@ -1,7 +1,7 @@
 package com.example.cabinetmedical.application.controller.adminStats;
 
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.cabinetStats.CabinetStatsDTO;
+import com.example.cabinetmedical.application.DTO.cabinetStats.CabinetStatsDTO;
 import com.example.cabinetmedical.application.service.adminStats.AdminStatsAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,10 @@
 package com.example.cabinetmedical.application.controller.medicament;
 
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
-import com.example.cabinetmedical.application.dto.Medicament.MedicamentDTO;
+import com.example.cabinetmedical.application.DTO.Medicament.MedicamentDTO;
 import com.example.cabinetmedical.application.service.medicament.MedicamentAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

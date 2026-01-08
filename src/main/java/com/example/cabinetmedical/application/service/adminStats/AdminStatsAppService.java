@@ -1,6 +1,6 @@
 package com.example.cabinetmedical.application.service.adminStats;
 
-import com.example.cabinetmedical.application.dto.cabinetStats.CabinetStatsDTO;
+import com.example.cabinetmedical.application.DTO.cabinetStats.CabinetStatsDTO;
 import com.example.cabinetmedical.domain.model.cabinetStats.CabinetStats;
 import com.example.cabinetmedical.domain.service.cabinetStats.CabinetStatsDomainService;
 import com.example.cabinetmedical.infrastructure.mapper.cabinetStats.CabinetStatsMapper;

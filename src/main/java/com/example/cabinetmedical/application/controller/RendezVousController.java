@@ -4,11 +4,13 @@ import com.example.cabinetmedical.application.DTO.RendezVousDTO;
 import com.example.cabinetmedical.application.ResponseApi.ApiResponse;
 import com.example.cabinetmedical.application.DTO.UserDTO;
 import com.example.cabinetmedical.application.service.AuthService;
+import com.example.cabinetmedical.application.service.CabinetAppService;
 import com.example.cabinetmedical.application.service.RendezVousAppService;
 import com.example.cabinetmedical.application.service.SecretaireAppService;
 
 import java.util.List;
 
+import com.example.cabinetmedical.domain.utils.RendezVousState;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -25,16 +27,18 @@ public class RendezVousController {
 
     private final SecretaireAppService secretaireAppService;
     private final RendezVousAppService rendezVousAppService;
-    private AuthService authService  ; 
+    private AuthService authService  ;
+    private CabinetAppService cabinetAppService;
 
 
 
     public RendezVousController(SecretaireAppService secretaireAppService, 
         AuthService authService ,
-        RendezVousAppService rendezVousAppService) {
+        RendezVousAppService rendezVousAppService, CabinetAppService cabinetAppService) {
         this.secretaireAppService = secretaireAppService;
         this.rendezVousAppService = rendezVousAppService;
         this.authService =authService ;
+        this.cabinetAppService=cabinetAppService;
     }
 
 
@@ -75,10 +79,13 @@ public class RendezVousController {
     // creer
     @PostMapping("/secretaire")
     public ResponseEntity<ApiResponse<RendezVousDTO>> createRendezVous(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
-            @RequestBody RendezVousDTO rendezVousDTO) {
+            @RequestBody RendezVousDTO rendezVousDTO,
+            Authentication auth) {
 
-        RendezVousDTO created = rendezVousAppService. createRendezVous(idSecretaire, rendezVousDTO);
+        System.out.println("Received RVDTO: " +  rendezVousDTO);
+
+        UserDTO user = authService.getUserDto(auth);
+        RendezVousDTO created = rendezVousAppService.createRendezVous(user, rendezVousDTO);
         ApiResponse<RendezVousDTO> response = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
                 "Rendez-vous créé avec succès",
@@ -90,11 +97,12 @@ public class RendezVousController {
     //mise a jour
     @PutMapping("/secretaire/{idRendezVous}")
     public ResponseEntity<ApiResponse<RendezVousDTO>> updateRendezVous(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
             @PathVariable int idRendezVous,
-            @RequestBody RendezVousDTO rendezVousDTO) {
+            @RequestBody RendezVousDTO rendezVousDTO,
+            Authentication auth) {
 
-        RendezVousDTO updated = rendezVousAppService.updateRendezVous(idSecretaire, idRendezVous, rendezVousDTO);
+        UserDTO user = authService. getUserDto(auth);
+        RendezVousDTO updated = rendezVousAppService.updateRendezVous(user, idRendezVous, rendezVousDTO);
         ApiResponse<RendezVousDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Rendez-vous mis à jour avec succès",
@@ -106,10 +114,11 @@ public class RendezVousController {
     //supprimer
     @DeleteMapping("/secretaire/{idRendezVous}")
     public ResponseEntity<ApiResponse<Void>> deleteRendezVous(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
-            @PathVariable int idRendezVous) {
+            @PathVariable int idRendezVous,
+            Authentication auth) {
 
-        rendezVousAppService.deleteRendezVous(idSecretaire, idRendezVous);
+        UserDTO user = authService.getUserDto(auth);
+        rendezVousAppService.deleteRendezVous(user, idRendezVous);
         ApiResponse<Void> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Rendez-vous supprimé avec succès",
@@ -121,10 +130,11 @@ public class RendezVousController {
     //consulter
     @GetMapping("/secretaire/{idRendezVous}")
     public ResponseEntity<ApiResponse<RendezVousDTO>> getRendezVousById(
-            @RequestHeader("X-Secretaire-Id") int idSecretaire,
-            @PathVariable int idRendezVous) {
+            @PathVariable int idRendezVous,
+            Authentication auth) {
 
-        RendezVousDTO rendezVous = rendezVousAppService.getRendezVousById(idSecretaire, idRendezVous);
+        UserDTO user = authService.getUserDto(auth);
+        RendezVousDTO rendezVous = rendezVousAppService. getRendezVousById(user, idRendezVous);
         ApiResponse<RendezVousDTO> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Rendez-vous récupéré avec succès",
@@ -133,14 +143,17 @@ public class RendezVousController {
         return ResponseEntity.ok(response);
     }
 
-    //sans permissions
+//sans permissions
 
     //get all
-    @GetMapping("/secretaire/cabinet/{idCabinet}")
+    @GetMapping("/secretaire/getrvs")
     public ResponseEntity<ApiResponse<List<RendezVousDTO>>> getAllRendezVousByCabinet(
-            @PathVariable int idCabinet) {
+            Authentication auth) {
 
-        List<RendezVousDTO> rendezVousList = rendezVousAppService.getAllRendezVousByCabinet(idCabinet);
+        UserDTO user = authService.getUserDto(auth);
+        int idCabinet = cabinetAppService.getCabinetByEmail(user).getIdCabinet();
+        List<RendezVousDTO> rendezVousList = rendezVousAppService.getAllRendezVousByCabinet(idCabinet, user);
+        System.out.println("SENT RENDEZ VOUS: " + rendezVousList);
         ApiResponse<List<RendezVousDTO>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Liste des rendez-vous récupérée avec succès",
@@ -152,9 +165,11 @@ public class RendezVousController {
     //d un cabinet
     @GetMapping("/secretaire/patient/{idPatient}")
     public ResponseEntity<ApiResponse<List<RendezVousDTO>>> getRendezVousByPatient(
-            @PathVariable int idPatient) {
+            @PathVariable int idPatient,
+            Authentication auth) {
 
-        List<RendezVousDTO> rendezVousList = rendezVousAppService.getRendezVousByPatient(idPatient);
+        UserDTO user = authService.getUserDto(auth);
+        List<RendezVousDTO> rendezVousList = rendezVousAppService.getRendezVousByPatient(idPatient, user);
         ApiResponse<List<RendezVousDTO>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Rendez-vous du patient récupérés avec succès",
@@ -167,9 +182,13 @@ public class RendezVousController {
     @GetMapping("/secretaire/statut/{statut}/cabinet/{idCabinet}")
     public ResponseEntity<ApiResponse<List<RendezVousDTO>>> getRendezVousByStatut(
             @PathVariable String statut,
-            @PathVariable int idCabinet) {
+            @PathVariable int idCabinet,
+            Authentication auth) {
 
-        List<RendezVousDTO> rendezVousList = rendezVousAppService.getRendezVousByStatut(statut, idCabinet);
+        UserDTO user = authService.getUserDto(auth);
+        RendezVousState state = RendezVousState.valueOf(statut.toUpperCase());
+
+        List<RendezVousDTO> rendezVousList = rendezVousAppService.getRendezVousByStatut(state, idCabinet, user);
         ApiResponse<List<RendezVousDTO>> response = new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Rendez-vous filtrés par statut récupérés avec succès",
